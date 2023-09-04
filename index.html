@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simulating codurance website</title>
+</head>
+<body>
+<h1>Simulating codurance website</h1>
+<p>Please fill the data and submit</p>
+
+
+<form id="form_submit" method="post">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" value="daniel.villahermosa@codurance.com"><br><br>
+  <label for="email">Name:</label>
+  <input type="text" id="name" name="name" value="John"><br><br>
+  <label for="email">Surname:</label>
+  <input type="text" id="surname" name="surname" value="Doe"><br><br>
+  <label for="email">Company Name:</label>
+  <input type="text" id="company" name="company" value="Brand Company"><br><br>
+  <label for="dnicif">DNI/CIF:</label>
+  <input type="text" id="dnicif" name="dnicif" value="46897454F"><br><br>
+  <label for="dnicif">Payment method:</label>
+  <select id="payment_method" name="payment_method" >
+	<option value="Stripe">Stripe</option>
+	<option value="Paypal">Paypal</option>
+	<option value="Bank">Bank</option>
+  </select>  <br><br>
+  <input type="Button" value = "Submit" onclick="submitForm()">
+ <!-- <a href="#" onclick="submitForm()">Submit Here</a>-->
+</form>
+</body>
+<script>
+		
+	
+	function submitForm() {
+		let url = "";
+		let selector = document.getElementById("payment_method")		
+		let payment_method = selector.value
+		alert(payment_method)
+		if(payment_method === 'Stripe') {
+			url = "https://hooks.zapier.com/hooks/catch/16133612/31phhbs/"
+		} else if(payment_method = 'Paypal') {
+			url = ""
+		} else if(payment_method = 'Bank') {
+			url = ""
+		}
+				
+		fetch("https://hooks.zapier.com/hooks/catch/16133612/31phhbs/", {
+				method: "POST",
+				body: new FormData(document.getElementById('form_submit'))
+		}).then(response => {
+			const data = response.json();
+			if (response.ok){
+				alert("Please, review your inbox. You should receive an email to start the payment with " + payment_method)
+			} else {
+				alert("It has been a problem with the process. Please try again")
+			}
+		})            	
+			
+	}
+	
+</script>
+
+</html>

@@ -40,17 +40,19 @@
 	function submitForm() {
 		let url = "";
 		let selector = document.getElementById("payment_method")		
-		let payment_method = selector.value
-		alert(payment_method)
+		let payment_method = selector.value		
 		if(payment_method === 'Free') {
-			url = ""
+			url = "http://localhost:8080/freesuscription"
 		} else if(payment_method = 'Paycomet') {
 			url = ""
 		}			
-				
+						
+		let formData = new FormData(document.getElementById('form_submit'))
+		let json = JSON.stringify(Object.fromEntries(formData))		
+		alert(json)
 		fetch(url, {
 				method: "POST",
-				body: new FormData(document.getElementById('form_submit'))
+				body: json
 		}).then(response => {
 			const data = response.json();
 			if (response.ok){

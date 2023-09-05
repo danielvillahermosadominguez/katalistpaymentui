@@ -36,7 +36,6 @@
 </body>
 <script>
 		
-	
 	function submitForm() {
 		let url = "";
 		let selector = document.getElementById("paymentMethod")		
@@ -49,7 +48,8 @@
 						
 		let formData = new FormData(document.getElementById('form_submit'))
 		let json = JSON.stringify(Object.fromEntries(formData))		
-		alert(json)
+	
+		
 		fetch(url, {
 				headers: {
 					'Accept': 'application/json',
@@ -64,7 +64,10 @@
 			} else {
 				alert("It has been a problem with the process. Please try again")
 			}
-		})            	
+		}).catch((error) => {
+			console.log(error)
+			alert(error)
+		});            	
 			
 	}
 	

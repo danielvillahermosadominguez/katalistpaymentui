@@ -10,6 +10,8 @@
 
 
 <form id="form_submit" method="post">
+  <label for="email">Course ID:</label>
+  <input type="text" id="courseId" name="courseId" value="11"><br><br>
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" value="daniel.villahermosa@codurance.com"><br><br>
   <label for="email">Name:</label>
@@ -22,15 +24,14 @@
   <input type="text" id="dnicif" name="dnicif" value="46897454F"><br><br>
   <label for="dnicif">Payment method:</label>
   <select id="payment_method" name="payment_method" >
-	<option value="Stripe">Stripe</option>
-	<option value="Paypal">Paypal</option>
-	<option value="Bank">Bank</option>
+	<option value="Free">No payment</option>
+	<option value="Paycomet">Payment</option>	
   </select>  <br><br>
   <input type="Button" value = "Submit" onclick="submitForm()">
  <!-- <a href="#" onclick="submitForm()">Submit Here</a>-->
 </form>
 
-<iframe title="titulo"  sandbox="allow-top-navigation allow-scripts allow-same-origin allow-forms" src="https://api.paycomet.com/gateway/ifr-bankstore?MERCHANT_MERCHANTCODE=0gs265nc&execute_purchase=1" width="400" height="525" frameborder="1" marginheight="0" marginwidth="0" scrolling="no" style="border: 0px solid #000000; padding: 0px; margin: 0px"></iframe>
+<iframe title="titulo"  sandbox="allow-top-navigation allow-scripts allow-same-origin allow-forms" src="https://api.paycomet.com/gateway/ifr-bankstore?MERCHANT_MERCHANTCODE=0gs265nc" width="400" height="525" frameborder="1" marginheight="0" marginwidth="0" scrolling="no" style="border: 0px solid #000000; padding: 0px; margin: 0px"></iframe>
 
 </body>
 <script>
@@ -41,15 +42,13 @@
 		let selector = document.getElementById("payment_method")		
 		let payment_method = selector.value
 		alert(payment_method)
-		if(payment_method === 'Stripe') {
-			url = "https://hooks.zapier.com/hooks/catch/16133612/31phhbs/"
-		} else if(payment_method = 'Paypal') {
+		if(payment_method === 'Free') {
 			url = ""
-		} else if(payment_method = 'Bank') {
+		} else if(payment_method = 'Paycomet') {
 			url = ""
-		}
+		}			
 				
-		fetch("https://hooks.zapier.com/hooks/catch/16133612/31phhbs/", {
+		fetch(url, {
 				method: "POST",
 				body: new FormData(document.getElementById('form_submit'))
 		}).then(response => {

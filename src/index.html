@@ -23,7 +23,7 @@
   <label for="dnicif">DNI/CIF:</label>
   <input type="text" id="dnicif" name="dnicif" value="46897454F"><br><br>
   <label for="dnicif">Payment method:</label>
-  <select id="payment_method" name="payment_method" >
+  <select id="paymentMethod" name="paymentMethod" >
 	<option value="Free">No payment</option>
 	<option value="Paycomet">Payment</option>	
   </select>  <br><br>
@@ -39,7 +39,7 @@
 	
 	function submitForm() {
 		let url = "";
-		let selector = document.getElementById("payment_method")		
+		let selector = document.getElementById("paymentMethod")		
 		let payment_method = selector.value		
 		if(payment_method === 'Free') {
 			url = "http://localhost:8080/freesuscription"
@@ -51,6 +51,10 @@
 		let json = JSON.stringify(Object.fromEntries(formData))		
 		alert(json)
 		fetch(url, {
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
 				method: "POST",
 				body: json
 		}).then(response => {

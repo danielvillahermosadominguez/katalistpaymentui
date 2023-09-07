@@ -9,19 +9,19 @@
 <p>Please fill the data and submit to subscribe to the course</p>
 
 
-<form id="form_submit" method="post">
+<form id="form_submit" method="post" ">
   <label for="email">Course ID:</label>
-  <input type="text" id="courseId" name="courseId" value="27"><br><br>
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" value="daniel.villahermosa+usertest@codurance.com"><br><br>
+  <input type="text" id="courseId" name="courseId" value="" ><br><br>
+  <label for="email" >Email:</label>
+  <input type="email" id="email" name="email" value="" ><br><br>
   <label for="email">Name:</label>
-  <input type="text" id="name" name="name" value="John"><br><br>
+  <input type="text" id="name" name="name" value="" ><br><br>
   <label for="email">Surname:</label>
-  <input type="text" id="surname" name="surname" value="Doe"><br><br>
+  <input type="text" id="surname" name="surname" value="" ><br><br>
   <label for="email">Company Name:</label>
-  <input type="text" id="company" name="company" value="Brand Company"><br><br>
+  <input type="text" id="company" name="company" value="" ><br><br>
   <label for="dnicif">DNI/CIF:</label>
-  <input type="text" id="dnicif" name="dnicif" value="46897454F"><br><br>
+  <input type="text" id="dnicif" name="dnicif" value="" ><br><br>
   <label for="dnicif">Payment method:</label>
   <select id="paymentMethod" name="paymentMethod" >
 	<option value="Free">No payment</option>
@@ -34,12 +34,20 @@
 </body>
 <script>
 		
+	function validateForm() {
+	    let email = document.forms["form_submit"]["email"].value;
+		if (email == "") {
+			alert("The email is mandatory");
+			return false;
+		}
+    }
 	async function submitForm() {
 		let url = "";
 		let selector = document.getElementById("paymentMethod")		
 		let payment_method = selector.value		
 		if(payment_method === 'Free') {
-			url = "http://localhost:8080/freesubscription"
+			url = "https://katalistpaymentservice.azurewebsites.net:8080/freesubscription"
+			//url = "http://localhost:8080/freesubscription"
 		} else if(payment_method = 'Paycomet') {
 			url = ""
 		}			
@@ -57,9 +65,11 @@
 			})
 			
 			if(!response.ok) {												
-				let status = await response.status
-				if (status == 406) {
+				let status = await response.status				
+				if (status === 422) {
 					alert("This user is subscribed to the course yet. Please review you mail inbox to access to the course")
+				} else if (status === 400) {
+					alert("The selected course doesn't exist. Please check this field")
 				} else {
 					alert("It has been an error.")
 				}

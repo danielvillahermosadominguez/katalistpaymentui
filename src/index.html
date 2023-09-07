@@ -24,7 +24,8 @@
   <input type="text" id="dnicif" name="dnicif" value="" ><br><br>
   <label for="dnicif">Payment method:</label>
   <select id="paymentMethod" name="paymentMethod" >
-	<option value="Free">No payment</option>
+	<option value="Moodle">Only suscription to Moodle</option>
+	<option value="Holded">Only invoice with Holded</option>
 	<option value="Paycomet">Payment</option>	
   </select>  <br><br>
   <input type="Button" value = "Submit" onclick="submitForm()">
@@ -45,9 +46,12 @@
 		let url = "";
 		let selector = document.getElementById("paymentMethod")		
 		let payment_method = selector.value		
-		if(payment_method === 'Free') {
-			url = "https://katalistpaymentservice.azurewebsites.net/freesubscription"
-			//url = "http://localhost:8080/freesubscription"
+		if(payment_method === 'Moodle') {
+			//url = "https://katalistpaymentservice.azurewebsites.net/freesubscription"
+			url = "http://localhost:8080/freesubscription"
+		} else if (payment_method === 'Holded') {
+			//url = "https://katalistpaymentservice.azurewebsites.net/invoicing"
+			url = "http://localhost:8080/invoicing"
 		} else if(payment_method = 'Paycomet') {
 			url = ""
 		}			

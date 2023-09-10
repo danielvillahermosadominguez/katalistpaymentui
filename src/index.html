@@ -11,7 +11,7 @@
     <h2 id="courseName"></h2>
     <form id="form_submit" method="post">
     <div class=" user-box">
-      <p> Send us your data to suscribe to the course:</p>
+      <p id = "prize">Send us your data and suscribe to the course for </p>
     </div>
     <div class="user-box">
       <input type="hidden" id="courseId" name="courseId" value=""><br><br>
@@ -65,8 +65,29 @@
       location.replace("./isnotavalidcourselected.html")
     } else {
       document.getElementById('courseId').value = course
-      document.getElementById('courseName').innerHTML = "The name of the course with the Id = " + course
-
+      //let url = "https://katalistpaymentservice.azurewebsites.net/"
+      let url = "http://localhost:8080/courses/"+course
+      fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "GET",        
+      }).then(response => {
+        if(!response.ok) {
+          location.replace("./isnotavalidcourselected.html")
+        }
+        return response.json() 
+      })
+        .then((course) => {                                  
+          document.getElementById('courseName').innerHTML = course.name     
+          let text =  document.getElementById('prize').innerHTML
+          document.getElementById('prize').innerHTML = text + course.prize +" euros."  
+          
+      })
+      .catch((error) => {
+        location.replace("./isnotavalidcourselected.html")
+      })
     }
   }
 

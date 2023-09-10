@@ -65,8 +65,8 @@
       location.replace("./isnotavalidcourselected.html")
     } else {
       document.getElementById('courseId').value = course
-      //let url = "https://katalistpaymentservice.azurewebsites.net/"
-      let url = "http://localhost:8080/courses/"+course
+      let url = "https://katalistpaymentservice.azurewebsites.net/courses/"+course
+      //let url = "http://localhost:8080/courses/"+course
       fetch(url, {
         headers: {
           'Accept': 'application/json',
@@ -154,19 +154,15 @@
 
       if (!response.ok) {
         let status = await response.status
-        if (status === 422) {
-          alert("This user is subscribed to the course yet. Please review you mail inbox to access to the course")
-        } else if (status === 400) {
-          alert("The selected course doesn't exist. Please check this field")
-        } else {
-          alert("It has been an error.")
+        if(status !== 200) {
+          let body = await response.json()
+          let url = "./error.html?message=" + body.message
+          location.replace(url)
+          //alert(body.message)
         }
-      } else {
-        if (payment_method === 'Free') {
-          alert("Please, review your inbox. You should receive an email with the suscription")
-        } else {
-          alert("Please, review your inbox. You should receive an email to start the payment previous the suscription")
-        }
+    } else {
+         let url = "./registered.html"
+         location.replace(url)
       }
     } catch (error) {
       alert("There is not connection to the server. Please try again.")

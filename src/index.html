@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html >
 
 <head>
   <title>Katalist course subscription</title>
@@ -56,7 +56,9 @@
   </div>
 </body>
 <script>
-  function loadParameters() {
+  function loadParameters() {  
+	const a = document.getElementsByTagName("BODY")[0].style.display	
+	document.getElementsByTagName("BODY")[0].style.display = "none";  
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get('course')
@@ -66,7 +68,7 @@
     } else {
       document.getElementById('courseId').value = course
       let url = "https://katalistpaymentservice.azurewebsites.net/courses/"+course
-      //let url = "http://localhost:8080/courses/"+course
+      //let url = "http://localhost:8080/courses/"+course	  
       fetch(url, {
         headers: {
           'Accept': 'application/json',
@@ -82,8 +84,8 @@
         .then((course) => {                                  
           document.getElementById('courseName').innerHTML = course.name     
           let text =  document.getElementById('prize').innerHTML
-          document.getElementById('prize').innerHTML = text + course.prize +" euros."  
-          
+          document.getElementById('prize').innerHTML = text + course.prize +" euros."  		  
+          document.getElementsByTagName("BODY")[0].style.display = ""  
       })
       .catch((error) => {
         location.replace("./isnotavalidcourselected.html")
@@ -160,10 +162,10 @@
           location.replace(url)
           //alert(body.message)
         }
-    } else {
-         let url = "./registered.html"
-         location.replace(url)
-      }
+	  } else {
+		 let url = "./registered.html"
+		 location.replace(url)
+	  }
     } catch (error) {
       alert("There is not connection to the server. Please try again.")
     }

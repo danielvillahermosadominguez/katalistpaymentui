@@ -1,0 +1,12 @@
+{
+	"label_name": "Nome:",
+	"text_with_price": "Envie suas informações e inscreva-se no curso até ",
+	"label_email": "Email:",
+	"label_surname": "Sobrenome:",
+	"label_company": "Empresa:",
+	"label_dnicif": "DNI/CIF:",
+	"option_only_subscription_to_moodle": "Somente assinatura Moodle",	
+	"option_only_invoice_with_holded": "Somente fatura com Retido",
+	"option_paycomet": "Paycomet",
+	"button_subscribe_now" : "Inscreva-se agora"
+}

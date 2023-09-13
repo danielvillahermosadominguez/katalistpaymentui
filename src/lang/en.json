@@ -1,0 +1,13 @@
+{
+	"label_name": "Name:",
+	"text_with_price": "Send us your data and suscribe to the course for ",
+	"label_email": "Email:",
+	"label_surname": "Surname:",
+	"label_company": "Company:",
+	"label_dnicif": "DNI/CIF:",
+	"option_only_subscription_to_moodle": "Only suscription to Moodle",
+	"option_only_invoice_with_holded": "Only invoice with Holded",
+	"option_paycomet": "Paycomet",
+	"button_subscribe_now" : "Subscribe now"
+	
+}

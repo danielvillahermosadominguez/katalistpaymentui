@@ -1,0 +1,38 @@
+/* Theme base styles */
+
+/* Generic
+This is where reset, normalize & box-sizing styles go.
+*/
+
+@import "./generic/_reset.css";
+@import "./generic/_normalize.css";
+
+/* Objects
+Non-cosmetic design patterns including grid and layout classes)
+*/
+
+@import "./objects/_layout.css";
+
+/* Elements
+Base HMTL elements are styled in this section (<body>, <h1>, <a>, <p>, <button> etc.)
+*/
+
+@import "./elements/_typography.css";
+@import "./elements/_colors.css";
+@import "./elements/_buttons.css";
+@import "./elements/_forms.css";
+@import "./elements/_tables.css";
+
+/* Components
+Specific pieces of UI that are stylized. Typically used for global partial styling
+*/
+
+@import "./components/_header.css";
+@import "./components/_footer.css";
+@import "./components/_default-modules.css";
+
+/* Utilities
+Helper classes with ability to override anything that comes before it
+*/
+
+@import "./utilities/_helper.css";

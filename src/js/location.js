@@ -13,7 +13,7 @@ function translateAllThePage() {
 	localizeHTMLTag("option_only_subscription_to_moodle");	
 	localizeHTMLTag("option_only_invoice_with_holded");	
 	localizeHTMLTag("option_paycomet");	
-	localizeValueTag("button_subscribe_now");
+	localizeHTMLTag("button_subscribe_now");
 }
 
 var _ = function (string) {

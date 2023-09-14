@@ -1,0 +1,278 @@
+{## Table of contents
+
+  1. Typography
+  2. Buttons
+  3. Forms
+  4. Tables
+  5. Website header
+
+##}
+
+{###########################################################################}
+{###########################   1. Typography   #############################}
+{###########################################################################}
+
+html {
+  font-size: 1rem;
+}
+
+body {
+  font-family: Inter, sans-serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  font-size: var(--fs-0);
+}
+
+/* Paragraphs */
+
+p {
+  font-size: var(--fs-0);
+}
+
+/* Anchors */
+
+a {
+  font-weight: normal; 
+  text-decoration: none; 
+  font-family: Inter, sans-serif; 
+  font-style: normal;
+  color: #0270E0;
+}
+
+a:hover,
+a:focus {
+  font-weight: normal; 
+  text-decoration: none; 
+  font-family: Inter, sans-serif; 
+  font-style: normal;
+  color: #0048b8;
+}
+
+a:active {
+  font-weight: normal; 
+  text-decoration: none; 
+  font-family: Inter, sans-serif; 
+  font-style: normal;
+  color: #2a98ff;
+}
+
+/* Headings */
+
+h1 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-5);
+  text-transform: none;
+  line-height: 1em;
+}
+
+h2 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-4);
+  text-transform: none;
+}
+
+h3 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-3);
+  text-transform: none;
+}
+
+h4 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-2);
+  text-transform: none;
+}
+
+h5 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-1);
+  text-transform: none;
+}
+
+h6 {
+  font-family: 'DM Serif Display', serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  color: #000000;
+  font-size: var(--fs-0);
+  text-transform: none;
+}
+
+{###########################################################################}
+{############################   2. Buttons   ###############################}
+{###########################################################################}
+
+button {
+  font-family: Inter, sans-serif; 
+  font-style: normal; 
+  text-decoration: none;
+  text-transform: none;
+}
+
+button:active,
+.button:active,
+.hs-button:active,
+.hs-blog-post-listing__post-button:active {
+  font-family: Inter, sans-serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+  background-color: rgba(40, 40, 40, 1.0);
+  border-color: #282828;
+}
+
+{###########################################################################}
+{##############################   3. Forms   ###############################}
+{###########################################################################}
+
+form,
+.submitted-message {
+  font-family: Inter, sans-serif; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+}
+
+.submitted-message {
+  border: 2px solid var(--orange);
+  box-shadow: 8px 8px var(--turquoise);
+  border-radius: 3px;
+
+  font-size: var(--fs-1);
+  text-align: center;
+  background: white;
+  padding: 2em;
+  max-width: 80%;
+  margin: 0 auto;
+  color: var(--black);
+}
+
+/* Form title */
+
+.form-title {
+  font-family: 'DM Serif Display'; 
+  font-style: normal; 
+  font-weight: normal; 
+  text-decoration: none;
+}
+
+/* Help text */
+
+form legend {
+  color: #000000;
+}
+
+/* Form placeholder text */
+
+::-webkit-input-placeholder {
+  color: #000000;
+}
+
+::-moz-placeholder {
+  color: #000000;
+}
+
+:-ms-input-placeholder {
+  color: #000000;
+}
+
+::placeholder {
+  color: #000000;
+}
+
+/* Inputs - date picker */
+
+.hs-fieldtype-date .input .hs-dateinput:before {
+  color: #000000;
+}
+
+.fn-date-picker td.is-selected .pika-button {
+  background: #000000;
+}
+
+.fn-date-picker td .pika-button:hover {
+  background-color: #000000 !important;
+}
+
+.fn-date-picker td.is-today .pika-button {
+  color: #000000;
+}
+
+{###########################################################################}
+{#############################   4. Tables   ###############################}
+{###########################################################################}
+
+/* Table */
+
+table {
+  border: 1px solid #000000;
+  background-color: rgba(255, 255, 255, 1.0);
+}
+
+/* Table cells */
+
+td,
+th {
+  border: 1px solid #000000;
+  padding: 18px;
+  color: #000000;
+}
+
+/* Table header */
+
+thead th {
+  background-color: rgba(0, 0, 0, 1.0);
+  color: #FFFFFF;
+}
+
+/* Table footer */
+
+tfoot td {
+  background-color: rgba(255, 255, 255, 1.0);
+  color: #000000;
+}
+
+{###########################################################################}
+{###########################   5. Website header   #########################}
+{###########################################################################}
+
+
+.header {
+  background-color: white;
+  z-index: 3;
+}
+  
+@media (width >= 64rem) {
+  .header:not(.header--no-navigation) {
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+  }
+}
+  
+.header__logo .logo-company-name {
+  font-family: Inter;
+}
+
+

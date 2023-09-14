@@ -1,0 +1,52 @@
+/* Header */
+
+header.header {
+  background: white;
+  transform: translateY(0);
+}
+
+.header.hide {
+  transform: translateY(-160px);
+}
+
+header.header,
+.header.hide {
+  transition: transform 0.3s ease-in-out;
+}
+
+.header__wrapper {
+  padding-top: var(--space-l);
+}
+
+/* Navigation skipper */
+.header__skip {
+  height: 1px;
+  left: -1000px;
+  overflow: hidden;
+  position: absolute;
+  text-align: left;
+  top: -1000px;
+  width: 1px;
+}
+
+.header__skip:hover,
+.header__skip:focus,
+.header__skip:active {
+  height: auto;
+  left: 0;
+  overflow: visible;
+  top: 0;
+  width: auto;
+}
+
+/* Logo */
+.header__logo {
+  display: flex;
+  justify-content: center;
+  max-width: 200px;
+  margin-inline: auto;
+}
+
+.header__logo img {
+  max-width: 100%;
+}

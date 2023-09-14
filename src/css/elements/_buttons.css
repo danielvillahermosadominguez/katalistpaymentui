@@ -1,0 +1,86 @@
+html {
+  --btn-primary: var(--orange);
+  --btn-primary--hover: var(--orange-400);
+}
+
+button,
+input[type="submit"] {
+  cursor: pointer;
+  display: inline-block;
+  color: white;
+  margin-top: var(--space-s);
+  padding: var(--space-xs) var(--space-l);
+  border-radius: 2rem;
+  border: none;
+  font-weight: bold;
+  text-align: center;
+  white-space: normal;
+  background-color: var(--btn-primary);
+  min-width: 100px;
+  transition: background-color 0.2s linear;
+}
+
+button:hover,
+button:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  color: white;
+  font-weight: bold;
+  background-color: var(--btn-primary--hover);
+  border-radius: 2rem;
+}
+
+button:disabled,
+input[type="submit"]:disabled {
+  background-color: #d0d0d0;
+  border-color: #d0d0d0;
+  color: #e6e6e6;
+}
+
+/* No button (show button as simple link) */
+
+.no-button,
+.no-button:hover,
+.no-button:focus,
+.no-button:active {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: initial;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  margin-bottom: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  transition: none;
+}
+
+/* Arrow button */
+
+.arrow-down-button {
+  display: flex;
+  width: max-content;
+  align-items: center;
+}
+
+.arrow-down-button:after {
+  content: url("https://3042464.fs1.hubspotusercontent-na1.net/hubfs/3042464/KATALYST%20BY%20CODURANCE/Microsite/katalyst_arrow.svg");
+  height: 22px;
+  width: 0;
+  display: block;
+  opacity: 0;
+  transition: width 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+    opacity 0.2s ease-in, margin-left 0.3s ease-out;
+}
+
+.arrow-down-button:hover:after {
+  opacity: 1;
+  margin-left: 0.6rem;
+  width: 22px;
+  transition: width 0.1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}

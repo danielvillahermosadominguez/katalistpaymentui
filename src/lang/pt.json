@@ -8,5 +8,14 @@
 	"option_only_subscription_to_moodle": "Somente assinatura Moodle",	
 	"option_only_invoice_with_holded": "Somente fatura com Retido",
 	"option_paycomet": "Paycomet",
-	"button_subscribe_now" : "Inscreva-se agora"
+	"button_subscribe_now" : "Inscreva-se agora",
+	"error-title": "Error",
+	"subscription_has_not_be_made": "Não foi possível fazer a assinatura",
+	"try_to_subscribe_the_course_from": "Por favor, tente se inscrever novamente em ",
+	"this_website": "esse site",
+	"form_not_properly_called":"O formulário não foi chamado corretamente.",
+	"successfully_subscription":"Assinatura concluída com sucesso",
+	"label_course": "Curso:",
+	"label_price" : "Preço:",
+	"successfully_subscription_message":"Sua assinatura foi concluída com sucesso. Em breve você receberá um e-mail com seu nome de usuário e senha"	
 }

@@ -9,6 +9,7 @@
     <link rel="localization" hreflang="pt" href="lang/pt.json" type="application/vnd.oftn.l10n+json" />
     <script type="text/javascript" src="js/i18n.js"></script>
     <script type="text/javascript" src="js/location.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/theme-overrides.css">
     <link rel="stylesheet" href="./css/utilities/_helper.css">
@@ -18,157 +19,71 @@
 <body onload="loadParameters()">
     <header class="container">
         <div class="center">
-            <a href="//www.katalystbycodurance.com"><img src="./img/Katalyst_by_codurance_logo.svg"  alt="Katalyst_by_codurance_logo" title="Katalyst_by_codurance_logo" loading="eager"></a>
-        </div>                
+            <a href="//www.katalystbycodurance.com"><img src="./img/Katalyst_by_codurance_logo.svg"
+                    alt="Katalyst_by_codurance_logo" title="Katalyst_by_codurance_logo" loading="eager"></a>
+        </div>
         <div class="line"></div>
-    </header>        
+    </header>
     <div class="container">
-        <form id="form_submit" method="post">
-            <h2 id="courseName"></h2>
-            <p id="text_with_price">Send us your data and suscribe to the course for </p>
-            <input type="hidden" id="courseId" name="courseId" value=""><br><br>
+        <h2 id="courseName" style="color: var(--grey-700);"></h2>
+        <form id="form_submit" onsubmit="submitForm();return false;">            
+            <p><span id="text_with_price">Send us your data and suscribe to the course for</span> <span
+                    id="course_price" style="color: var(--orange);font-weight: bold;">0.0</span><span id="currency">
+                    euros</span></p>
+            <input type="hidden" id="courseId" name="courseId" value="">
             <label id="label_email" for="email">Email:</label>
-            <input type="email" id="email" name="email" value=""><br><br>
+            <input type="email" id="email" name="email" value="">            
             <label id="label_name" for="name">Name:</label>
-            <input type="text" id="name" name="name" value=""><br><br>
+            <input type="text" id="name" name="name" value=""><br><br>            
             <label id="label_surname" for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" value=""><br><br>
+            <input type="text" id="surname" name="surname" value="" ><br><br>            
             <label id="label_company" for="company">Company Name:</label>
-            <input type="text" id="company" name="company" value=""><br><br>
+            <input type="text" id="company" name="company" value=""><br><br>            
             <label id="label_dnicif" for="dnicif">DNI/CIF:</label>
-            <input type="text" id="dnicif" name="dnicif" value=""><br><br>
+            <input type="text" id="dnicif" name="dnicif" value=""><br><br>            
+            <label for="dnicif">Only development:</label>
             <select id="paymentMethod" name="paymentMethod">
                 <option id="option_only_subscription_to_moodle" value="Moodle">Only suscription to Moodle</option>
                 <option id="option_only_invoice_with_holded" value="Holded">Only invoice with Holded</option>
                 <option id="option_paycomet" selected value="Paycomet">Payment</option>
             </select> <br><br>
             <div class="center">
-                <button id="button_subscribe_now" onclick="submitForm()">Subscribe now</button>
+                <input id="button_subscribe_now" type="submit" value="Enter to Win"/>
+                <!--<button id="button_subscribe_now" onclick="submitForm()">Subscribe now</button>-->
             </div>
         </form>
     </div>
     <footer>
-           
+        <br>
     </footer>
 </body>
 <script>
-    async function loadParameters() {
-        translateAllThePage()
-        const a = document.getElementsByTagName("BODY")[0].style.display
-        document.getElementsByTagName("BODY")[0].style.display = "none";
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const param = urlParams.get('course')
-        const course = Number(param)
-        if (param === null || !Number.isInteger(course)) {
-            location.replace("./isnotavalidcourselected.html")
-        } else {
-            document.getElementById('courseId').value = course
-            //let url = "https://katalistpaymentservice.azurewebsites.net/courses/"+course
-            let url = "http://localhost:8080/courses/" + course
-            try {
-                const response = await fetch(url, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: "GET",
-                })
-                if (!response.ok) {
-                    const body = await response.json()
-                    location.replace("./error.html?message=" + body.message)
-                    return
-                }
-                const course = await response.json()
-                document.getElementById('courseName').innerHTML = course.name
-                let text = document.getElementById('text_with_price').innerHTML
-                document.getElementById('text_with_price').innerHTML = text + course.price + " euros."
-                document.getElementsByTagName("BODY")[0].style.display = ""
-            } catch (error) {
-                location.replace("./isnotavalidcourselected.html")
-            }
-        }
-    }
-
-    function validateForm() {
-        let email = document.forms["form_submit"]["email"].value;
-        if (email == "") {
-            alert("The email is mandatory");
-            return false;
-        }
-
-        let name = document.forms["form_submit"]["name"].value;
-        if (name == "") {
-            alert("The name is mandatory");
-            return false;
-        }
-
-        let surname = document.forms["form_submit"]["surname"].value;
-        if (surname == "") {
-            alert("The surname is mandatory");
-            return false;
-        }
-
-        let company = document.forms["form_submit"]["company"].value;
-        if (company == "") {
-            alert("The company name is mandatory");
-            return false;
-        }
-
-        let dninif = document.forms["form_submit"]["dnicif"].value;
-        if (dninif == "") {
-            alert("The DNI/CIF is mandatory");
-            return false;
-        }
-        return true
-    }
-
-    async function submitForm() {
-        if (!validateForm()) {
-            return
-        }
-        let url = "";
-        let selector = document.getElementById("paymentMethod")
-        let payment_method = selector.value
-        if (payment_method === 'Moodle') {
-            //url = "https://katalistpaymentservice.azurewebsites.net/freesubscription"
-            url = "http://localhost:8080/freesubscription"
-        } else if (payment_method === 'Holded') {
-            //url = "https://katalistpaymentservice.azurewebsites.net/invoicing"
-            url = "http://localhost:8080/invoicing"
-        } else if (payment_method = 'Paycomet') {
-            url = ""
-        }
-
-        let formData = new FormData(document.getElementById('form_submit'))
-        let json = JSON.stringify(Object.fromEntries(formData))
-        try {
-            const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-                body: json
-            })
-
-            if (!response.ok) {
-                let status = await response.status
-                if (status !== 200) {
-                    let body = await response.json()
-                    let url = "./error.html?message=" + body.message
-                    location.replace(url)
-                    //alert(body.message)
-                }
-            } else {
-                let url = "./registered.html"
-                location.replace(url)
-            }
-        } catch (error) {
-            alert("There is not connection to the server. Please try again.")
-        }
-    }
-
+  
+  
 </script>
+<style>
+    label {
+        color: var(--grey-700);
+        font-weight: bold;
+    }   
+
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: var( --grey-300);
+        opacity: 1;
+        /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: var( --grey-300);
+    }
+
+    ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: var( --grey-300);
+    }
+</style>
+</style>
 
 </html>

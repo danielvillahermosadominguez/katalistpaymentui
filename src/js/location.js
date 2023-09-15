@@ -2,18 +2,7 @@ function translateAllThePage() {
 	var lang = getParameterValue("lang");
 	if (lang != "") String.locale = lang;
 
-	document.title = _(document.title);
-
-	localizeHTMLTag("label_name");
-	localizeHTMLTag("text_with_price");
-	localizeHTMLTag("label_email");
-	localizeHTMLTag("label_surname");
-	localizeHTMLTag("label_company");
-	localizeHTMLTag("label_dnicif");
-	localizeHTMLTag("option_only_subscription_to_moodle");	
-	localizeHTMLTag("option_only_invoice_with_holded");	
-	localizeHTMLTag("option_paycomet");	
-	localizeHTMLTag("button_subscribe_now");
+	document.title = _(document.title);	
 }
 
 var _ = function (string) {
@@ -22,12 +11,16 @@ var _ = function (string) {
 
 function localizeHTMLTag(tagId) {
 	tag = document.getElementById(tagId);
-	tag.innerHTML = _(tagId);
+	if(tag !== null) {
+		tag.innerHTML  = _(tagId);
+	}	
 }
 
 function localizeValueTag(tagId) {
 	tag = document.getElementById(tagId);
-	tag.value = _(tagId);
+	if(tag !== null) {
+		tag.value = _(tagId);
+	}
 }
 
 function getParameterValue(parameter) {

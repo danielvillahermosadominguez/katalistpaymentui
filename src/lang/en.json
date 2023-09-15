@@ -8,6 +8,13 @@
 	"option_only_subscription_to_moodle": "Only suscription to Moodle",
 	"option_only_invoice_with_holded": "Only invoice with Holded",
 	"option_paycomet": "Paycomet",
-	"button_subscribe_now" : "Subscribe now"
-	
+	"button_subscribe_now" : "Subscribe now",
+	"subscription_has_not_be_made": "Subscription could not be made",
+	"try_to_subscribe_the_course_from": "Please try to subscribe to the course from  ",
+	"this_website": "this website",
+	"form_not_properly_called":"The form has not been properly called.",
+	"successfully_subscription":"Successfully subscription",
+	"label_course": "Course:",
+	"label_price" : "Price:",
+	"successfully_subscription_message":"Your subscription has been succesfully completed. You have just been sent an email with an user and password"
 }

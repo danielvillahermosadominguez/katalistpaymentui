@@ -1,3 +1,6 @@
+const urlBaseLocal =  "https://katalistpaymentservice.azurewebsites.net";
+const urlBase =  "http://localhost:8080";
+
 async function loadParameters() {
     translateAllThePage();
     localizeHTMLTag("label_name");
@@ -16,13 +19,12 @@ async function loadParameters() {
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get('course')
     const course = Number(param)
-    
+
     if (param === null || !Number.isInteger(course)) {
-        location.replace("./errors/isnotavalidcourselected.html?lang="+String.locale)
-    } else {
+        location.replace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
+    } else {                
         document.getElementById('courseId').value = course
-        //let url = "https://katalistpaymentservice.azurewebsites.net/courses/"+course
-        let url = "http://localhost:8080/courses/" + course
+        let url = urlBase +"/courses/" + course
         try {
             const response = await fetch(url, {
                 headers: {
@@ -37,61 +39,65 @@ async function loadParameters() {
                 return
             }
             const course = await response.json()
-            document.getElementById('courseName').innerHTML = course.name            
+            document.getElementById('courseName').innerHTML = course.name
             let p = document.getElementById("course_price")
             document.getElementById("course_price").innerHTML = course.price
             document.getElementsByTagName("BODY")[0].style.display = ""
         } catch (error) {
-            location.replace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
+            let url = "./errors/error.html?lang=" + String.locale + "&message=There is not connection to the server. Please try again."
+            location.replace(url)        
         }
     }
 }
 
 function showMessageInput(item, message) {
-    item.setCustomValidity(message);        
+    item.setCustomValidity(message);
     item.reportValidity();
 }
 
+function resetValidations(item) {    
+    item.setCustomValidity("");
+    item.reportValidity();
+  }
+
 function validateForm() {
     let email = document.forms["form_submit"]["email"];
-    
+
     if (email.value == "") {
-        showMessageInput(email,'The email is mandatory' );        
+        showMessageInput(email, 'The email is mandatory');
         return false;
-    } else {
-        showMessageInput(email,'' );        
-    }
+    } 
 
     let name = document.forms["form_submit"]["name"];
     if (name.value == "") {
-        showMessageInput(name,"The name is mandatory");                
+        showMessageInput(name, "The name is mandatory");
         return false;
-    } else {        
-            showMessageInput(name,'' );                
+    } else {
+        showMessageInput(name, '');
     }
 
     let surname = document.forms["form_submit"]["surname"];
     if (surname.value == "") {
-        showMessageInput(surname,"The surname is mandatory");                        
+        showMessageInput(surname, "The surname is mandatory");
         return false;
-    } else {        
-        showMessageInput(surname,'' );                
+    } else {
+        showMessageInput(surname, '');
     }
 
     let company = document.forms["form_submit"]["company"];
     if (company.value == "") {
-        showMessageInput(company,"The company name is mandatory");                                
+        showMessageInput(company, "The company name is mandatory");
         return false;
-    } else {        
-        showMessageInput(company,'' );                
+    } else {
+        showMessageInput(company, '');
     }
 
     let dninif = document.forms["form_submit"]["dnicif"];
     if (dninif.value == "") {
-        showMessageInput(dninif,"The DNI/CIF is mandatory");                                        
+        showMessageInput(dninif, "The DNI/CIF is mandatory");
         return false;
     } else {
-        showMessageInput(dninif,'' );                
+        showMessageInput(dninif, '');
     }
     return true
 }
@@ -103,12 +109,10 @@ async function submitForm() {
     let url = "";
     let selector = document.getElementById("paymentMethod")
     let payment_method = selector.value
-    if (payment_method === 'Moodle') {
-        //url = "https://katalistpaymentservice.azurewebsites.net/freesubscription"
-        url = "http://localhost:8080/freesubscription"
+    if (payment_method === 'Moodle') {        
+        url = urlBase +"/freesubscription"
     } else if (payment_method === 'Holded') {
-        //url = "https://katalistpaymentservice.azurewebsites.net/invoicing"
-        url = "http://localhost:8080/invoicing"
+        url = urlBase +"/invoicing"        
     } else if (payment_method = 'Paycomet') {
         url = ""
     }
@@ -135,11 +139,12 @@ async function submitForm() {
                 location.replace(url)
             }
         } else {
-            let url = "./success/subscribed.html?lang=" +String.locale+"&course="+courseName.innerText+ "&price=" + price.innerText
+            let url = "./success/subscribed.html?lang=" + String.locale + "&course=" + courseName.innerText + "&price=" + price.innerText
             location.replace(url)
         }
     } catch (error) {
-        alert("There is not connection to the server. Please try again.")
+        let url = "./errors/error.html?lang=" + String.locale + "&message=There is not connection to the server. Please try again."
+        location.replace(url)        
     }
 }
 

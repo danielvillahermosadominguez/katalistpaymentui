@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/theme-overrides.css">
     <link rel="stylesheet" href="./css/utilities/_helper.css">
-    <link rel="stylesheet" href="./css/elements/_colors.css">
+    <link rel="stylesheet" href="./css/elements/_colors.css">    
+    <script src="./config/config.js"></script>
 </head>
 
 <body onload="loadParameters()">
@@ -32,15 +33,15 @@
                     euros</span></p>
             <input type="hidden" id="courseId" name="courseId" value="">
             <label id="label_email" for="email">Email:</label>
-            <input type="email" id="email" name="email" value="">            
+            <input type="email" id="email" name="email" value="" onchange = "resetValidations(this);"><br><br>
             <label id="label_name" for="name">Name:</label>
-            <input type="text" id="name" name="name" value=""><br><br>            
+            <input type="text" id="name" name="name" value="" onchange = "resetValidations(this);"><br><br>            
             <label id="label_surname" for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" value="" ><br><br>            
+            <input type="text" id="surname" name="surname" value="" onchange = "resetValidations(this);"><br><br>            
             <label id="label_company" for="company">Company Name:</label>
-            <input type="text" id="company" name="company" value=""><br><br>            
+            <input type="text" id="company" name="company" value="" onchange = "resetValidations(this);"><br><br>            
             <label id="label_dnicif" for="dnicif">DNI/CIF:</label>
-            <input type="text" id="dnicif" name="dnicif" value=""><br><br>            
+            <input type="text" id="dnicif" name="dnicif" value="" onchange = "resetValidations(this);"><br><br>            
             <label for="dnicif">Only development:</label>
             <select id="paymentMethod" name="paymentMethod">
                 <option id="option_only_subscription_to_moodle" value="Moodle">Only suscription to Moodle</option>
@@ -58,7 +59,6 @@
     </footer>
 </body>
 <script>
-  
   
 </script>
 <style>

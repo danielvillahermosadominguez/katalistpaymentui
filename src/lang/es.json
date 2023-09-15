@@ -22,5 +22,9 @@
 	"surname_is_mandatory" :  "El apellido es obligatorio",
 	"company_is_mandatory" : "El nombre de compañia es obligatorio",
 	"nifcif_is_mandatory": "El NIF/CIF is obligatorio",
-	"there_is_not_connection": "No hay conexión con el servicio. Vuelve a intentarlo de nuevo."	
+	"there_is_not_connection": "No hay conexión con el servicio. Vuelve a intentarlo de nuevo.",
+	"backend_error_code_1":"El curso con el id {1} no existe",
+	"backend_error_code_2":"El usuario ya tiene una suscripción al curso",
+	"backend_error_code_3":"Hemos tenido un problema con la creación de contacto y facturación",
+	"backend_error_code_4":"El curso no dispone de precio asignado. No es posible realizar la suscripción"	
 }

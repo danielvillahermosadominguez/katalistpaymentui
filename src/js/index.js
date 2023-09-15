@@ -1,52 +1,116 @@
 const urlBaseLocal =  "https://katalistpaymentservice.azurewebsites.net";
 const urlBase =  "http://localhost:8080";
+const NO_SERVER_CONNECTION = -2
 
-async function loadParameters() {
-    translateAllThePage();
-    localizeHTMLTag("label_name");
-    localizeHTMLTag("text_with_price");
-    localizeHTMLTag("label_email");
-    localizeHTMLTag("label_surname");
-    localizeHTMLTag("label_company");
-    localizeHTMLTag("label_dnicif");
-    localizeHTMLTag("option_only_subscription_to_moodle");
-    localizeHTMLTag("option_only_invoice_with_holded");
-    localizeHTMLTag("option_paycomet");
-    localizeValueTag("button_subscribe_now");
+async function getCourse(courseId) {
+    let url = urlBase +"/courses/" + courseId
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "GET",
+        })
+        if (!response.ok) {
+            const body = await response.json()
+            return {
+                error: true,
+                code: body.code,
+                item: null
+            };
+        }
+        const course = await response.json()        
+        
+        return {
+            error: false,
+            code: -1,
+            item: course
+        };
+    } catch (error) {
+        return {
+            error: true,
+            code: -2,
+            item: null
+        };
+    }
+
+}
+
+async function post(url, json){
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: json
+        })
+
+        if (!response.ok) {
+            let status = await response.status
+            if (status !== 200) {
+                let body = await response.json()
+                return {
+                    error: true,
+                    code: body.code,
+                    item: null
+                };                
+            }
+        } else {
+            return {
+                error: false,
+                code: -1,
+                item: null
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            code: -2,
+            item: null
+        };    
+    }
+}
+
+function getErrorMessage(code, parameter) {
+    let message = "";
+    if(code == NO_SERVER_CONNECTION) {
+        message = _("there_is_not_connection");
+    } else {
+        message = _("backend_error_code_"+ code);
+        message = message.replace("{1}", parameter);
+        message = _("backend_error_code_"+ code);
+    }                    
+     
+    message = message.replace("{1}", courseId);
+    return message;
+}
+async function loadParameters() {    
     const a = document.getElementsByTagName("BODY")[0].style.display
     document.getElementsByTagName("BODY")[0].style.display = "none";
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get('course')
-    const course = Number(param)
+    const courseId = Number(param)
 
-    if (param === null || !Number.isInteger(course)) {
+    if (param === null || !Number.isInteger(courseId)) {
         location.replace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
-    } else {                
-        document.getElementById('courseId').value = course
-        let url = urlBase +"/courses/" + course
-        try {
-            const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "GET",
-            })
-            if (!response.ok) {
-                const body = await response.json()
-                location.replace("./errors/error.html?lang=" + String.locale + "&message=" + body.message)
-                return
-            }
-            const course = await response.json()
-            document.getElementById('courseName').innerHTML = course.name
-            let p = document.getElementById("course_price")
-            document.getElementById("course_price").innerHTML = course.price
-            document.getElementsByTagName("BODY")[0].style.display = ""
-        } catch (error) {
-            let url = "./errors/error.html?lang=" + String.locale + "&message=There is not connection to the server. Please try again."
-            location.replace(url)        
+    } else {             
+        document.getElementById('courseId').value = courseId
+        const result = await getCourse( courseId);        
+        if(result.error) { 
+            const message = getErrorMessage(result.code, courseId);
+            location.replace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+            return;
         }
+
+        const course = result.item;
+        document.getElementById('courseName').innerHTML = course.name;
+        let p = document.getElementById("course_price");
+        document.getElementById("course_price").innerHTML = course.price;
+        document.getElementsByTagName("BODY")[0].style.display = "";
     }
 }
 
@@ -114,30 +178,13 @@ async function submitForm() {
     let price = document.getElementById("course_price");
     let formData = new FormData(document.getElementById('form_submit'))
     let json = JSON.stringify(Object.fromEntries(formData))
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: json
-        })
-
-        if (!response.ok) {
-            let status = await response.status
-            if (status !== 200) {
-                let body = await response.json()
-                let url = "./errors/error.html?lang=" + String.locale + "&message=" + body.message
-                location.replace(url)
-            }
-        } else {
-            let url = "./success/subscribed.html?lang=" + String.locale + "&course=" + courseName.innerText + "&price=" + price.innerText
-            location.replace(url)
-        }
-    } catch (error) {
-        let url = "./errors/error.html?lang=" + String.locale + "&message="+ _("there_is_not_connection")
-        location.replace(url)        
+    const result = await post(url, json);
+    if(result.error) { 
+        const message = getErrorMessage(result.code, 0);
+        location.replace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+        return;
     }
+    
+    location.replace("./success/subscribed.html?lang=" + String.locale + "&course=" + courseName.innerText + "&price=" + price.innerText)
 }
 

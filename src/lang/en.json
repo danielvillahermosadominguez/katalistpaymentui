@@ -22,5 +22,9 @@
 	"surname_is_mandatory" :  "The surname is mandatory",
 	"company_is_mandatory" : "The company name is mandatory",
 	"nifcif_is_mandatory": "The NIF/CIF is mandatory",
-	"there_is_not_connection": "There is not connection to the server. Please try again."
+	"there_is_not_connection": "There is not connection to the server. Please try again.",
+	"backend_error_code_1":"The course with the id {1} doesn't exists",
+	"backend_error_code_2":"The user has a subscription for this course",
+	"backend_error_code_3":"We have had a problem with the creation of the contact and the invoicing",
+	"backend_error_code_4":"This course has not an assigned price. It is not possible to start a subscription"	
 }

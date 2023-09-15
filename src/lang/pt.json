@@ -6,7 +6,7 @@
 	"label_company": "Empresa:",
 	"label_dnicif": "DNI/CIF:",
 	"option_only_subscription_to_moodle": "Somente assinatura Moodle",	
-	"option_only_invoice_with_holded": "Somente fatura com Retido",
+	"option_only_invoice_with_holded": "Somente fatura com Holded",
 	"option_paycomet": "Paycomet",
 	"button_subscribe_now" : "Inscreva-se agora",
 	"error-title": "Error",
@@ -23,5 +23,9 @@
 	"surname_is_mandatory" :  "O sobrenome é obrigatório",
 	"company_is_mandatory" : "O nome da empresa é obrigatório",
 	"nifcif_is_mandatory": "O NIF/CIF é obrigatório",
-	"there_is_not_connection": "Não há conexão com o serviço. Por favor, tente novamente."
+	"there_is_not_connection": "Não há conexão com o serviço. Por favor, tente novamente.",
+	"backend_error_code_1":"O curso com id {1} não existe",
+	"backend_error_code_2":"O usuário já possui uma assinatura do curso",
+	"backend_error_code_3":"Tivemos um problema com a criação e cobrança de contatos",
+	"backend_error_code_4":"Este curso não tem preço atribuído. Não é possível iniciar uma assinatura"		
 }

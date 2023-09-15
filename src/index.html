@@ -17,7 +17,7 @@
     <script src="./config/config.js"></script>
 </head>
 
-<body onload="loadParameters()">
+<body onload="loadBody()">
     <header class="container">
         <div class="center">
             <a href="//www.katalystbycodurance.com"><img src="./img/Katalyst_by_codurance_logo.svg"
@@ -58,7 +58,20 @@
     </footer>
 </body>
 <script>
-  
+  function loadBody() {
+    translateAllThePage();
+    localizeHTMLTag("label_name");
+    localizeHTMLTag("text_with_price");
+    localizeHTMLTag("label_email");
+    localizeHTMLTag("label_surname");
+    localizeHTMLTag("label_company");
+    localizeHTMLTag("label_dnicif");
+    localizeHTMLTag("option_only_subscription_to_moodle");
+    localizeHTMLTag("option_only_invoice_with_holded");
+    localizeHTMLTag("option_paycomet");
+    localizeValueTag("button_subscribe_now");
+    loadParameters();
+  }
 </script>
 <style>
     label {

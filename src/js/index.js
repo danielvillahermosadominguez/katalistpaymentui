@@ -1,5 +1,5 @@
-const urlBaseLocal =  "https://katalistpaymentservice.azurewebsites.net";
-const urlBase =  "http://localhost:8080";
+const urlBase =  "https://katalistpaymentservice.azurewebsites.net";
+const urlBaseLocal =  "http://localhost:8080";
 const NO_SERVER_CONNECTION = -2
 
 async function getCourse(courseId) {

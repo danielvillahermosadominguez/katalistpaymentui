@@ -16,5 +16,11 @@
 	"successfully_subscription":"Successfully subscription",
 	"label_course": "Course:",
 	"label_price" : "Price:",
-	"successfully_subscription_message":"Your subscription has been succesfully completed. You have just been sent an email with an user and password"
+	"successfully_subscription_message":"Your subscription has been succesfully completed. You have just been sent an email with an user and password",
+	"mail_is_mandatory" : "The email is mandatory",
+	"name_is_mandatory" : "The name is mandatory",
+	"surname_is_mandatory" :  "The surname is mandatory",
+	"company_is_mandatory" : "The company name is mandatory",
+	"nifcif_is_mandatory": "The NIF/CIF is mandatory",
+	"there_is_not_connection": "There is not connection to the server. Please try again."
 }

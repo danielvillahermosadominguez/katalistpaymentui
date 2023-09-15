@@ -64,41 +64,34 @@ function validateForm() {
     let email = document.forms["form_submit"]["email"];
 
     if (email.value == "") {
-        showMessageInput(email, 'The email is mandatory');
+        showMessageInput(email, _("mail_is_mandatory"));
         return false;
     } 
 
     let name = document.forms["form_submit"]["name"];
     if (name.value == "") {
-        showMessageInput(name, "The name is mandatory");
+        showMessageInput(name, _("name_is_mandatory"));
         return false;
-    } else {
-        showMessageInput(name, '');
-    }
+    } 
 
     let surname = document.forms["form_submit"]["surname"];
     if (surname.value == "") {
-        showMessageInput(surname, "The surname is mandatory");
+        showMessageInput(surname, _("surname_is_mandatory"));
         return false;
-    } else {
-        showMessageInput(surname, '');
-    }
+    } 
 
     let company = document.forms["form_submit"]["company"];
     if (company.value == "") {
-        showMessageInput(company, "The company name is mandatory");
+        showMessageInput(company, _("company_is_mandatory"));
         return false;
-    } else {
-        showMessageInput(company, '');
-    }
+    } 
 
     let dninif = document.forms["form_submit"]["dnicif"];
     if (dninif.value == "") {
-        showMessageInput(dninif, "The DNI/CIF is mandatory");
+        showMessageInput(dninif, _("nifcif_is_mandatory"));
         return false;
-    } else {
-        showMessageInput(dninif, '');
-    }
+    } 
+    
     return true
 }
 
@@ -143,7 +136,7 @@ async function submitForm() {
             location.replace(url)
         }
     } catch (error) {
-        let url = "./errors/error.html?lang=" + String.locale + "&message=There is not connection to the server. Please try again."
+        let url = "./errors/error.html?lang=" + String.locale + "&message="+ _("there_is_not_connection")
         location.replace(url)        
     }
 }

@@ -16,5 +16,11 @@
 	"successfully_subscription":"Suscripción realizada con éxito",
 	"label_course": "Curso:",
 	"label_price" : "Precio:",
-	"successfully_subscription_message":"Tu suscripción ha sido completada con éxito. Recibirás en breve un email con tu usuario y password"	
+	"successfully_subscription_message":"Tu suscripción ha sido completada con éxito. Recibirás en breve un email con tu usuario y password",
+	"mail_is_mandatory" : "El email es obligatorio",
+	"name_is_mandatory" : "El nombre es obligatorio",
+	"surname_is_mandatory" :  "El apellido es obligatorio",
+	"company_is_mandatory" : "El nombre de compañia es obligatorio",
+	"nifcif_is_mandatory": "El NIF/CIF is obligatorio",
+	"there_is_not_connection": "No hay conexión con el servicio. Vuelve a intentarlo de nuevo."	
 }

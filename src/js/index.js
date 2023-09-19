@@ -126,9 +126,14 @@ function resetValidations(item) {
 
 function validateForm() {
     let email = document.forms["form_submit"]["email"];
-
     if (email.value == "") {
         showMessageInput(email, _("mail_is_mandatory"));
+        return false;
+    } 
+
+    let phone = document.forms["form_submit"]["phoneNumber"];
+    if (phone.value == "") {
+        showMessageInput(phone, _("phone_is_mandatory"));
         return false;
     } 
 
@@ -144,18 +149,48 @@ function validateForm() {
         return false;
     } 
 
+    let dninif = document.forms["form_submit"]["dnicif"];
+    if (dninif.value == "") {
+        showMessageInput(dninif, _("nifcif_is_mandatory"));
+        return false;
+    } 
+
     let company = document.forms["form_submit"]["company"];
     if (company.value == "") {
         showMessageInput(company, _("company_is_mandatory"));
         return false;
     } 
 
-    let dninif = document.forms["form_submit"]["dnicif"];
-    if (dninif.value == "") {
-        showMessageInput(dninif, _("nifcif_is_mandatory"));
+    let address = document.forms["form_submit"]["address"];
+    if (address.value == "") {
+        showMessageInput(address, _("address_is_mandatory"));
         return false;
     } 
-    
+
+    let postalCode = document.forms["form_submit"]["postalCode"];
+    if (postalCode.value == "") {
+        showMessageInput(postalCode, _("postal_is_mandatory"));
+        return false;
+    } 
+
+    let city = document.forms["form_submit"]["city"];
+    if (city.value == "") {
+        showMessageInput(city, _("city_is_mandatory"));
+        return false;
+    } 
+
+    let region = document.forms["form_submit"]["region"];
+    if (region.value == "") {
+        showMessageInput(region, _("region_is_mandatory"));
+        return false;
+    } 
+
+    let country = document.forms["form_submit"]["country"];
+    if (country.value == "") {
+        showMessageInput(country, _("country_is_mandatory"));
+        return false;
+    } 
+     
     return true
 }
 

@@ -4,7 +4,7 @@
 	"label_email": "Email:",
 	"label_surname": "Apellidos:",
 	"label_company": "Compañía:",
-	"label_dnicif": "DNI/CIF:",
+	"label_dnicif": "Número VAT:",
 	"option_only_subscription_to_moodle": "Solo suscripción a Moodle",
 	"option_only_invoice_with_holded": "Sólo factura con Holded",
 	"option_paycomet": "Paycomet",
@@ -26,5 +26,18 @@
 	"backend_error_code_1":"El curso con el id {1} no existe",
 	"backend_error_code_2":"El usuario ya tiene una suscripción al curso",
 	"backend_error_code_3":"Hemos tenido un problema con la creación de contacto y facturación",
-	"backend_error_code_4":"El curso no dispone de precio asignado. No es posible realizar la suscripción"	
+	"backend_error_code_4":"El curso no dispone de precio asignado. No es posible realizar la suscripción",
+	"label_phone": "Teléfono:",
+	"label_iscompany": "Tipo de VAT:",
+	"label_address": "Dirección:",
+	"label_postalcode": "Código postal:",
+	"label_city": "Ciudad:",
+	"label_region": "Provincia:",
+	"label_country": "País:",
+	"phone_is_mandatory": "El teléfono es obligatorio",
+	"address_is_mandatory": "La dirección es obligatoria",
+	"postal_is_mandatory": "El código postal es obligatorio",
+	"city_is_mandatory": "La ciudad es obligatoria",
+	"region_is_mandatory": "La provincia es obligatorio",
+	"country_is_mandatory": "El país es obligatorio"
 }

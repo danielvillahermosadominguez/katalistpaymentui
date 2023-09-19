@@ -4,7 +4,7 @@
 	"label_email": "Email:",
 	"label_surname": "Surname:",
 	"label_company": "Company:",
-	"label_dnicif": "DNI/CIF:",
+	"label_dnicif": "VAT number:",
 	"option_only_subscription_to_moodle": "Only suscription to Moodle",
 	"option_only_invoice_with_holded": "Only invoice with Holded",
 	"option_paycomet": "Paycomet",
@@ -26,5 +26,18 @@
 	"backend_error_code_1":"The course with the id {1} doesn't exists",
 	"backend_error_code_2":"The user has a subscription for this course",
 	"backend_error_code_3":"We have had a problem with the creation of the contact and the invoicing",
-	"backend_error_code_4":"This course has not an assigned price. It is not possible to start a subscription"	
+	"backend_error_code_4":"This course has not an assigned price. It is not possible to start a subscription",
+	"label_phone": "Phone number:",
+	"label_iscompany": "VAT type:",
+	"label_address": "Address:",
+	"label_postalcode": "Postal code:",
+	"label_city": "City:",
+	"label_region": "Region:",
+	"label_country": "Country:",
+	"phone_is_mandatory": "Phone number is mandatory",
+	"address_is_mandatory": "Address is mandatory",
+	"postal_is_mandatory": "Postal code is mandatory",
+	"city_is_mandatory": "City is mandatory",
+	"region_is_mandatory": "Region is mandatory",
+	"country_is_mandatory": "Country is mandatory"
 }

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/theme-overrides.css">
     <link rel="stylesheet" href="./css/utilities/_helper.css">
-    <link rel="stylesheet" href="./css/elements/_colors.css">    
+    <link rel="stylesheet" href="./css/elements/_colors.css">
     <script src="./config/config.js"></script>
 </head>
 
@@ -27,73 +27,154 @@
     </header>
     <div class="container">
         <h2 id="courseName" style="color: var(--grey-700);"></h2>
-        <form id="form_submit" onsubmit="submitForm();return false;">            
+        <form id="form_submit" onsubmit="submitForm();return false;">
             <p><span id="text_with_price">Send us your data and suscribe to the course for</span> <span
                     id="course_price" style="color: var(--orange);font-weight: bold;">0.0</span><span id="currency">
                     euros</span></p>
-            <input type="hidden" id="courseId" name="courseId" value="">
-            <label id="label_email" for="email">Email:</label>
-            <input type="email" id="email" name="email" value="" onchange = "resetValidations(this);"><br><br>
-            <label id="label_name" for="name">Name:</label>
-            <input type="text" id="name" name="name" value="" onchange = "resetValidations(this);"><br><br>            
-            <label id="label_surname" for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" value="" onchange = "resetValidations(this);"><br><br>            
-            <label id="label_company" for="company">Company Name:</label>
-            <input type="text" id="company" name="company" value="" onchange = "resetValidations(this);"><br><br>            
-            <label id="label_dnicif" for="dnicif">DNI/CIF:</label>
-            <input type="text" id="dnicif" name="dnicif" value="" onchange = "resetValidations(this);"><br><br>            
-            <label for="dnicif">Only development:</label>
-            <select id="paymentMethod" name="paymentMethod">
-                <option id="option_only_subscription_to_moodle" value="Moodle">Only suscription to Moodle</option>
-                <option id="option_only_invoice_with_holded" value="Holded">Only invoice with Holded</option>
-                <option id="option_paycomet" selected value="Paycomet">Payment</option>
-            </select> <br><br>
-            <div class="center">
-                <input id="button_subscribe_now" type="submit" value="Enter to Win"/>                
+            <div class="form-row">
+                <input type="hidden" id="courseId" name="courseId" value="">
             </div>
-        </form>
+            <div class="form-row">
+                <div class="form-group" style="width: 80%;">
+                    <label id="label_email" for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="" onchange="resetValidations(this);">
+                </div>
+                <div class="form-group" style="width: 20%;">
+                    <label id="label_phone" for="phoneNumber">Phone number</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="width: 50%;">
+                    <label id="label_name" for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="" onchange="resetValidations(this);">
+                </div>
+                <div class="form-group" style="width: 50%;">
+                    <label id="label_surname" for="surname">Surname:</label>
+                    <input type="text" id="surname" name="surname" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="width: 20%;">
+                    <label id="label_iscompany" for="iscompany">NIF/CIF</label>
+                    <select id="isCompany" name="isCompany">
+                        <option id="option_cif" value="true">CIF</option>
+                        <option id="option_nif" selected value="false">NIF</option>
+                    </select> <br><br>
+                </div>
+                <div class="form-group" style="width: 30%;">
+                    <label id="label_dnicif" for="dnicif">DNI/CIF:</label>
+                    <input type="text" id="dnicif" name="dnicif" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+                <div class="form-group" style="width: 50%;">
+                    <label id="label_company" for="company">Company Name:</label>
+                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+            </div>
+            <div class="form-row">                
+                <div class="form-group" style="width: 80%;">
+                    <label id="label_address" for="address">Address:</label>
+                    <input type="text" id="address" name="address" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+                <div class="form-group" style="width: 20%;">
+                    <label id="label_postalcode" for="postalCode">Postal code:</label>
+                    <input type="text" id="postalCode" name="postalCode" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+            </div>
+            <div class="form-row">                
+                
+                <div class="form-group" style="width: 50%;">
+                    <label id="label_city" for="city">City:</label>
+                    <input type="text" id="city" name="city" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+                <div class="form-group" style="width: 30%;">
+                    <label id="label_region" for="region">Region:</label>
+                    <input type="text" id="region" name="region" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+                <div class="form-group" style="width: 20%;">
+                    <label id="label_country" for="country">Country:</label>
+                    <input type="text" id="country" name="country" value="" onchange="resetValidations(this);"><br><br>
+                </div>
+            </div>
+            <divclass="form-row">
+                <label for="paymentMethod">Only development:</label>
+                <select id="paymentMethod" name="paymentMethod">
+                    <option id="option_only_subscription_to_moodle" value="Moodle">Only suscription to Moodle</option>
+                    <option id="option_only_invoice_with_holded" value="Holded">Only invoice with Holded</option>
+                    <option id="option_paycomet" selected value="Paycomet">Payment</option>
+                </select> <br><br>
+    </div>
+
+    </div>
+
+    <div class="center">
+        <input id="button_subscribe_now" type="submit" value="Enter to Win" />
+    </div>
+    </form>
     </div>
     <footer>
         <br>
     </footer>
 </body>
 <script>
-  function loadBody() {
-    translateAllThePage();
-    localizeHTMLTag("label_name");
-    localizeHTMLTag("text_with_price");
-    localizeHTMLTag("label_email");
-    localizeHTMLTag("label_surname");
-    localizeHTMLTag("label_company");
-    localizeHTMLTag("label_dnicif");
-    localizeHTMLTag("option_only_subscription_to_moodle");
-    localizeHTMLTag("option_only_invoice_with_holded");
-    localizeHTMLTag("option_paycomet");
-    localizeValueTag("button_subscribe_now");
-    loadParameters();
-  }
+    function loadBody() {
+        translateAllThePage();
+        localizeHTMLTag("text_with_price");                
+        localizeHTMLTag("label_email");
+        localizeHTMLTag("label_phone");
+        localizeHTMLTag("label_name");
+        localizeHTMLTag("label_surname");
+        localizeHTMLTag("label_iscompany");
+        localizeHTMLTag("label_dnicif");        
+        localizeHTMLTag("label_company");        
+        localizeHTMLTag("label_address");        
+        localizeHTMLTag("label_city");        
+        localizeHTMLTag("label_postalcode");        
+        localizeHTMLTag("label_region");        
+        localizeHTMLTag("label_country");        
+        localizeHTMLTag("option_only_subscription_to_moodle");
+        localizeHTMLTag("option_only_invoice_with_holded");
+        localizeHTMLTag("option_paycomet");
+        localizeValueTag("button_subscribe_now");
+        loadParameters();
+    }
 </script>
 <style>
     label {
         color: var(--grey-700);
         font-weight: bold;
-    }   
+        display: inline-block;
+        margin-bottom: 5px;
+    }
 
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: var( --grey-300);
+        color: var(--grey-300);
         opacity: 1;
         /* Firefox */
     }
 
     :-ms-input-placeholder {
         /* Internet Explorer 10-11 */
-        color: var( --grey-300);
+        color: var(--grey-300);
     }
 
     ::-ms-input-placeholder {
         /* Microsoft Edge */
-        color: var( --grey-300);
+        color: var(--grey-300);
+    }
+
+    .form-row {
+        display: flex;
+    }
+
+    .form-group {
+        padding: 5px;
+        width: 50%;
+    }
+
+    .form-group input {
+        width: 100%;
     }
 </style>
 </style>

@@ -88,6 +88,7 @@ function getErrorMessage(code, parameter) {
     return message;
 }
 async function loadParameters() {    
+    cleanDataInSessionStorage();
     const a = document.getElementsByTagName("BODY")[0].style.display
     document.getElementsByTagName("BODY")[0].style.display = "none";
     const queryString = window.location.search;
@@ -201,13 +202,17 @@ async function submitForm() {
     let url = "";
     let selector = document.getElementById("paymentMethod")
     let payment_method = selector.value
+    if (payment_method === 'Paycomet') {
+        storeDataInSessionStorage();
+        location.replace("./payment.html?lang=" + String.locale);        
+        return;
+    }
+
     if (payment_method === 'Moodle') {        
         url = urlBase +"/freesubscription"
     } else if (payment_method === 'Holded') {
         url = urlBase +"/invoicing"        
-    } else if (payment_method = 'Paycomet') {
-        url = ""
-    }
+    } 
 
     let courseName = document.getElementById("courseName");
     let price = document.getElementById("course_price");
@@ -221,5 +226,56 @@ async function submitForm() {
     }
     
     location.replace("./success/subscribed.html?lang=" + String.locale + "&course=" + courseName.innerText + "&price=" + price.innerText)
+}
+
+function cleanDataInSessionStorage() {    
+    sessionStorage.removeItem('isCompany');    
+    sessionStorage.removeItem('courseId');    
+    sessionStorage.removeItem('courseName');        
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('phoneNumber');    
+    sessionStorage.removeItem('name');    
+    sessionStorage.removeItem('surname');
+    sessionStorage.removeItem('dnicif');
+    sessionStorage.removeItem('company');    
+    sessionStorage.removeItem('address');    
+    sessionStorage.removeItem('postalCode');    
+    sessionStorage.removeItem('city');    
+    sessionStorage.removeItem('region');    
+    sessionStorage.removeItem('country');    
+}
+
+function storeDataInSessionStorage() {    
+    cleanDataInSessionStorage();
+    let courseId = document.forms["form_submit"]["courseId"].value;    
+    sessionStorage.setItem('courseId',courseId);    
+    let courseName = document.getElementById("courseName").innerHTML;
+    sessionStorage.setItem('courseName',courseName); 
+    let coursePrice = document.getElementById("course_price").innerHTML;
+    sessionStorage.setItem('coursePrice',coursePrice);                 
+    let email =  document.getElementById("email").value;
+    sessionStorage.setItem('email',email);                 
+    let phoneNumber =  document.getElementById("phoneNumber").value;
+    sessionStorage.setItem('phoneNumber',phoneNumber);                 
+    let name =  document.getElementById("name").value;
+    sessionStorage.setItem('name',name);                 
+    let surname =  document.getElementById("surname").value;
+    sessionStorage.setItem('surname',surname);                 
+    let dnicif =  document.getElementById("dnicif").value;
+    sessionStorage.setItem('dnicif',dnicif);                 
+    let company =  document.getElementById("company").value;
+    sessionStorage.setItem('company',company);                     
+    let address =  document.getElementById("address").value;
+    sessionStorage.setItem('address',address);                 
+    let postalCode =  document.getElementById("postalCode").value;
+    sessionStorage.setItem('postalCode',postalCode);                 
+    let city =  document.getElementById("city").value;
+    sessionStorage.setItem('city',city);                     
+    let region =  document.getElementById("region").value;
+    sessionStorage.setItem('region',region);                     
+    let country  =  document.getElementById("country").value;
+    sessionStorage.setItem('country',country);         
+    let isCompany  =  document.getElementById("isCompany").value;
+    sessionStorage.setItem('isCompany',isCompany);                 
 }
 

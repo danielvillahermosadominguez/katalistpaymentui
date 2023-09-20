@@ -1,54 +1,114 @@
 <html>
+<html lang="en">
+
+</html>
 
 <head>
+    <title>Katalist course subscription</title>
+    <link rel="localization" hreflang="en" href="lang/en.json" type="application/vnd.oftn.l10n+json" />
+    <link rel="localization" hreflang="es" href="lang/es.json" type="application/vnd.oftn.l10n+json" />
+    <link rel="localization" hreflang="pt" href="lang/pt.json" type="application/vnd.oftn.l10n+json" />
+    <script type="text/javascript" src="js/i18n.js"></script>
+    <script type="text/javascript" src="js/location.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/theme-overrides.css">
+    <link rel="stylesheet" href="./css/utilities/_helper.css">
+    <link rel="stylesheet" href="./css/elements/_colors.css">
 </head>
 
-<body>
+<body onload="loadData()">
+    <header class="container">
+        <div class="center">
+            <a href="//www.katalystbycodurance.com"><img src="./img/Katalyst_by_codurance_logo.svg"
+                    alt="Katalyst_by_codurance_logo" title="Katalyst_by_codurance_logo" loading="eager"></a>
+        </div>
+        <div class="line"></div>
+    </header>
     <div class="container">
+        <h2 id="purchaseSummary" style="color: var(--grey-700);">Purchase processing</h2>
+        <br>
+        <p><span style="color: var(--orange);" id="label_course"> Course:</span> <span style="color: var(--grey-500)"
+                id="courseName"></span> </p>
+        <p><span style="color: var(--orange);" id="label_price"> Price:</span> <span style="color: var(--grey-500)"
+                id="coursePrice"></span><span style="color: var(--grey-500)"> euros</span></p>
+        <br>
         <div class="row">
             <aside class="col-sm-6">
                 <article class="card">
                     <div class="card-body p-5">
-                        <p> <img src="http://bootstrap-ecommerce.com/main/images/icons/pay-visa.png">
-                            <img src="http://bootstrap-ecommerce.com/main/images/icons/pay-mastercard.png">
-                            <img src="http://bootstrap-ecommerce.com/main/images/icons/pay-american-ex.png">
-                        </p>
-                        <p class="alert alert-success">Some text success or error</p>
-
+                        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+                            <div style="max-width: 20%;max-height: 20%;display: inline-block;">
+                                <img src="./img/pay-visa.png" width="64">
+                            </div>
+                            <div style="max-width: 20%;max-height: 20%;display: inline-block;">
+                                <img src="./img/pay-mastercard.png" width="64">
+                            </div>
+                            <div style="max-width: 20%;max-height: 20%;display: inline-block;">
+                                <img src="./img/pay-american-ex.png" width="64">
+                            </div>
+                        </div>
+                        <p class="alert alert-success"></p>
                         <!--<form role="form" id="paycometPaymentForm" action="javascript:customFunction()"  method="POST">-->
                         <form role="form" id="paycometPaymentForm" action="javascript:customFunction()" method="POST">
-                            <input type="hidden" name="amount" value="1234">
+                            <input type="hidden" name="courseId" id="input_courseId" value="">
+                            <input type="hidden" name="amount" id="input_coursePrice" value="">
+                            <input type="hidden" name="email" id="email" value="">
+                            <input type="hidden" name="phoneNumber" id="phoneNumber" value="">
+                            <input type="hidden" name="name" id="name" value="">
+                            <input type="hidden" name="surname" id="surname" value="">
+                            <input type="hidden" name="dnicif" id="dnicif" value="">
+                            <input type="hidden" name="company" id="company" value="">
+                            <input type="hidden" name="address" id="address" value="">
+                            <input type="hidden" name="postalCode" id="postalCode" value="">
+                            <input type="hidden" name="city" id="city" value="">
+                            <input type="hidden" name="region" id="region" value="">
+                            <input type="hidden" name="country" id="country" value="">
                             <input type="hidden" data-paycomet="jetID" value="NEceZyDrO08mV3HKvJuwdzApo4hGPMIk">
-                            <div class="form-group">
-                                <label for="username">Full name (on the card)</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" name="username"
-                                        data-paycomet="cardHolderName" placeholder="" required="">
-                                </div> <!-- input-group.// -->
-                            </div> <!-- form-group.// -->
-
-                            <div class="form-group">
-                                <label for="cardNumber">Card number</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
-                                    </div>
-                                    <div id="paycomet-pan" style="padding:0px; height:36px;"></div>
-                                    <input
-                                        paycomet-style="width: 100%; height: 21px; font-size:14px; padding-left:7px; padding-top:8px; border:0px;"
-                                        paycomet-name="pan" paycomet-placeholder="Introduce tu tarjeta...">
-                                </div> <!-- input-group.// -->
-                            </div> <!-- form-group.// -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label id="label_username" for="username">Full name (on the card)</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" name="username"
+                                            data-paycomet="cardHolderName" placeholder="" required="">
+                                    </div> <!-- input-group.// -->
+                                </div> <!-- form-group.// -->
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label id="label_card_number" for="cardNumber">Card number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                        </div>
+                                        <div id="paycomet-pan" style="padding:0px; height:36px;"></div>
+                                        <input
+                                            paycomet-style="width: 45%; height: 35px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);"
+                                            display: inline-block; paycomet-name="pan"
+                                            paycomet-placeholder="0000 0000 0000 0000 0000">
+                                    </div> <!-- input-group.// -->
+                                </div> <!-- form-group.// -->
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label data-toggle="tooltip" title=""
+                                            data-original-title="3 digits code on back side of the card">CVV <i
+                                                class="fa fa-question-circle"></i></label>
+                                        <div id="paycomet-cvc2" style="height: 36px; padding:0px;"></div>
+                                        <input paycomet-name="cvc2"
+                                            paycomet-style="width: 45%; height: 35px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);"
+                                            paycomet-placeholder="CVV2" required="" type="text">
+                                    </div> <!-- form-group.// -->
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-sm-8">
                                     <div class="form-group">
-                                        <label><span class="hidden-xs">Expiration</span> </label>
+                                        <label><span id="label_expiration" class="hidden-xs">Expiration</span> </label>
                                         <div class="form-inline">
-                                            <select class="form-control" style="width:45%" data-paycomet="dateMonth">
+                                            <select class="form-control" style="width:52%" data-paycomet="dateMonth">
                                                 <option>MM</option>
                                                 <option value="01">01 - January</option>
                                                 <option value="02">02 - February</option>
@@ -81,28 +141,19 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label data-toggle="tooltip" title=""
-                                            data-original-title="3 digits code on back side of the card">CVV <i
-                                                class="fa fa-question-circle"></i></label>
-                                        <div id="paycomet-cvc2" style="height: 36px; padding:0px;"></div>
-                                        <input paycomet-name="cvc2"
-                                            paycomet-style="border:0px; width: 100%; height: 21px; font-size:12px; padding-left:7px; padding-tap:8px;"
-                                            paycomet-placeholder="CVV2" class="form-control" required="" type="text">
-                                    </div> <!-- form-group.// -->
-                                </div>
-
                             </div> <!-- row.// -->
-                            <button class="subscribe btn btn-primary btn-block" type="submit"> Confirm </button>
+                            <div class="center">
+                                <button id="button_confirm_purchase" class="subscribe btn btn-primary btn-block"
+                                    type="submit"> Confirm purchase</button>
+                            </div>
                         </form>
                         <script>
+                            const urlBase = "https://katalistpaymentservice.azurewebsites.net";
+                            const urlBaseLocal = "http://localhost:8080";
                             async function customFunction() {
-                                console.log("enviando");
                                 let formData = new FormData(document.getElementById('paycometPaymentForm'))
                                 let json = JSON.stringify(Object.fromEntries(formData))
-                                let url = "http://localhost:8080/paymentTest"
+                                let url = urlBase + "/subscription"
                                 try {
                                     const response = await fetch(url, {
                                         headers: {
@@ -112,8 +163,21 @@
                                         method: "POST",
                                         body: json
                                     })
+                                    if (!response.ok) {
+                                        let status = await response.status
+                                        if (status !== 200) {
+                                            let body = await response.json()
+                                            location.replace("./errors/error.html?lang=" + String.locale + "&message=" + body.message);
+                                            return;
+                                        }
+                                    } else {
+                                        const courseName = document.getElementById('courseName').innerHTML;
+                                        const price = document.getElementById('coursePrice').innerHTML;
+                                        location.replace("./success/subscribed.html?lang" + String.locale + "&course=" + courseName + "&price=" + price)
+                                    }
+
                                 } catch (error) {
-                                    alert(error);
+                                    location.replace("./errors/error.html?lang=" + String.locale + "&message=" + _("there_is_not_connection"));
                                 }
                             }
                         </script>
@@ -125,8 +189,90 @@
             </aside>
         </div>
     </div>
-    <script src="https://api.paycomet.com/gateway/paycomet.jetiframe.js?lang=es"></script>
-
 </body>
+<script>
+    function loadDataFromStorage() {
+        let courseId = sessionStorage.getItem('courseId');
+        document.getElementById('input_courseId').value = courseId;
+        let courseName = sessionStorage.getItem('courseName');
+        document.getElementById('courseName').innerHTML = courseName;
+        let coursePrice = sessionStorage.getItem('coursePrice');
+        document.getElementById('input_coursePrice').value = coursePrice;
+        document.getElementById('coursePrice').innerHTML = coursePrice;
+        let email = sessionStorage.getItem('email');
+        document.getElementById("email").value = email;
+        let phoneNumber = sessionStorage.getItem('phoneNumber');
+        document.getElementById("phoneNumber").value = phoneNumber;
+        let name = sessionStorage.getItem('name');
+        document.getElementById("name").value = name;
+        let surname = sessionStorage.getItem('surname');
+        document.getElementById("surname").value = surname;
+        let dnicif = sessionStorage.getItem('dnicif');
+        document.getElementById("dnicif").value = dnicif;
+        let company = sessionStorage.getItem('company');
+        document.getElementById("company").value = company;
+        let address = sessionStorage.getItem('address');
+        document.getElementById("address").value = address;
+        let postalCode = sessionStorage.getItem('postalCode');
+        document.getElementById("postalCode").value = postalCode;
+        let city = sessionStorage.getItem('city');
+        document.getElementById("city").value = city;
+        let region = sessionStorage.getItem('region');
+        document.getElementById("region").value = region;
+        let country = sessionStorage.getItem('country');
+        document.getElementById("country").value = country;
+    }
+
+    function loadData() {
+        loadDataFromStorage()
+        translateAllThePage();
+        localizeHTMLTag("label_price");
+        localizeHTMLTag("label_course");
+        localizeHTMLTag("purchaseSummary");
+        localizeHTMLTag("label_username");
+        localizeHTMLTag("label_card_number");
+        localizeHTMLTag("label_expiration");
+        localizeHTMLTag("button_confirm_purchase");
+    }
+</script>
+<style>
+    label {
+        color: var(--grey-700);
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: var(--grey-300);
+        opacity: 1;
+        /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: var(--grey-300);
+    }
+
+    ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: var(--grey-300);
+    }
+
+    .form-row {
+        display: flex;
+    }
+
+    .form-group {
+        padding: 5px;
+        width: 50%;
+    }
+
+    .form-group input {
+        width: 100%;
+    }
+</style>
+<script src="https://api.paycomet.com/gateway/paycomet.jetiframe.js?lang=es"></script>
 
 </html>

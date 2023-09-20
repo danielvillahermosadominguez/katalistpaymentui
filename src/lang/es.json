@@ -39,5 +39,11 @@
 	"postal_is_mandatory": "El código postal es obligatorio",
 	"city_is_mandatory": "La ciudad es obligatoria",
 	"region_is_mandatory": "La provincia es obligatorio",
-	"country_is_mandatory": "El país es obligatorio"
+	"country_is_mandatory": "El país es obligatorio",
+	"purchaseSummary": "Trámite de compra",
+	"label_username": "Nombre completo que aparece en la tarjeta",
+	"label_card_number": "Número de tarjeta",
+	"label_expiration" :"Expiración",
+	"button_confirm_purchase":"Confirmar compra",
+	"no_aplicable_value": "N/A - No aplicable"
 }

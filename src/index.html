@@ -57,7 +57,7 @@
             <div class="form-row">
                 <div class="form-group" style="width: 20%;">
                     <label id="label_iscompany" for="iscompany">NIF/CIF</label>
-                    <select id="isCompany" name="isCompany">
+                    <select id="isCompany" name="isCompany" onchange="showCompanyName()">
                         <option id="option_cif" value="true">CIF</option>
                         <option id="option_nif" selected value="false">NIF</option>
                     </select> <br><br>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group" style="width: 50%;">
                     <label id="label_company" for="company">Company Name:</label>
-                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);" disabled = "true"><br><br>
                 </div>
             </div>
             <div class="form-row">                
@@ -117,6 +117,18 @@
     </footer>
 </body>
 <script>
+    function showCompanyName() {
+        let isCompany  =  document.getElementById("isCompany").value;
+        let company  =  document.getElementById("company");
+        if(isCompany === "true") {
+            company.disabled = false;
+            company.value= ""
+        } else {
+            company.disabled = true;
+            company.value= _("no_aplicable_value");
+        }        
+    }
+
     function loadBody() {
         translateAllThePage();
         localizeHTMLTag("text_with_price");                
@@ -137,6 +149,7 @@
         localizeHTMLTag("option_paycomet");
         localizeValueTag("button_subscribe_now");
         loadParameters();
+        showCompanyName();
     }
 </script>
 <style>
@@ -176,7 +189,6 @@
     .form-group input {
         width: 100%;
     }
-</style>
 </style>
 
 </html>

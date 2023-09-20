@@ -40,5 +40,11 @@
 	"postal_is_mandatory": "O CEP é obrigatório",
 	"city_is_mandatory": "A cidade é obrigatória",
 	"region_is_mandatory": "A província é obrigatória",
-	"country_is_mandatory": "O país é obrigatório"
+	"country_is_mandatory": "O país é obrigatório",
+	"purchaseSummary": "Processamento de compra",
+	"label_username": "Nome completo que aparece na tarjeta",
+	"label_card_number": "Número do cartão",
+	"label_expiration" :"Expiração",
+	"button_confirm_purchase":"Confirmar compra",
+	"no_aplicable_value": "N/A - Não Aplicável"
 }

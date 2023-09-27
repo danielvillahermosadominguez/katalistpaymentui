@@ -198,34 +198,9 @@ function validateForm() {
 async function submitForm() {
     if (!validateForm()) {
         return
-    }
-    let url = "";
-    let selector = document.getElementById("paymentMethod")
-    let payment_method = selector.value
-    if (payment_method === 'Paycomet') {
-        storeDataInSessionStorage();
-        location.replace("./payment.html?lang=" + String.locale);        
-        return;
-    }
-
-    if (payment_method === 'Moodle') {        
-        url = urlBase +"/freesubscription"
-    } else if (payment_method === 'Holded') {
-        url = urlBase +"/invoicing"        
-    } 
-
-    let courseName = document.getElementById("courseName");
-    let price = document.getElementById("course_price");
-    let formData = new FormData(document.getElementById('form_submit'))
-    let json = JSON.stringify(Object.fromEntries(formData))
-    const result = await post(url, json);
-    if(result.error) { 
-        const message = getErrorMessage(result.code, 0);
-        location.replace("./errors/error.html?lang=" + String.locale + "&message=" + message);
-        return;
-    }
-    
-    location.replace("./success/subscribed.html?lang=" + String.locale + "&course=" + courseName.innerText + "&price=" + price.innerText)
+    }    
+    storeDataInSessionStorage();
+    location.replace("./payment.html?lang=" + String.locale);        
 }
 
 function cleanDataInSessionStorage() {    

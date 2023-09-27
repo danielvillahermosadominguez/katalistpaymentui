@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/theme-overrides.css">
     <link rel="stylesheet" href="./css/utilities/_helper.css">
-    <link rel="stylesheet" href="./css/elements/_colors.css">
-    <script src="./config/config.js"></script>
+    <link rel="stylesheet" href="./css/elements/_colors.css">    
 </head>
 
 <body onload="loadBody()">
@@ -41,7 +40,8 @@
                 </div>
                 <div class="form-group" style="width: 20%;">
                     <label id="label_phone" for="phoneNumber">Phone number</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="phoneNumber" name="phoneNumber" value=""
+                        onchange="resetValidations(this);"><br><br>
                 </div>
             </div>
             <div class="form-row">
@@ -68,21 +68,23 @@
                 </div>
                 <div class="form-group" style="width: 50%;">
                     <label id="label_company" for="company">Company Name:</label>
-                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);" disabled = "true"><br><br>
+                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);"
+                        disabled="true"><br><br>
                 </div>
             </div>
-            <div class="form-row">                
+            <div class="form-row">
                 <div class="form-group" style="width: 80%;">
                     <label id="label_address" for="address">Address:</label>
                     <input type="text" id="address" name="address" value="" onchange="resetValidations(this);"><br><br>
                 </div>
                 <div class="form-group" style="width: 20%;">
                     <label id="label_postalcode" for="postalCode">Postal code:</label>
-                    <input type="text" id="postalCode" name="postalCode" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="postalCode" name="postalCode" value=""
+                        onchange="resetValidations(this);"><br><br>
                 </div>
             </div>
-            <div class="form-row">                
-                
+            <div class="form-row">
+
                 <div class="form-group" style="width: 50%;">
                     <label id="label_city" for="city">City:</label>
                     <input type="text" id="city" name="city" value="" onchange="resetValidations(this);"><br><br>
@@ -96,13 +98,6 @@
                     <input type="text" id="country" name="country" value="" onchange="resetValidations(this);"><br><br>
                 </div>
             </div>
-            <divclass="form-row">
-                <label for="paymentMethod">Only development:</label>
-                <select id="paymentMethod" name="paymentMethod">
-                    <option id="option_only_subscription_to_moodle" value="Moodle">Only suscription to Moodle</option>
-                    <option id="option_only_invoice_with_holded" value="Holded">Only invoice with Holded</option>
-                    <option id="option_paycomet" selected value="Paycomet">Payment</option>
-                </select> <br><br>
     </div>
 
     </div>
@@ -118,32 +113,32 @@
 </body>
 <script>
     function showCompanyName() {
-        let isCompany  =  document.getElementById("isCompany").value;
-        let company  =  document.getElementById("company");
-        if(isCompany === "true") {
+        let isCompany = document.getElementById("isCompany").value;
+        let company = document.getElementById("company");
+        if (isCompany === "true") {
             company.disabled = false;
-            company.value= ""
+            company.value = ""
         } else {
             company.disabled = true;
-            company.value= _("no_aplicable_value");
-        }        
+            company.value = _("no_aplicable_value");
+        }
     }
 
     function loadBody() {
         translateAllThePage();
-        localizeHTMLTag("text_with_price");                
+        localizeHTMLTag("text_with_price");
         localizeHTMLTag("label_email");
         localizeHTMLTag("label_phone");
         localizeHTMLTag("label_name");
         localizeHTMLTag("label_surname");
         localizeHTMLTag("label_iscompany");
-        localizeHTMLTag("label_dnicif");        
-        localizeHTMLTag("label_company");        
-        localizeHTMLTag("label_address");        
-        localizeHTMLTag("label_city");        
-        localizeHTMLTag("label_postalcode");        
-        localizeHTMLTag("label_region");        
-        localizeHTMLTag("label_country");        
+        localizeHTMLTag("label_dnicif");
+        localizeHTMLTag("label_company");
+        localizeHTMLTag("label_address");
+        localizeHTMLTag("label_city");
+        localizeHTMLTag("label_postalcode");
+        localizeHTMLTag("label_region");
+        localizeHTMLTag("label_country");
         localizeHTMLTag("option_only_subscription_to_moodle");
         localizeHTMLTag("option_only_invoice_with_holded");
         localizeHTMLTag("option_paycomet");

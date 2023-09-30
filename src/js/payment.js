@@ -1,27 +1,30 @@
-import { getLocationModule, getFetchsModule, getDomModule } from '../js/config.js'
-
+import { getLocationModule, getFetchsModule, getDomModule, getIpModule } from '../js/config.js'
+import { getErrorMessage , NO_SERVER_CONNECTION} from './errors.js'
 let t
 let translateAllThePage
 let localizeHTMLTag
-let getCourse
 let locationReplace
-
-
+let getMyExternalIp
+let executeSubscription
 let locationModPath = getLocationModule()
 let fetchsModPath = getFetchsModule()
 let domModPath = getDomModule()
+let ipModPath = getIpModule()
 
 export async function init() {
-    await import("https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
     const locationMod = await import(locationModPath)
     t = locationMod.t
     translateAllThePage = locationMod.translateAllThePage
     localizeHTMLTag = locationMod.localizeHTMLTag
     const fetchsMod = await import(fetchsModPath)
-    getCourse = fetchsMod.getCourse
+    executeSubscription = fetchsMod.executeSubscription
 
     const domsMod = await import(domModPath)
     locationReplace = domsMod.locationReplace
+
+    const ipMod = await import(ipModPath);
+    getMyExternalIp = ipMod.getMyExternalIp
+
     loadEvents()
     loadBody()
 }
@@ -31,7 +34,7 @@ function loadEvents() {
 
 }
 
-function loadBody() {
+async function loadBody() {
     loadDataFromStorage()
     translateAllThePage();
     localizeHTMLTag("label_price");
@@ -41,9 +44,9 @@ function loadBody() {
     localizeHTMLTag("label_card_number");
     localizeHTMLTag("label_expiration");
     localizeHTMLTag("button_confirm_purchase");
-    $.getJSON("https://api.ipify.org?format=json", function (data) {
-        $("#ip").val(data.ip);
-    })
+    const ipfield = document.getElementById("ip")
+    const data = await getMyExternalIp()
+    ipfield.value = data.ip
 }
 
 function loadDataFromStorage() {
@@ -78,44 +81,28 @@ function loadDataFromStorage() {
     document.getElementById("country").value = country;
 }
 
-const urlBaseLocal = "https://katalistpaymentservice.azurewebsites.net";
-const urlBase = "http://localhost:8080";
 export async function submitForm() {
     let formData = new FormData(document.getElementById('paycometPaymentForm'))
     let json = JSON.stringify(Object.fromEntries(formData))
-    let url = urlBase + "/subscription"
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: json
-        })
-        if (!response.ok) {
-            let status = await response.status
-            if (status !== 200) {
-                let body = await response.json();
-                locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + body.message);
-                return;
-            }
-        } else {
-            //const courseName = document.getElementById('courseName').innerHTML;
-            //const price = document.getElementById('coursePrice').innerHTML;
-            //locationReplace("./success/subscribed.html?lang" + String.locale + "&course=" + courseName + "&price=" + price)
-            let paymentStatus = await response.json();
-            if (paymentStatus.challengeUrl === null || paymentStatus.challengeUrl === "") {
-                locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + "Problem with the payment. Paycomet error = " + paymentStatus.errorCode);
-                return;
-            }
-
-            locationReplace(paymentStatus.challengeUrl);
+    const data = await executeSubscription(json)
+    if (data.error) {
+        if (data.code == NO_SERVER_CONNECTION) {
+            locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"))
+            return
         }
-
-    } catch (error) {
-        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"));
+        const courseId = document.getElementById('input_courseId').value;
+        const message = getErrorMessage(data.code, courseId, t);
+        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+        return;
     }
+
+    let paymentStatus = data.item
+    if (paymentStatus.challengeUrl === null || paymentStatus.challengeUrl === "") {
+        let message = t("problem_with_payment")
+        message = message.replace("{1}", paymentStatus.errorCode);
+        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+        return;
+    }
+
+    locationReplace(paymentStatus.challengeUrl);
 }
-
-

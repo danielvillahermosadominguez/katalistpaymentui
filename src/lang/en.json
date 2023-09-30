@@ -45,5 +45,6 @@
 	"label_card_number": "Card number",
 	"label_expiration" :"Expiration",
 	"button_confirm_purchase":"Confirm purchase",
-	"no_aplicable_value": "N/A - Not Applicable"
+	"no_aplicable_value": "N/A - Not Applicable",
+	"problem_with_payment": "Problem with the payment. Bank platform error = {1}"
 }

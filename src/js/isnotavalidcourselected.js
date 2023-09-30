@@ -1,23 +1,18 @@
 import { getLocationModule } from './config.js'
 
+
 let translateAllThePage
 let localizeHTMLTag
 
 let locationModPath = getLocationModule()
-
 
 export async function init() {
     const locationMod = await import(locationModPath)
     translateAllThePage = locationMod.translateAllThePage
     localizeHTMLTag = locationMod.localizeHTMLTag
     translateAllThePage();
-    localizeHTMLTag("subscription_has_not_be_made");
+    localizeHTMLTag("form_not_properly_called");
     localizeHTMLTag("try_to_subscribe_the_course_from");
-    localizeHTMLTag("this_website");
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const message = urlParams.get('message');
-    document.getElementById('message').innerHTML = message;
 }
 
 window.document.querySelector('body').addEventListener('load', init())

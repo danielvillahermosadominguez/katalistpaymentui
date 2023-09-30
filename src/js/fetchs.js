@@ -1,6 +1,9 @@
-const urlBase =  "https://katalistpaymentservice.azurewebsites.net";
-const urlBaseLocal =  "http://localhost:8080";
-export async function post(url, json){
+const urlBaseLocal =  "https://katalistpaymentservice.azurewebsites.net";
+const urlBase =  "http://localhost:8080";
+import { NO_SERVER_CONNECTION } from './errors.js'
+
+
+async function post(url, json){
     try {
         const response = await fetch(url, {
             headers: {
@@ -22,23 +25,27 @@ export async function post(url, json){
                 };                
             }
         } else {
+            let body = await response.json()
             return {
                 error: false,
                 code: -1,
-                item: null
+                item: body
             };
         }
     } catch (error) {
         return {
             error: true,
-            code: -2,
+            code: NO_SERVER_CONNECTION,
             item: null
         };    
     }
 }
 
-export 
-async function getCourse(courseId) {    
+export async function executeSubscription(json) {
+    let url = urlBase + "/subscription"
+    return await post(url, json);
+}
+export async function getCourse(courseId) {    
     let url = urlBase +"/courses/" + courseId
     try {
         const response = await fetch(url, {

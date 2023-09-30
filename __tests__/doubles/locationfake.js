@@ -1,7 +1,5 @@
-export function translateAllThePage() {
-	console.log("ENTRANDO EN EL TRADUCIR TODO!!!!")
-	const lang = getParameterValue("lang");
-	console.log("lenguaje igual a = " +lang)
+export function translateAllThePage() {	
+	const lang = getParameterValue("lang");	
 	if (lang != "") String.locale = lang;
 }
 

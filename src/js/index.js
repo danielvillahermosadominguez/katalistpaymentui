@@ -1,21 +1,20 @@
-console.log("CARGANDO INDEX.JS")
-import { getLocationModule,getFetchsModule, getDomModule, setFetchsModule,setLocationModule } from './config.js'
+
+import { getLocationModule,getFetchsModule, getDomModule} from './config.js'
 let t
 let translateAllThePage
 let localizeHTMLTag
 let getCourse
 let locationReplace
 
-//setFetchsModule("../../__tests__/doubles/fetchsfake.js")
-//setLocationModule("../../__tests__/doubles/locationfake.js")
 
 let locationModPath = getLocationModule()
 let fetchsModPath = getFetchsModule()
 let domModPath = getDomModule()
 
 const NO_SERVER_CONNECTION = -2
-export async function init() {    
+export async function init() {        
     hideBody()
+    
     const locationMod = await import(locationModPath)
     t = locationMod.t
     translateAllThePage = locationMod.translateAllThePage
@@ -24,26 +23,21 @@ export async function init() {
     getCourse = fetchsMod.getCourse
     
     const domsMod = await import(domModPath)
-    locationReplace = domsMod.locationReplace    
-
+    locationReplace = domsMod.locationReplace        
     loadEvents() 
     loadBody()    
 }
 
 window.document.querySelector('body').addEventListener('load', init())
 
-function showCompanyName() {    
-    console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 0 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+function showCompanyName() {        
     let isCompany = document.getElementById("isCompany").value;
     let company = document.getElementById("company");    
-    if (isCompany == "true") {        
-        console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    if (isCompany == "true") {                
         company.disabled = false;
         company.value = ""
-    } else {        
-        
-        company.disabled = true;
-        console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    } else {                
+        company.disabled = true;        
         company.value = t("no_aplicable_value");        
     }    
 }
@@ -54,14 +48,15 @@ function addEventListenerToResetValidations(htmlElementId) {
         resetValidations(htmlElement) ;
     })
 }
-function loadEvents() {    
+function loadEvents() {        
     const button = document.getElementById("button_subscribe_now");
-    button.addEventListener('click', e => {        
+    button.addEventListener('click', e => {            
         submitForm() 
     })
 
     const isCompany = document.getElementById("isCompany");
     isCompany.addEventListener('change', e => {
+        console.log("SELECT!!!!")    
         showCompanyName() 
     })    
     addEventListenerToResetValidations("email")
@@ -125,11 +120,11 @@ async function loadParameters() {
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get('course')
     const courseId = Number(param)
-
-    if (param === null || !Number.isInteger(courseId)) {
+    
+    if (param === null || !Number.isInteger(courseId)) {        
         locationReplace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
     } else {             
-        document.getElementById('courseId').value = courseId
+        document.getElementById('courseId').value = courseId        
         const result = await getCourse( courseId);        
         if(result.error) { 
             const message = getErrorMessage(result.code, courseId);
@@ -154,68 +149,68 @@ function resetValidations(item) {
     item.reportValidity();
   }
 
-function validateForm() {
-    let email = document.forms["form_submit"]["email"];
-    if (email.value == "") {
-        showMessageInput(email, t("mail_is_mandatory"));
+function validateForm() {    
+    let email = document.getElementById('email')
+    if (email.value == "") {        
+        showMessageInput(email, t("mail_is_mandatory"));        
         return false;
     } 
 
-    let phone = document.forms["form_submit"]["phoneNumber"];
+    let phone = document.getElementById("phoneNumber");
     if (phone.value == "") {
         showMessageInput(phone, t("phone_is_mandatory"));
         return false;
     } 
 
-    let name = document.forms["form_submit"]["name"];
+    let name = document.getElementById("name");
     if (name.value == "") {
         showMessageInput(name, t("name_is_mandatory"));
         return false;
     } 
 
-    let surname = document.forms["form_submit"]["surname"];
+    let surname = document.getElementById("surname");
     if (surname.value == "") {
         showMessageInput(surname, t("surname_is_mandatory"));
         return false;
     } 
 
-    let dninif = document.forms["form_submit"]["dnicif"];
+    let dninif = document.getElementById("dnicif");
     if (dninif.value == "") {
         showMessageInput(dninif, t("nifcif_is_mandatory"));
         return false;
     } 
 
-    let company = document.forms["form_submit"]["company"];
+    let company = document.getElementById("company");
     if (company.value == "") {
         showMessageInput(company, t("company_is_mandatory"));
         return false;
     } 
 
-    let address = document.forms["form_submit"]["address"];
+    let address = document.getElementById("address");
     if (address.value == "") {
         showMessageInput(address, t("address_is_mandatory"));
         return false;
     } 
 
-    let postalCode = document.forms["form_submit"]["postalCode"];
+    let postalCode = document.getElementById("postalCode");
     if (postalCode.value == "") {
         showMessageInput(postalCode, t("postal_is_mandatory"));
         return false;
     } 
 
-    let city = document.forms["form_submit"]["city"];
+    let city = document.getElementById("city");
     if (city.value == "") {
         showMessageInput(city, t("city_is_mandatory"));
         return false;
     } 
 
-    let region = document.forms["form_submit"]["region"];
+    let region = document.getElementById("region");
     if (region.value == "") {
         showMessageInput(region, t("region_is_mandatory"));
         return false;
     } 
 
-    let country = document.forms["form_submit"]["country"];
+    let country = document.getElementById("country");
     if (country.value == "") {
         showMessageInput(country, t("country_is_mandatory"));
         return false;
@@ -224,8 +219,8 @@ function validateForm() {
     return true
 }
 
-async function submitForm() {
-    if (!validateForm()) {
+async function submitForm() {    
+    if (!validateForm()) {        
         return
     }    
     storeDataInSessionStorage();
@@ -251,7 +246,7 @@ function cleanDataInSessionStorage() {
 
 function storeDataInSessionStorage() {    
     cleanDataInSessionStorage();
-    let courseId = document.forms["form_submit"]["courseId"].value;    
+    let courseId = document.getElementById("courseId").value;    
     sessionStorage.setItem('courseId',courseId);    
     let courseName = document.getElementById("courseName").innerHTML;
     sessionStorage.setItem('courseName',courseName); 

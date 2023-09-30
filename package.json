@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "katalyst payment ui testing",
   "main": "./src/index.html",
-  "scripts": {
-    "test___": "jest --runInBand",
+  "scripts": {    
+    "coverage": "jest --coverage",
     "test": "jest"
   },
   "repository": {

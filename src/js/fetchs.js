@@ -38,8 +38,7 @@ export async function post(url, json){
 }
 
 export 
-async function getCourse(courseId) {
-    console.log("GET COURSE - REAL!!!!!!")
+async function getCourse(courseId) {    
     let url = urlBase +"/courses/" + courseId
     try {
         const response = await fetch(url, {

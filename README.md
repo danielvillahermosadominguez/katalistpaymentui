@@ -113,11 +113,17 @@ npm install jest-environment-jsdom-global //when we need to use the global jsdom
 npm install fs
 npm install path
 npm install @babel/core @babel/preset-env babel-jest // solve problems with the keyworkd import in jest
-npm install jsdom //to have isolated dom tests
 npm install @testing-library/jest-dom / we use testing library for async calls
 npm install @testing-library/dom / we use testing library for async calls
 ```
 
+## Coverage
+
+For coverage you will need to execute:
+```
+npm run coverage
+```
+An report in the screen will be showed and a report in html in the folder "coverage"
 
 ## Configuring Visual Studio Code
 

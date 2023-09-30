@@ -5,9 +5,7 @@ describe("index.html should", () => {
   let fetchs;
   let dom;
   beforeEach(async () => {
-    const rootElm = document.documentElement;
-    const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
-    rootElm.innerHTML = html
+    
     await jest.resetModules()
     const config = await import('../src/js/config.js')
     config.setLocationModule('../../__tests__/doubles/locationfake.js')
@@ -22,13 +20,8 @@ describe("index.html should", () => {
           price: 100.5
         }
       }
-    })
-    dom = await import('../src/js/dom.js')
-    dom.locationReplace = jest.fn()
-    delete window.location;
-    window.location = { search: '?lang=en&course=10', href: '?lang=en&course=10' };
-    require("../src/js/index.js")
-    await new Promise(process.nextTick);
+    })        
+    await renderOnlyHtml()    
   });
 
   fillAllFields = () => {
@@ -52,6 +45,24 @@ describe("index.html should", () => {
     region.value = "Madrid"
     const country = document.getElementById('country')
     country.value = "Spain"
+  }
+
+  renderOnlyHtml = async () => {
+    const rootElm = document.documentElement;
+    const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
+    rootElm.innerHTML = html    
+    dom = await import('../src/js/dom.js')
+    dom.locationReplace = jest.fn()
+  }
+
+  setHref = (urlParam) => {
+    delete window.location;
+    window.location = { search: urlParam, href: urlParam };
+  }
+
+  loadJs = async () => {        
+    require("../src/js/index.js")
+    await new Promise(process.nextTick);
   }
 
   describe("render button and fields", () => {
@@ -103,6 +114,11 @@ describe("index.html should", () => {
   })
 
   describe("set the course information and the language at the beginning", () => {
+    beforeEach(async () => {    
+      setHref('?lang=en&course=10')
+      await loadJs()    
+    });
+
     it("set the language from the URL", async () => {
       expect(String.locale).toBe("en")
     })
@@ -132,7 +148,12 @@ describe("index.html should", () => {
     })
   })
 
-  describe("validate the fields and not allow to continue", () => {
+  describe("validate the fields and not allow to continue", () => {  
+    beforeEach(async () => {    
+      setHref('?lang=en&course=10')
+      await loadJs()    
+    });
+
     it("not allow to continue if the email is not filled with the correct format", async () => {
       const email = document.getElementById('email')
       const button = document.getElementById('button_subscribe_now')
@@ -293,6 +314,10 @@ describe("index.html should", () => {
   })
 
   describe("show and hidden fields depending on CIF and NIF selection", () => {
+    beforeEach(async () => {    
+      setHref('?lang=en&course=10')
+      await loadJs()    
+    });
     it("render a company input enabled if CIF is selected", async () => {
       const isCompany = window.document.getElementById('isCompany')
       const optionCif = window.document.getElementById('option_cif')
@@ -322,9 +347,48 @@ describe("index.html should", () => {
       expect(company.disabled).toBe(true)
       expect(company.value).toBe('[no_aplicable_value]')
     })
+
+    it("reset all validations when a not valid field has changed", async () => {
+      const email = document.getElementById('email')
+      const phoneNumber = document.getElementById('phoneNumber')
+      const name = document.getElementById('name')
+      const surname = document.getElementById('surname')
+      const nifCif = document.getElementById('dnicif')
+      const address = document.getElementById('address')
+      const postalCode = document.getElementById('postalCode')
+      const city = document.getElementById('city')
+      const region = document.getElementById('region')
+      const country = document.getElementById('country')
+      const button = document.getElementById('button_subscribe_now')
+      button.click()
+      await new Promise(process.nextTick);
+      fillAllFields()
+      country.value = ""      
+      email.dispatchEvent(new Event('change'));
+      button.click()
+      await new Promise(process.nextTick);
+      
+      expect(email.validationMessage).toBe('')
+      expect(email.validationMessage).toBe('')
+      expect(phoneNumber.validationMessage).toBe('')
+      expect(name.validationMessage).toBe('')
+      expect(surname.validationMessage).toBe('')
+      expect(nifCif.validationMessage).toBe('')
+      expect(company.validationMessage).toBe('')
+      expect(address.validationMessage).toBe('')
+      expect(postalCode.validationMessage).toBe('')
+      expect(city.validationMessage).toBe('')
+      expect(region.validationMessage).toBe('')
+      expect(country.validationMessage).toBe('[country_is_mandatory]')
+    })
+
   })
 
-  describe("go to the payment page", () => {
+  describe("store and clean the data in the session storage", () => {
+    beforeEach(async () => {    
+      setHref('?lang=en&course=10')
+      await loadJs()    
+    });
     it("clean the session storage when load the application", async () => {                
       expect(sessionStorage.getItem('courseId')).toBeNull()
       expect(sessionStorage.getItem('email')).toBeNull()
@@ -369,8 +433,13 @@ describe("index.html should", () => {
       expect(sessionStorage.getItem('region')).toBe(region.value)
       expect(sessionStorage.getItem('country')).toBe(country.value)
       expect(sessionStorage.getItem('isCompany')).toBe(isCompany.value)
-    })
-
+    })    
+  })
+  describe("go to the payment page", () => {  
+    beforeEach(async () => {    
+      setHref('?lang=en&course=10')
+      await loadJs()    
+    });  
     it("allow to go to the payment page if all the fields are filled", async () => {
       fillAllFields()
       const email = document.getElementById('email')
@@ -401,6 +470,69 @@ describe("index.html should", () => {
       expect(country.validationMessage).toBe('')
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
       expect(dom.locationReplace.mock.calls[0][0]).toBe('./payment.html?lang=en')
+    })
+  });
+
+  describe("show a error page with the error description in case of", () => {    
+    it("there is not an url param called 'courseId'", async () => {
+      setHref('?lang=en')
+      await loadJs()    
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/isnotavalidcourselected.html?lang=en')
+    })
+
+    it("there is not a valid course in the 'courseId' url parameter", async () => {
+      setHref('?lang=en&courseId=hello')
+      await loadJs()    
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/isnotavalidcourselected.html?lang=en')
+    })        
+
+    it("the course doesn't exist", async () => {            
+      fetchs.getCourse = jest.fn(() => {
+        return {
+          error: true,
+          code: 1,
+          item: null
+        }
+      })        
+      setHref('?lang=en&course=1')
+      await loadJs()    
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_1]')
+    })
+
+    it("there is not communication with the service", async () => {            
+      fetchs.getCourse = jest.fn(() => {
+        return {
+          error: true,
+          code: -2,
+          item: null
+        }
+      })        
+      setHref('?lang=en&course=1')
+      await loadJs()    
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[there_is_not_connection]')
+    })
+
+    it("This course has not an assigned price. It is not possible to start a subscription", async () => {            
+      fetchs.getCourse = jest.fn(() => {
+        return {
+          error: true,
+          code: 4,
+          item: null
+        }
+      })        
+      setHref('?lang=en&course=1')
+      await loadJs()    
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_4]')
     })
   })
 })

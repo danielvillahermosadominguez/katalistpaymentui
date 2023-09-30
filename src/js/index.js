@@ -55,8 +55,7 @@ function loadEvents() {
     })
 
     const isCompany = document.getElementById("isCompany");
-    isCompany.addEventListener('change', e => {
-        console.log("SELECT!!!!")    
+    isCompany.addEventListener('change', e => {        
         showCompanyName() 
     })    
     addEventListenerToResetValidations("email")
@@ -123,7 +122,7 @@ async function loadParameters() {
     
     if (param === null || !Number.isInteger(courseId)) {        
         locationReplace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
-    } else {             
+    } else {                     
         document.getElementById('courseId').value = courseId        
         const result = await getCourse( courseId);        
         if(result.error) { 

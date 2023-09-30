@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-describe("payment.html should", () => {
+describe("The form with the payment data (Step 2) should", () => {
     let fetchs;
     let dom;
     beforeEach(async () => {
@@ -33,7 +33,7 @@ describe("payment.html should", () => {
         await new Promise(process.nextTick);
     }
 
-    describe("have several fields in the form", () => {
+    describe("show several fields and buttons in the form", () => {
 
         it.each([
             ["ip"],
@@ -45,14 +45,14 @@ describe("payment.html should", () => {
             ["surname"],
             ["dnicif"],
             ])
-            ("render a html input hidden with the id '%s'", (id) => {
+            ("have a html input hidden with the id '%s'", (id) => {
                 const htmlElement = document.getElementById(id)
 
                 expect(htmlElement).not.toBeNull()
                 expect(htmlElement.type).toBe("hidden")
             })
 
-            it("render the confirm purchase button", () => {
+            it("show the confirm purchase button", () => {
                 const buttonConfirmPurchase = document.getElementById('button_confirm_purchase')
           
                 expect(buttonConfirmPurchase).not.toBeNull()

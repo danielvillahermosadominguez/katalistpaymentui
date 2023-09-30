@@ -97,24 +97,24 @@ export async function submitForm() {
             let status = await response.status
             if (status !== 200) {
                 let body = await response.json();
-                location.replace("./errors/error.html?lang=" + String.locale + "&message=" + body.message);
+                locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + body.message);
                 return;
             }
         } else {
             //const courseName = document.getElementById('courseName').innerHTML;
             //const price = document.getElementById('coursePrice').innerHTML;
-            //location.replace("./success/subscribed.html?lang" + String.locale + "&course=" + courseName + "&price=" + price)
+            //locationReplace("./success/subscribed.html?lang" + String.locale + "&course=" + courseName + "&price=" + price)
             let paymentStatus = await response.json();
             if (paymentStatus.challengeUrl === null || paymentStatus.challengeUrl === "") {
-                location.replace("./errors/error.html?lang=" + String.locale + "&message=" + "Problem with the payment. Paycomet error = " + paymentStatus.errorCode);
+                locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + "Problem with the payment. Paycomet error = " + paymentStatus.errorCode);
                 return;
             }
 
-            location.replace(paymentStatus.challengeUrl);
+            locationReplace(paymentStatus.challengeUrl);
         }
 
     } catch (error) {
-        location.replace("./errors/error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"));
+        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"));
     }
 }
 

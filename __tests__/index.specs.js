@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-describe("index.html should", () => {
+describe("The form with customer data (Step 1) should", () => {
   let fetchs;
   let dom;
   beforeEach(async () => {
@@ -65,7 +65,7 @@ describe("index.html should", () => {
     await new Promise(process.nextTick);
   }
 
-  describe("render button and fields", () => {
+  describe("show button and fields", () => {
     beforeEach(() => {
       const rootElm = document.documentElement;
       const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
@@ -85,21 +85,21 @@ describe("index.html should", () => {
       ["region"],
       ["country"]
     ])
-      ("render a html input not hidden with the id '%s'", (id) => {
+      ("show an input not hidden with the id '%s'", (id) => {
         const htmlElement = document.getElementById(id)
 
         expect(htmlElement).not.toBeNull()
         expect(htmlElement.hidden).toBe(false)
       })
 
-    it("render a subscrition button", () => {
+    it("show a subscrition button", () => {
       const buttonSubscribeNow = document.getElementById('button_subscribe_now')
 
       expect(buttonSubscribeNow).not.toBeNull()
       expect(buttonSubscribeNow.hidden).toBe(false)
     })
 
-    it("render a selector with NIF by default and CIF", async () => {
+    it("show a selector with NIF by default and CIF", async () => {
       const isCompany = document.getElementById('isCompany')
       const optionCif = document.getElementById('option_cif')
       const optionNif = document.getElementById('option_nif')
@@ -113,13 +113,13 @@ describe("index.html should", () => {
     })
   })
 
-  describe("set the course information and the language at the beginning", () => {
+  describe("show the course information and the language when the page is loaded", () => {
     beforeEach(async () => {    
       setHref('?lang=en&course=10')
       await loadJs()    
     });
 
-    it("set the language from the URL", async () => {
+    it("have the language according to the url parameter", async () => {
       expect(String.locale).toBe("en")
     })
 
@@ -131,7 +131,7 @@ describe("index.html should", () => {
       expect(price.innerHTML).toBe("100.5")
     })
 
-    it("fill the hidden input with identifier of the course", async () => {
+    it("have a hidden input with identifier of the course", async () => {
       const courseId = document.getElementById('courseId')
 
       await new Promise(process.nextTick);
@@ -148,7 +148,7 @@ describe("index.html should", () => {
     })
   })
 
-  describe("validate the fields and not allow to continue", () => {  
+  describe("validate the fields and not allow to continue when click the suscription button", () => {  
     beforeEach(async () => {    
       setHref('?lang=en&course=10')
       await loadJs()    
@@ -311,6 +311,40 @@ describe("index.html should", () => {
       expect(dom.locationReplace.mock.calls).toHaveLength(0)
       expect(country.validationMessage).toBe('[country_is_mandatory]')
     })
+
+    it("reset all validations when a not valid field has changed", async () => {
+      const email = document.getElementById('email')
+      const phoneNumber = document.getElementById('phoneNumber')
+      const name = document.getElementById('name')
+      const surname = document.getElementById('surname')
+      const nifCif = document.getElementById('dnicif')
+      const address = document.getElementById('address')
+      const postalCode = document.getElementById('postalCode')
+      const city = document.getElementById('city')
+      const region = document.getElementById('region')
+      const country = document.getElementById('country')
+      const button = document.getElementById('button_subscribe_now')
+      button.click()
+      await new Promise(process.nextTick);
+      fillAllFields()
+      country.value = ""      
+      email.dispatchEvent(new Event('change'));
+      button.click()
+      await new Promise(process.nextTick);
+      
+      expect(email.validationMessage).toBe('')
+      expect(email.validationMessage).toBe('')
+      expect(phoneNumber.validationMessage).toBe('')
+      expect(name.validationMessage).toBe('')
+      expect(surname.validationMessage).toBe('')
+      expect(nifCif.validationMessage).toBe('')
+      expect(company.validationMessage).toBe('')
+      expect(address.validationMessage).toBe('')
+      expect(postalCode.validationMessage).toBe('')
+      expect(city.validationMessage).toBe('')
+      expect(region.validationMessage).toBe('')
+      expect(country.validationMessage).toBe('[country_is_mandatory]')
+    })
   })
 
   describe("show and hidden fields depending on CIF and NIF selection", () => {
@@ -347,41 +381,6 @@ describe("index.html should", () => {
       expect(company.disabled).toBe(true)
       expect(company.value).toBe('[no_aplicable_value]')
     })
-
-    it("reset all validations when a not valid field has changed", async () => {
-      const email = document.getElementById('email')
-      const phoneNumber = document.getElementById('phoneNumber')
-      const name = document.getElementById('name')
-      const surname = document.getElementById('surname')
-      const nifCif = document.getElementById('dnicif')
-      const address = document.getElementById('address')
-      const postalCode = document.getElementById('postalCode')
-      const city = document.getElementById('city')
-      const region = document.getElementById('region')
-      const country = document.getElementById('country')
-      const button = document.getElementById('button_subscribe_now')
-      button.click()
-      await new Promise(process.nextTick);
-      fillAllFields()
-      country.value = ""      
-      email.dispatchEvent(new Event('change'));
-      button.click()
-      await new Promise(process.nextTick);
-      
-      expect(email.validationMessage).toBe('')
-      expect(email.validationMessage).toBe('')
-      expect(phoneNumber.validationMessage).toBe('')
-      expect(name.validationMessage).toBe('')
-      expect(surname.validationMessage).toBe('')
-      expect(nifCif.validationMessage).toBe('')
-      expect(company.validationMessage).toBe('')
-      expect(address.validationMessage).toBe('')
-      expect(postalCode.validationMessage).toBe('')
-      expect(city.validationMessage).toBe('')
-      expect(region.validationMessage).toBe('')
-      expect(country.validationMessage).toBe('[country_is_mandatory]')
-    })
-
   })
 
   describe("store and clean the data in the session storage", () => {
@@ -435,7 +434,7 @@ describe("index.html should", () => {
       expect(sessionStorage.getItem('isCompany')).toBe(isCompany.value)
     })    
   })
-  describe("go to the payment page", () => {  
+  describe("go to the payment page when the data is valid and the user click the subscription button", () => {  
     beforeEach(async () => {    
       setHref('?lang=en&course=10')
       await loadJs()    
@@ -473,7 +472,7 @@ describe("index.html should", () => {
     })
   });
 
-  describe("show a error page with the error description in case of", () => {    
+  describe("show the error page in case of", () => {    
     it("there is not an url param called 'courseId'", async () => {
       setHref('?lang=en')
       await loadJs()    

@@ -1,118 +1,147 @@
-const urlBase =  "https://katalistpaymentservice.azurewebsites.net";
-const urlBaseLocal =  "http://localhost:8080";
+console.log("CARGANDO INDEX.JS")
+import { getLocationModule,getFetchsModule, getDomModule, setFetchsModule,setLocationModule } from './config.js'
+let t
+let translateAllThePage
+let localizeHTMLTag
+let getCourse
+let locationReplace
+
+//setFetchsModule("../../__tests__/doubles/fetchsfake.js")
+//setLocationModule("../../__tests__/doubles/locationfake.js")
+
+let locationModPath = getLocationModule()
+let fetchsModPath = getFetchsModule()
+let domModPath = getDomModule()
+
 const NO_SERVER_CONNECTION = -2
+export async function init() {    
+    hideBody()
+    const locationMod = await import(locationModPath)
+    t = locationMod.t
+    translateAllThePage = locationMod.translateAllThePage
+    localizeHTMLTag = locationMod.localizeHTMLTag
+    const fetchsMod = await import(fetchsModPath)
+    getCourse = fetchsMod.getCourse
+    
+    const domsMod = await import(domModPath)
+    locationReplace = domsMod.locationReplace    
 
-async function getCourse(courseId) {
-    let url = urlBase +"/courses/" + courseId
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "GET",
-        })
-        if (!response.ok) {
-            const body = await response.json()
-            return {
-                error: true,
-                code: body.code,
-                item: null
-            };
-        }
-        const course = await response.json()        
-        
-        return {
-            error: false,
-            code: -1,
-            item: course
-        };
-    } catch (error) {
-        return {
-            error: true,
-            code: -2,
-            item: null
-        };
-    }
-
+    loadEvents() 
+    loadBody()    
 }
 
-async function post(url, json){
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: json
-        })
+window.document.querySelector('body').addEventListener('load', init())
 
-        if (!response.ok) {
-            let status = await response.status
-            if (status !== 200) {
-                let body = await response.json()
-                return {
-                    error: true,
-                    code: body.code,
-                    item: null
-                };                
-            }
-        } else {
-            return {
-                error: false,
-                code: -1,
-                item: null
-            };
-        }
-    } catch (error) {
-        return {
-            error: true,
-            code: -2,
-            item: null
-        };    
-    }
+function showCompanyName() {    
+    console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 0 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    let isCompany = document.getElementById("isCompany").value;
+    let company = document.getElementById("company");    
+    if (isCompany == "true") {        
+        console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        company.disabled = false;
+        company.value = ""
+    } else {        
+        
+        company.disabled = true;
+        console.log("PAAAASOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        company.value = t("no_aplicable_value");        
+    }    
+}
+
+function addEventListenerToResetValidations(htmlElementId) {
+    const htmlElement = document.getElementById(htmlElementId);
+    htmlElement.addEventListener('change', e => {
+        resetValidations(htmlElement) ;
+    })
+}
+function loadEvents() {    
+    const button = document.getElementById("button_subscribe_now");
+    button.addEventListener('click', e => {        
+        submitForm() 
+    })
+
+    const isCompany = document.getElementById("isCompany");
+    isCompany.addEventListener('change', e => {
+        showCompanyName() 
+    })    
+    addEventListenerToResetValidations("email")
+    addEventListenerToResetValidations("phoneNumber")
+    addEventListenerToResetValidations("name")
+    addEventListenerToResetValidations("surname")
+    addEventListenerToResetValidations("dnicif")
+    addEventListenerToResetValidations("company")
+    addEventListenerToResetValidations("address")
+    addEventListenerToResetValidations("postalCode")
+    addEventListenerToResetValidations("city")
+    addEventListenerToResetValidations("region")
+    addEventListenerToResetValidations("country")
+}
+
+function loadBody() {    
+    translateAllThePage();
+    localizeHTMLTag("text_with_price");
+    localizeHTMLTag("label_email");
+    localizeHTMLTag("label_phone");
+    localizeHTMLTag("label_name");
+    localizeHTMLTag("label_surname");
+    localizeHTMLTag("label_iscompany");
+    localizeHTMLTag("label_dnicif");
+    localizeHTMLTag("label_company");
+    localizeHTMLTag("label_address");
+    localizeHTMLTag("label_city");
+    localizeHTMLTag("label_postalcode");
+    localizeHTMLTag("label_region");
+    localizeHTMLTag("label_country");
+    localizeHTMLTag("option_only_subscription_to_moodle");
+    localizeHTMLTag("option_only_invoice_with_holded");
+    localizeHTMLTag("option_paycomet");
+    localizeHTMLTag("button_subscribe_now");
+    loadParameters();
+    showCompanyName();
 }
 
 function getErrorMessage(code, parameter) {
     let message = "";
     if(code == NO_SERVER_CONNECTION) {
-        message = _("there_is_not_connection");
+        message = t("there_is_not_connection");
     } else {
-        message = _("backend_error_code_"+ code);
+        message = t("backend_error_code_"+ code);
         message = message.replace("{1}", parameter);
-        message = _("backend_error_code_"+ code);
+        message = t("backend_error_code_"+ code);
     }                    
      
     message = message.replace("{1}", courseId);
     return message;
 }
-async function loadParameters() {    
-    cleanDataInSessionStorage();
-    const a = document.getElementsByTagName("BODY")[0].style.display
+function hideBody() {    
     document.getElementsByTagName("BODY")[0].style.display = "none";
+}
+function showBody() {
+    document.getElementsByTagName("BODY")[0].style.display = "";
+}
+async function loadParameters() {        
+    cleanDataInSessionStorage();    
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const param = urlParams.get('course')
     const courseId = Number(param)
 
     if (param === null || !Number.isInteger(courseId)) {
-        location.replace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
+        locationReplace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
     } else {             
         document.getElementById('courseId').value = courseId
         const result = await getCourse( courseId);        
         if(result.error) { 
             const message = getErrorMessage(result.code, courseId);
-            location.replace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+            locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
             return;
         }
 
         const course = result.item;
-        document.getElementById('courseName').innerHTML = course.name;
-        let p = document.getElementById("course_price");
-        document.getElementById("course_price").innerHTML = course.price;
-        document.getElementsByTagName("BODY")[0].style.display = "";
-    }
+        document.getElementById('courseName').innerHTML = course.name;        
+        document.getElementById("course_price").innerHTML = course.price;    
+        showBody()            
+    }    
 }
 
 function showMessageInput(item, message) {
@@ -128,67 +157,67 @@ function resetValidations(item) {
 function validateForm() {
     let email = document.forms["form_submit"]["email"];
     if (email.value == "") {
-        showMessageInput(email, _("mail_is_mandatory"));
+        showMessageInput(email, t("mail_is_mandatory"));
         return false;
     } 
 
     let phone = document.forms["form_submit"]["phoneNumber"];
     if (phone.value == "") {
-        showMessageInput(phone, _("phone_is_mandatory"));
+        showMessageInput(phone, t("phone_is_mandatory"));
         return false;
     } 
 
     let name = document.forms["form_submit"]["name"];
     if (name.value == "") {
-        showMessageInput(name, _("name_is_mandatory"));
+        showMessageInput(name, t("name_is_mandatory"));
         return false;
     } 
 
     let surname = document.forms["form_submit"]["surname"];
     if (surname.value == "") {
-        showMessageInput(surname, _("surname_is_mandatory"));
+        showMessageInput(surname, t("surname_is_mandatory"));
         return false;
     } 
 
     let dninif = document.forms["form_submit"]["dnicif"];
     if (dninif.value == "") {
-        showMessageInput(dninif, _("nifcif_is_mandatory"));
+        showMessageInput(dninif, t("nifcif_is_mandatory"));
         return false;
     } 
 
     let company = document.forms["form_submit"]["company"];
     if (company.value == "") {
-        showMessageInput(company, _("company_is_mandatory"));
+        showMessageInput(company, t("company_is_mandatory"));
         return false;
     } 
 
     let address = document.forms["form_submit"]["address"];
     if (address.value == "") {
-        showMessageInput(address, _("address_is_mandatory"));
+        showMessageInput(address, t("address_is_mandatory"));
         return false;
     } 
 
     let postalCode = document.forms["form_submit"]["postalCode"];
     if (postalCode.value == "") {
-        showMessageInput(postalCode, _("postal_is_mandatory"));
+        showMessageInput(postalCode, t("postal_is_mandatory"));
         return false;
     } 
 
     let city = document.forms["form_submit"]["city"];
     if (city.value == "") {
-        showMessageInput(city, _("city_is_mandatory"));
+        showMessageInput(city, t("city_is_mandatory"));
         return false;
     } 
 
     let region = document.forms["form_submit"]["region"];
     if (region.value == "") {
-        showMessageInput(region, _("region_is_mandatory"));
+        showMessageInput(region, t("region_is_mandatory"));
         return false;
     } 
 
     let country = document.forms["form_submit"]["country"];
     if (country.value == "") {
-        showMessageInput(country, _("country_is_mandatory"));
+        showMessageInput(country, t("country_is_mandatory"));
         return false;
     } 
      
@@ -200,7 +229,7 @@ async function submitForm() {
         return
     }    
     storeDataInSessionStorage();
-    location.replace("./payment.html?lang=" + String.locale);        
+    locationReplace("./payment.html?lang=" + String.locale);        
 }
 
 function cleanDataInSessionStorage() {    

@@ -1,26 +1,32 @@
-function translateAllThePage() {
+import './i18n.js'
+
+export function translateAllThePage() {
 	var lang = getParameterValue("lang");
 	if (lang != "") String.locale = lang;
 
-	document.title = _(document.title);	
+	document.title = t(document.title);	
 }
 
 var _ = function (string) {
 	return string.toLocaleString();
 };
 
-function localizeHTMLTag(tagId) {
-	tag = document.getElementById(tagId);
+export function localizeHTMLTag(tagId) {
+	var tag = document.getElementById(tagId);
 	if(tag !== null) {
-		tag.innerHTML  = _(tagId);
+		tag.innerHTML  = t(tagId);
 	}	
 }
 
-function localizeValueTag(tagId) {
+export function localizeValueTag(tagId) {
 	tag = document.getElementById(tagId);
 	if(tag !== null) {
-		tag.value = _(tagId);
+		tag.value = t(tagId);
 	}
+}
+
+export function t(tagId) {	
+	return _(tagId)	
 }
 
 function getParameterValue(parameter) {

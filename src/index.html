@@ -7,26 +7,26 @@
     <link rel="localization" hreflang="en" href="lang/en.json" type="application/vnd.oftn.l10n+json" />
     <link rel="localization" hreflang="es" href="lang/es.json" type="application/vnd.oftn.l10n+json" />
     <link rel="localization" hreflang="pt" href="lang/pt.json" type="application/vnd.oftn.l10n+json" />
-    <script type="text/javascript" src="js/i18n.js"></script>
-    <script type="text/javascript" src="js/location.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+        
+    <script type="module"  src="js/index.js"></script>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/theme-overrides.css">
     <link rel="stylesheet" href="./css/utilities/_helper.css">
     <link rel="stylesheet" href="./css/elements/_colors.css">    
 </head>
 
-<body onload="loadBody()">
+<body>
     <header class="container">
-        <div class="center">
+       <!--<div class="center">
             <a href="//www.katalystbycodurance.com"><img src="./img/Katalyst_by_codurance_logo.svg"
                     alt="Katalyst_by_codurance_logo" title="Katalyst_by_codurance_logo" loading="eager"></a>
         </div>
         <div class="line"></div>
+        --> 
     </header>
     <div class="container">
         <h2 id="courseName" style="color: var(--grey-700);"></h2>
-        <form id="form_submit" onsubmit="submitForm();return false;">
+        <form id="form_submit" onsubmit="return false">
             <p><span id="text_with_price">Send us your data and suscribe to the course for</span> <span
                     id="course_price" style="color: var(--orange);font-weight: bold;">0.0</span><span id="currency">
                     euros</span></p>
@@ -36,66 +36,64 @@
             <div class="form-row">
                 <div class="form-group" style="width: 80%;">
                     <label id="label_email" for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="" onchange="resetValidations(this);">
+                    <input type="email" id="email" name="email" value="">
                 </div>
                 <div class="form-group" style="width: 20%;">
                     <label id="label_phone" for="phoneNumber">Phone number</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" value=""
-                        onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="phoneNumber" name="phoneNumber" value=""><br><br>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group" style="width: 50%;">
                     <label id="label_name" for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="" onchange="resetValidations(this);">
+                    <input type="text" id="name" name="name" value="" >
                 </div>
                 <div class="form-group" style="width: 50%;">
                     <label id="label_surname" for="surname">Surname:</label>
-                    <input type="text" id="surname" name="surname" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="surname" name="surname" value="" ><br><br>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group" style="width: 20%;">
                     <label id="label_iscompany" for="iscompany">NIF/CIF</label>
-                    <select id="isCompany" name="isCompany" onchange="showCompanyName()">
+                    <select id="isCompany" name="isCompany">
                         <option id="option_cif" value="true">CIF</option>
                         <option id="option_nif" selected value="false">NIF</option>
                     </select> <br><br>
                 </div>
                 <div class="form-group" style="width: 30%;">
                     <label id="label_dnicif" for="dnicif">DNI/CIF:</label>
-                    <input type="text" id="dnicif" name="dnicif" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="dnicif" name="dnicif" value="" ><br><br>
                 </div>
                 <div class="form-group" style="width: 50%;">
                     <label id="label_company" for="company">Company Name:</label>
-                    <input type="text" id="company" name="company" value="" onchange="resetValidations(this);"
+                    <input type="text" id="company" name="company" value="" 
                         disabled="true"><br><br>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group" style="width: 80%;">
                     <label id="label_address" for="address">Address:</label>
-                    <input type="text" id="address" name="address" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="address" name="address" value="" ><br><br>
                 </div>
                 <div class="form-group" style="width: 20%;">
                     <label id="label_postalcode" for="postalCode">Postal code:</label>
-                    <input type="text" id="postalCode" name="postalCode" value=""
-                        onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="postalCode" name="postalCode" value=""><br><br>
                 </div>
             </div>
             <div class="form-row">
 
                 <div class="form-group" style="width: 50%;">
                     <label id="label_city" for="city">City:</label>
-                    <input type="text" id="city" name="city" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="city" name="city" value=""><br><br>
                 </div>
                 <div class="form-group" style="width: 30%;">
                     <label id="label_region" for="region">Region:</label>
-                    <input type="text" id="region" name="region" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="region" name="region" value=""><br><br>
                 </div>
                 <div class="form-group" style="width: 20%;">
                     <label id="label_country" for="country">Country:</label>
-                    <input type="text" id="country" name="country" value="" onchange="resetValidations(this);"><br><br>
+                    <input type="text" id="country" name="country" value=""><br><br>
                 </div>
             </div>
     </div>
@@ -103,7 +101,7 @@
     </div>
 
     <div class="center">
-        <input id="button_subscribe_now" type="submit" value="Enter to Win" />
+        <button id="button_subscribe_now">Enter to Win</button>
     </div>
     </form>
     </div>
@@ -111,42 +109,6 @@
         <br>
     </footer>
 </body>
-<script>
-    function showCompanyName() {
-        let isCompany = document.getElementById("isCompany").value;
-        let company = document.getElementById("company");
-        if (isCompany === "true") {
-            company.disabled = false;
-            company.value = ""
-        } else {
-            company.disabled = true;
-            company.value = _("no_aplicable_value");
-        }
-    }
-
-    function loadBody() {
-        translateAllThePage();
-        localizeHTMLTag("text_with_price");
-        localizeHTMLTag("label_email");
-        localizeHTMLTag("label_phone");
-        localizeHTMLTag("label_name");
-        localizeHTMLTag("label_surname");
-        localizeHTMLTag("label_iscompany");
-        localizeHTMLTag("label_dnicif");
-        localizeHTMLTag("label_company");
-        localizeHTMLTag("label_address");
-        localizeHTMLTag("label_city");
-        localizeHTMLTag("label_postalcode");
-        localizeHTMLTag("label_region");
-        localizeHTMLTag("label_country");
-        localizeHTMLTag("option_only_subscription_to_moodle");
-        localizeHTMLTag("option_only_invoice_with_holded");
-        localizeHTMLTag("option_paycomet");
-        localizeValueTag("button_subscribe_now");
-        loadParameters();
-        showCompanyName();
-    }
-</script>
 <style>
     label {
         color: var(--grey-700);

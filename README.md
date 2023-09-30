@@ -109,8 +109,36 @@ Directly you only need to execute: npm install
 But if you want to install without the package.json:
 npm install jest
 npm install jest-environment-jsdom
-npm install jest-environment-jsdom-global
+npm install jest-environment-jsdom-global //when we need to use the global jsdom (usuarlly to mock the dom)
 npm install fs
 npm install path
 npm install @babel/core @babel/preset-env babel-jest // solve problems with the keyworkd import in jest
+npm install jsdom //to have isolated dom tests
+npm install @testing-library/jest-dom / we use testing library for async calls
+npm install @testing-library/dom / we use testing library for async calls
+```
+
+
+## Configuring Visual Studio Code
+
+Run->Add configurations -> Power shell (or whatever)
+
+and copy this.
+
+``` json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Run Tests",
+           "command": "npm test",
+        }
+    ]
+}
 ```

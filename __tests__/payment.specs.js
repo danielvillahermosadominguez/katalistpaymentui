@@ -3,13 +3,15 @@ import fs from 'fs'
 
 describe("The form with the payment data (Step 2) should", () => {
   let fetchs;
-  let dom;
+  let dom;  
+  const ERROR_GENERIC =  "./views/errors/error.html"
+  
   beforeEach(async () => {
     await jest.resetModules()
-    const config = await import('../src/js/config.js')
-    config.setLocationModule('../../__tests__/doubles/locationfake.js')
+    const config = await import('../src/js/config/config.js')
+    config.setLocationModule('@../__tests__/doubles/locationfake.js')
     await renderOnlyHtml()
-    ip = await import('../src/js/ip.js')
+    ip = await import('../src/js/services/ip.js')
     ip.getMyExternalIp = jest.fn(() => {
       return {
         ip: "88.99.22.22",
@@ -22,9 +24,9 @@ describe("The form with the payment data (Step 2) should", () => {
 
   renderOnlyHtml = async () => {
     const rootElm = document.documentElement;
-    const html = fs.readFileSync(path.resolve(__dirname, '../src/payment.html'), 'utf8');
+    const html = fs.readFileSync(path.resolve(__dirname, '../src/views/payment/payment.html'), 'utf8');
     rootElm.innerHTML = html
-    dom = await import('../src/js/dom.js')
+    dom = await import('../src/js/dom/dom.js')
     dom.locationReplace = jest.fn()
   }
 
@@ -34,7 +36,7 @@ describe("The form with the payment data (Step 2) should", () => {
   }
 
   loadJs = async () => {
-    require("../src/js/payment.js")
+    require("../src/js/pages/payment.js")
     await new Promise(process.nextTick);
   }
 
@@ -226,7 +228,7 @@ describe("The form with the payment data (Step 2) should", () => {
       
     });
     it("have success and redirect to challenge URL", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: false,
@@ -241,7 +243,7 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
@@ -251,7 +253,7 @@ describe("The form with the payment data (Step 2) should", () => {
     })
 
     it("show an error when not connect with service", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: true,
@@ -263,17 +265,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[there_is_not_connection]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[there_is_not_connection]')
     })
 
     it("show an error when the course doesn't exist", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: true,
@@ -282,17 +284,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_1]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_1]')
     })
 
     it("show an error when the user has already a subscription to this course", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: true,
@@ -301,17 +303,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_2]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_2]')
     })
 
     it("show an error when there is a general error in the subscription", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: true,
@@ -320,17 +322,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_3]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_3]')
     })
 
     it("show an error when the price for this course is not found", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: true,
@@ -339,17 +341,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })        
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_4]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_4]')
     })
 
     it("show an error when the url challenge empty", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: false,
@@ -364,17 +366,17 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })          
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[problem_with_payment]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[problem_with_payment]')
     })
 
     it("show an error when the url challenge is null", async () => {
-      fetchs = await import('../src/js/fetchs.js')
+      fetchs = await import('../src/js/services/fetchs.js')
       fetchs.executeSubscription = jest.fn(() => {
         return {
           error: false,
@@ -389,13 +391,13 @@ describe("The form with the payment data (Step 2) should", () => {
         }
       })          
 
-      paymentJs = await import("../src/js/payment.js")
+      paymentJs = await import("../src/js/pages/payment.js")
       await new Promise(process.nextTick);
 
       await paymentJs.submitForm()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[problem_with_payment]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[problem_with_payment]')
     })
   })
 })

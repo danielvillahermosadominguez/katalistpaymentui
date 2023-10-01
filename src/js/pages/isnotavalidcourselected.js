@@ -1,10 +1,10 @@
-import { getLocationModule } from './config.js'
-
+import { getLocationModule } from '../config/config.js'
+import { relativePathTo } from "../utils/relativepath.js"
 
 let translateAllThePage
 let localizeHTMLTag
 
-let locationModPath = getLocationModule()
+let locationModPath =  relativePathTo("@js/pages",getLocationModule())
 
 export async function init() {
     const locationMod = await import(locationModPath)

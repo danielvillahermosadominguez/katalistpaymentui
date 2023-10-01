@@ -1,8 +1,7 @@
 
-let locationModule = "./location.js"
-let fetchsModule = "./fetchs.js"
-let domModule = "./dom.js"
-let ipModule = "./ip.js"
+let locationModule = "@js/location/location.js"
+let fetchsModule = "@js/services/fetchs.js"
+let ipModule = "@js/services/ip.js"
 
 export function getLocationModule() {
     return locationModule
@@ -18,14 +17,6 @@ export function getFetchsModule() {
 
 export function setFetchsModule(path){
     fetchsModule = path
-}
-
-export function getDomModule() {
-    return domModule
-}
-
-export function setDomModule(path){
-    domModule = path
 }
 
 export function getIpModule() {

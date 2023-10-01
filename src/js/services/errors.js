@@ -6,8 +6,7 @@ export function getErrorMessage(code, parameter, translator) {
         message = translator("there_is_not_connection");
     } else {
         message = translator("backend_error_code_" + code);
-        message = message.replace("{1}", parameter);
-        message = translator("backend_error_code_" + code);
+        message = message.replace("{1}", parameter);        
     }
 
     return message;

@@ -1,15 +1,17 @@
-import { getLocationModule, getFetchsModule, getDomModule, getIpModule } from '../js/config.js'
-import { getErrorMessage , NO_SERVER_CONNECTION} from './errors.js'
+import { getLocationModule, getFetchsModule,  getIpModule } from '../config/config.js'
+import { locationReplace } from "../dom/dom.js"
+import { getErrorMessage , NO_SERVER_CONNECTION} from '../services/errors.js'
+import { relativePathTo } from "../utils/relativepath.js"
+const ERROR_FOLDER = "../errors/"
+
 let t
 let translateAllThePage
 let localizeHTMLTag
-let locationReplace
 let getMyExternalIp
 let executeSubscription
-let locationModPath = getLocationModule()
-let fetchsModPath = getFetchsModule()
-let domModPath = getDomModule()
-let ipModPath = getIpModule()
+let locationModPath = relativePathTo("@js/pages",getLocationModule())
+let fetchsModPath = relativePathTo("@js/pages",getFetchsModule())
+let ipModPath = relativePathTo("@js/pages",getIpModule()) 
 
 export async function init() {
     const locationMod = await import(locationModPath)
@@ -18,10 +20,7 @@ export async function init() {
     localizeHTMLTag = locationMod.localizeHTMLTag
     const fetchsMod = await import(fetchsModPath)
     executeSubscription = fetchsMod.executeSubscription
-
-    const domsMod = await import(domModPath)
-    locationReplace = domsMod.locationReplace
-
+    
     const ipMod = await import(ipModPath);
     getMyExternalIp = ipMod.getMyExternalIp
 
@@ -87,12 +86,12 @@ export async function submitForm() {
     const data = await executeSubscription(json)
     if (data.error) {
         if (data.code == NO_SERVER_CONNECTION) {
-            locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"))
+            locationReplace(ERROR_FOLDER +"error.html?lang=" + String.locale + "&message=" + t("there_is_not_connection"))
             return
         }
         const courseId = document.getElementById('input_courseId').value;
         const message = getErrorMessage(data.code, courseId, t);
-        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+        locationReplace(ERROR_FOLDER+"error.html?lang=" + String.locale + "&message=" + message);
         return;
     }
 
@@ -100,7 +99,7 @@ export async function submitForm() {
     if (paymentStatus.challengeUrl === null || paymentStatus.challengeUrl === "") {
         let message = t("problem_with_payment")
         message = message.replace("{1}", paymentStatus.errorCode);
-        locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+        locationReplace(ERROR_FOLDER+"error.html?lang=" + String.locale + "&message=" + message);
         return;
     }
 

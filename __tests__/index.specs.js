@@ -2,14 +2,16 @@ import path from 'path'
 import fs from 'fs'
 
 describe("The form with customer data (Step 1) should", () => {
+  const ERROR_IS_NOT_VALID = "./views/errors/isnotavalidcourselected.html"
+  const ERROR_GENERIC =  "./views/errors/error.html"
   let fetchs;
   let dom;
   beforeEach(async () => {
     
     await jest.resetModules()
-    const config = await import('../src/js/config.js')
-    config.setLocationModule('../../__tests__/doubles/locationfake.js')
-    fetchs = await import('../src/js/fetchs.js')
+    const config = await import('../src/js/config/config.js')
+    config.setLocationModule('@../__tests__/doubles/locationfake.js')
+    fetchs = await import('../src/js/services/fetchs.js')
     fetchs.getCourse = jest.fn(() => {
       return {
         error: false,
@@ -51,7 +53,7 @@ describe("The form with customer data (Step 1) should", () => {
     const rootElm = document.documentElement;
     const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
     rootElm.innerHTML = html    
-    dom = await import('../src/js/dom.js')
+    dom = await import('../src/js/dom/dom.js')
     dom.locationReplace = jest.fn()
   }
 
@@ -61,7 +63,7 @@ describe("The form with customer data (Step 1) should", () => {
   }
 
   loadJs = async () => {        
-    require("../src/js/index.js")
+    require("../src/js/pages/index.js")
     await new Promise(process.nextTick);
   }
 
@@ -468,7 +470,7 @@ describe("The form with customer data (Step 1) should", () => {
       expect(region.validationMessage).toBe('')
       expect(country.validationMessage).toBe('')
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./payment.html?lang=en')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe('./views/payment/payment.html?lang=en')
     })
   });
 
@@ -478,7 +480,7 @@ describe("The form with customer data (Step 1) should", () => {
       await loadJs()    
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/isnotavalidcourselected.html?lang=en')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID+'?lang=en')
     })
 
     it("there is not a valid course in the 'courseId' url parameter", async () => {
@@ -486,7 +488,7 @@ describe("The form with customer data (Step 1) should", () => {
       await loadJs()    
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/isnotavalidcourselected.html?lang=en')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID+'?lang=en')
     })        
 
     it("the course doesn't exist", async () => {            
@@ -501,7 +503,7 @@ describe("The form with customer data (Step 1) should", () => {
       await loadJs()    
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_1]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_1]')
     })
 
     it("there is not communication with the service", async () => {            
@@ -516,7 +518,7 @@ describe("The form with customer data (Step 1) should", () => {
       await loadJs()    
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[there_is_not_connection]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC +'?lang=en&message=[there_is_not_connection]')
     })
 
     it("This course has not an assigned price. It is not possible to start a subscription", async () => {            
@@ -531,7 +533,7 @@ describe("The form with customer data (Step 1) should", () => {
       await loadJs()    
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe('./errors/error.html?lang=en&message=[backend_error_code_4]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_4]')
     })
   })
 })

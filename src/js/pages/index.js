@@ -1,16 +1,17 @@
 
-import { getLocationModule, getFetchsModule, getDomModule } from './config.js'
-import { getErrorMessage } from './errors.js'
-
+import { getLocationModule, getFetchsModule } from '../config/config.js'
+import { getErrorMessage } from '../services/errors.js'
+import { relativePathTo } from "../utils/relativepath.js"
+import { locationReplace } from "../dom/dom.js"
+const ERROR_FOLDER = "./views/errors/"
+const PAYMENT_FOLDER = "./views/payment/"
 let t
 let translateAllThePage
 let localizeHTMLTag
 let getCourse
-let locationReplace
 
-let locationModPath = getLocationModule()
-let fetchsModPath = getFetchsModule()
-let domModPath = getDomModule()
+let locationModPath = relativePathTo("@js/pages",getLocationModule())
+let fetchsModPath = relativePathTo("@js/pages",getFetchsModule())
 
 export async function init() {
     hideBody()
@@ -22,8 +23,6 @@ export async function init() {
     const fetchsMod = await import(fetchsModPath)
     getCourse = fetchsMod.getCourse
 
-    const domsMod = await import(domModPath)
-    locationReplace = domsMod.locationReplace
     loadEvents()
     loadBody()
 }
@@ -108,13 +107,13 @@ async function loadParameters() {
     const courseId = Number(param)
 
     if (param === null || !Number.isInteger(courseId)) {
-        locationReplace("./errors/isnotavalidcourselected.html?lang=" + String.locale)
+        locationReplace(ERROR_FOLDER + "isnotavalidcourselected.html?lang=" + String.locale)
     } else {
         document.getElementById('courseId').value = courseId
         const result = await getCourse(courseId);
         if (result.error) {
             const message = getErrorMessage(result.code, courseId, t);
-            locationReplace("./errors/error.html?lang=" + String.locale + "&message=" + message);
+            locationReplace(ERROR_FOLDER + "error.html?lang=" + String.locale + "&message=" + message);
             return;
         }
 
@@ -210,7 +209,7 @@ async function submitForm() {
         return
     }
     storeDataInSessionStorage();
-    locationReplace("./payment.html?lang=" + String.locale);
+    locationReplace(PAYMENT_FOLDER + "payment.html?lang=" + String.locale);
 }
 
 function cleanDataInSessionStorage() {

@@ -2,7 +2,7 @@ import { getLocationModule, getFetchsModule,  getIpModule } from '../config/conf
 import { locationReplace } from "../dom/dom.js"
 import { getErrorMessage , NO_SERVER_CONNECTION} from '../services/errors.js'
 import { relativePathTo } from "../utils/relativepath.js"
-const ERROR_FOLDER = "../errors/"
+const ERROR_FOLDER = "./views/errors/"
 
 let t
 let translateAllThePage

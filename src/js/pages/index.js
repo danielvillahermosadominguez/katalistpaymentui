@@ -26,8 +26,7 @@ export async function init() {
     loadEvents()
     loadBody()
 }
-
-window.document.querySelector('body').addEventListener('load', init())
+window.addEventListener('DOMContentLoaded', init(), false);
 
 function showCompanyName() {
     let isCompany = document.getElementById("isCompany").value;

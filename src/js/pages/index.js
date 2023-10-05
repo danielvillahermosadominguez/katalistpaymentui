@@ -29,14 +29,25 @@ export async function init() {
 window.addEventListener('DOMContentLoaded', init(), false);
 
 function showCompanyName() {
-    let isCompany = document.getElementById("isCompany").value;
-    let company = document.getElementById("company");
+    const isCompany = document.getElementById("isCompany").value;
+    const company = document.getElementById("company");
+    const name = document.getElementById('name')
+    const surname = document.getElementById('surname')
     if (isCompany == "true") {
         company.disabled = false;
         company.value = ""
+        name.disabled = true
+        name.value = t("no_aplicable_value");
+        surname.disabled = true
+        surname.value = t("no_aplicable_value");
+        
     } else {
         company.disabled = true;
         company.value = t("no_aplicable_value");
+        name.disabled = false
+        name.value = "";
+        surname.disabled = false
+        surname.value = "";
     }
 }
 

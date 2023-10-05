@@ -350,14 +350,18 @@ describe("The form with customer data (Step 1) should", () => {
   })
 
   describe("show and hidden fields depending on CIF and NIF selection", () => {
+
     beforeEach(async () => {    
       setHref('?lang=en&course=10')
       await loadJs()    
-    });
+    })
+
     it("render a company input enabled if CIF is selected", async () => {
       const isCompany = window.document.getElementById('isCompany')
       const optionCif = window.document.getElementById('option_cif')
       const company = window.document.getElementById('company')
+      const name = window.document.getElementById('name')
+      const surname = window.document.getElementById('surname')
 
       optionCif.selected = true
       isCompany.dispatchEvent(new Event('change'));
@@ -367,13 +371,18 @@ describe("The form with customer data (Step 1) should", () => {
 
       expect(company.disabled).toBe(false)
       expect(company.value).toBe('')
-
+      expect(name.value).toBe('[no_aplicable_value]')
+      expect(name.disabled).toBe(true)
+      expect(surname.value).toBe('[no_aplicable_value]')
+      expect(surname.disabled).toBe(true)
     })
 
     it("render a company input enabled if NIF is selected", async () => {
       const isCompany = window.document.getElementById('isCompany')
       const optionNif = document.getElementById('option_nif')
       const company = window.document.getElementById('company')
+      const name = window.document.getElementById('name')
+      const surname = window.document.getElementById('surname')
 
       optionNif.selected = true
       isCompany.dispatchEvent(new Event('change'));
@@ -382,14 +391,20 @@ describe("The form with customer data (Step 1) should", () => {
 
       expect(company.disabled).toBe(true)
       expect(company.value).toBe('[no_aplicable_value]')
+      expect(name.value).toBe('')
+      expect(name.disabled).toBe(false)
+      expect(surname.value).toBe('')
+      expect(surname.disabled).toBe(false)
     })
   })
 
   describe("store and clean the data in the session storage", () => {
+    
     beforeEach(async () => {    
       setHref('?lang=en&course=10')
       await loadJs()    
-    });
+    })
+
     it("clean the session storage when load the application", async () => {                
       expect(sessionStorage.getItem('courseId')).toBeNull()
       expect(sessionStorage.getItem('email')).toBeNull()

@@ -4,7 +4,7 @@ import fs from 'fs'
 describe("The form with the payment data (Step 2) should", () => {
   let fetchs;
   let dom;  
-  const ERROR_GENERIC =  "./views/errors/error.html"
+  const ERROR_GENERIC =  "../errors/error.html"
   
   beforeEach(async () => {
     await jest.resetModules()

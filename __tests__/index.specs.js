@@ -1,29 +1,34 @@
 import path from 'path'
 import fs from 'fs'
 
+
+const MOCK_GET_COURSE = jest.fn()
+jest.mock("../src/js/services/fetchs.js", () => ({
+  getCourse: MOCK_GET_COURSE
+}))
+
 describe("The form with customer data (Step 1) should", () => {
   const ERROR_IS_NOT_VALID = "./views/errors/isnotavalidcourselected.html"
-  const ERROR_GENERIC =  "./views/errors/error.html"
+  const ERROR_GENERIC = "./views/errors/error.html"
   let fetchs;
   let dom;
   beforeEach(async () => {
-    
+
     await jest.resetModules()
     const config = await import('../src/js/config/config.js')
     config.setLocationModule('@../__tests__/doubles/locationfake.js')
-    fetchs = await import('../src/js/services/fetchs.js')
-    fetchs.getCourse = jest.fn(() => {
-      return {
-        error: false,
-        code: 0,
-        item: {
-          id: 10,
-          name: 'fake name',
-          price: 100.5
-        }
+
+    MOCK_GET_COURSE.mockReturnValue({
+      error: false,
+      code: 0,
+      item: {
+        id: 10,
+        name: 'fake name',
+        price: 100.5
       }
-    })        
-    await renderOnlyHtml()    
+    })
+
+    await renderOnlyHtml()
   });
 
   fillAllFields = () => {
@@ -52,7 +57,7 @@ describe("The form with customer data (Step 1) should", () => {
   renderOnlyHtml = async () => {
     const rootElm = document.documentElement;
     const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
-    rootElm.innerHTML = html    
+    rootElm.innerHTML = html
     dom = await import('../src/js/dom/dom.js')
     dom.locationReplace = jest.fn()
   }
@@ -62,7 +67,7 @@ describe("The form with customer data (Step 1) should", () => {
     window.location = { search: urlParam, href: urlParam };
   }
 
-  loadJs = async () => {        
+  loadJs = async () => {
     require("../src/js/pages/index.js")
     await new Promise(process.nextTick);
   }
@@ -116,9 +121,9 @@ describe("The form with customer data (Step 1) should", () => {
   })
 
   describe("show the course information and the language when the page is loaded", () => {
-    beforeEach(async () => {    
+    beforeEach(async () => {
       setHref('?lang=en&course=10')
-      await loadJs()    
+      await loadJs()
     });
 
     it("have the language according to the url parameter", async () => {
@@ -150,10 +155,10 @@ describe("The form with customer data (Step 1) should", () => {
     })
   })
 
-  describe("validate the fields and not allow to continue when click the suscription button", () => {  
-    beforeEach(async () => {    
+  describe("validate the fields and not allow to continue when click the suscription button", () => {
+    beforeEach(async () => {
       setHref('?lang=en&course=10')
-      await loadJs()    
+      await loadJs()
     });
 
     it("not allow to continue if the email is not filled with the correct format", async () => {
@@ -167,7 +172,7 @@ describe("The form with customer data (Step 1) should", () => {
       expect(email.validationMessage).toBe('[mail_is_mandatory]')
     })
 
-    it("not allow to continue if the email is filled but with not correct format", async () => {      
+    it("not allow to continue if the email is filled but with not correct format", async () => {
       const email = document.getElementById('email')
       email.value = "NO CORRECT FORMAT"
       const button = document.getElementById('button_subscribe_now')
@@ -180,7 +185,7 @@ describe("The form with customer data (Step 1) should", () => {
     })
 
     it("not allow to continue if the phone is empty", async () => {
-      fillAllFields()                  
+      fillAllFields()
       const phoneNumber = document.getElementById('phoneNumber')
       phoneNumber.value = ""
       const button = document.getElementById('button_subscribe_now')
@@ -193,7 +198,7 @@ describe("The form with customer data (Step 1) should", () => {
     })
 
     it("not allow to continue if the name is empty", async () => {
-      fillAllFields()            
+      fillAllFields()
       const name = document.getElementById('name')
       name.value = ""
       const button = document.getElementById('button_subscribe_now')
@@ -329,11 +334,11 @@ describe("The form with customer data (Step 1) should", () => {
       button.click()
       await new Promise(process.nextTick);
       fillAllFields()
-      country.value = ""      
+      country.value = ""
       email.dispatchEvent(new Event('change'));
       button.click()
       await new Promise(process.nextTick);
-      
+
       expect(email.validationMessage).toBe('')
       expect(email.validationMessage).toBe('')
       expect(phoneNumber.validationMessage).toBe('')
@@ -351,9 +356,9 @@ describe("The form with customer data (Step 1) should", () => {
 
   describe("show and hidden fields depending on CIF and NIF selection", () => {
 
-    beforeEach(async () => {    
+    beforeEach(async () => {
       setHref('?lang=en&course=10')
-      await loadJs()    
+      await loadJs()
     })
 
     it("render a company input enabled if CIF is selected", async () => {
@@ -399,13 +404,13 @@ describe("The form with customer data (Step 1) should", () => {
   })
 
   describe("store and clean the data in the session storage", () => {
-    
-    beforeEach(async () => {    
+
+    beforeEach(async () => {
       setHref('?lang=en&course=10')
-      await loadJs()    
+      await loadJs()
     })
 
-    it("clean the session storage when load the application", async () => {                
+    it("clean the session storage when load the application", async () => {
       expect(sessionStorage.getItem('courseId')).toBeNull()
       expect(sessionStorage.getItem('email')).toBeNull()
       expect(sessionStorage.getItem('phoneNumber')).toBeNull()
@@ -449,13 +454,13 @@ describe("The form with customer data (Step 1) should", () => {
       expect(sessionStorage.getItem('region')).toBe(region.value)
       expect(sessionStorage.getItem('country')).toBe(country.value)
       expect(sessionStorage.getItem('isCompany')).toBe(isCompany.value)
-    })    
+    })
   })
-  describe("go to the payment page when the data is valid and the user click the subscription button", () => {  
-    beforeEach(async () => {    
+  describe("go to the payment page when the data is valid and the user click the subscription button", () => {
+    beforeEach(async () => {
       setHref('?lang=en&course=10')
-      await loadJs()    
-    });  
+      await loadJs()
+    });
     it("allow to go to the payment page if all the fields are filled", async () => {
       fillAllFields()
       const email = document.getElementById('email')
@@ -489,66 +494,60 @@ describe("The form with customer data (Step 1) should", () => {
     })
   });
 
-  describe("show the error page in case of", () => {    
+  describe("show the error page in case of", () => {
     it("there is not an url param called 'courseId'", async () => {
       setHref('?lang=en')
-      await loadJs()    
+      await loadJs()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID+'?lang=en')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID + '?lang=en')
     })
 
     it("there is not a valid course in the 'courseId' url parameter", async () => {
       setHref('?lang=en&courseId=hello')
-      await loadJs()    
+      await loadJs()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID+'?lang=en')
-    })        
-
-    it("the course doesn't exist", async () => {            
-      fetchs.getCourse = jest.fn(() => {
-        return {
-          error: true,
-          code: 1,
-          item: null
-        }
-      })        
-      setHref('?lang=en&course=1')
-      await loadJs()    
-
-      expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_1]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_IS_NOT_VALID + '?lang=en')
     })
 
-    it("there is not communication with the service", async () => {            
-      fetchs.getCourse = jest.fn(() => {
-        return {
-          error: true,
-          code: -2,
-          item: null
-        }
-      })        
+    it("the course doesn't exist", async () => {
+      MOCK_GET_COURSE.mockReturnValue({
+        error: true,
+        code: 1,
+        item: null
+      })
       setHref('?lang=en&course=1')
-      await loadJs()    
+      await loadJs()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC +'?lang=en&message=[there_is_not_connection]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC + '?lang=en&message=[backend_error_code_1]')
     })
 
-    it("This course has not an assigned price. It is not possible to start a subscription", async () => {            
-      fetchs.getCourse = jest.fn(() => {
-        return {
-          error: true,
-          code: 4,
-          item: null
-        }
-      })        
+    it("there is not communication with the service", async () => {
+      MOCK_GET_COURSE.mockReturnValue({
+        error: true,
+        code: -2,
+        item: null
+      })
       setHref('?lang=en&course=1')
-      await loadJs()    
+      await loadJs()
 
       expect(dom.locationReplace.mock.calls).toHaveLength(1)
-      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC+'?lang=en&message=[backend_error_code_4]')
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC + '?lang=en&message=[there_is_not_connection]')
+    })
+
+    it("This course has not an assigned price. It is not possible to start a subscription", async () => {
+      MOCK_GET_COURSE.mockReturnValue({
+        error: true,
+        code: 4,
+        item: null
+      })
+      setHref('?lang=en&course=1')
+      await loadJs()
+
+      expect(dom.locationReplace.mock.calls).toHaveLength(1)
+      expect(dom.locationReplace.mock.calls[0][0]).toBe(ERROR_GENERIC + '?lang=en&message=[backend_error_code_4]')
     })
   })
 })

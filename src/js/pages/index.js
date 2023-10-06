@@ -3,15 +3,16 @@ import { getLocationModule, getFetchsModule } from '../config/config.js'
 import { getErrorMessage } from '../services/errors.js'
 import { relativePathTo } from "../utils/relativepath.js"
 import { locationReplace } from "../dom/dom.js"
+import { getCourse } from '../services/fetchs.js'
 const ERROR_FOLDER = "./views/errors/"
 const PAYMENT_FOLDER = "./views/payment/"
 let t
 let translateAllThePage
 let localizeHTMLTag
-let getCourse
+//let getCourse
 
-let locationModPath = relativePathTo("@js/pages",getLocationModule())
-let fetchsModPath = relativePathTo("@js/pages",getFetchsModule())
+let locationModPath = relativePathTo("@js/pages", getLocationModule())
+let fetchsModPath = relativePathTo("@js/pages", getFetchsModule())
 
 export async function init() {
     hideBody()
@@ -20,8 +21,8 @@ export async function init() {
     t = locationMod.t
     translateAllThePage = locationMod.translateAllThePage
     localizeHTMLTag = locationMod.localizeHTMLTag
-    const fetchsMod = await import(fetchsModPath)
-    getCourse = fetchsMod.getCourse
+    //const fetchsMod = await import(fetchsModPath)
+    //getCourse = fetchsMod.getCourse
 
     loadEvents()
     loadBody()
@@ -40,7 +41,7 @@ function showCompanyName() {
         name.value = t("no_aplicable_value");
         surname.disabled = true
         surname.value = t("no_aplicable_value");
-        
+
     } else {
         company.disabled = true;
         company.value = t("no_aplicable_value");

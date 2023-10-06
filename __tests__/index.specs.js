@@ -7,16 +7,27 @@ jest.mock("../src/js/services/fetchs.js", () => ({
   getCourse: MOCK_GET_COURSE
 }))
 
+const MOCK_TRANSLATE_ALL_THE_PAGE = jest.fn()
+const MOCK_LOCALIZE_HTML_TAG = jest.fn()
+const MOCK_LOCALIZE_VALUE_TAG = jest.fn()
+const MOCK_T = jest.fn()
+
+jest.mock("../src/js/location/location.js", () => ({
+  translateAllThePage: MOCK_TRANSLATE_ALL_THE_PAGE,
+  localizeHTMLTag: MOCK_LOCALIZE_HTML_TAG ,
+  localizeValueTag: MOCK_LOCALIZE_VALUE_TAG,
+  t: MOCK_T
+}))
+
 describe("The form with customer data (Step 1) should", () => {
   const ERROR_IS_NOT_VALID = "./views/errors/isnotavalidcourselected.html"
   const ERROR_GENERIC = "./views/errors/error.html"
-  let fetchs;
   let dom;
   beforeEach(async () => {
 
     await jest.resetModules()
-    const config = await import('../src/js/config/config.js')
-    config.setLocationModule('@../__tests__/doubles/locationfake.js')
+    //const config = await import('../src/js/config/config.js')
+    //config.setLocationModule('@../__tests__/doubles/locationfake.js')
 
     MOCK_GET_COURSE.mockReturnValue({
       error: false,
@@ -27,6 +38,10 @@ describe("The form with customer data (Step 1) should", () => {
         price: 100.5
       }
     })
+
+    MOCK_T.mockImplementation(param => `[${param}]`)
+    String.locale = "en"
+
 
     await renderOnlyHtml()
   });
@@ -127,7 +142,8 @@ describe("The form with customer data (Step 1) should", () => {
     });
 
     it("have the language according to the url parameter", async () => {
-      expect(String.locale).toBe("en")
+      //expect(String.locale).toBe("en")
+      expect(MOCK_TRANSLATE_ALL_THE_PAGE).toBeCalled()
     })
 
     it("show the price of the course", async () => {

@@ -3,8 +3,6 @@ import './i18n.js'
 export function translateAllThePage() {
 	var lang = getParameterValue("lang");
 	if (lang != "") String.locale = lang;
-
-	document.title = t(document.title);	
 }
 
 var _ = function (string) {

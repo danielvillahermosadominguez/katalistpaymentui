@@ -1,29 +1,13 @@
 
-import { getLocationModule, getFetchsModule } from '../config/config.js'
 import { getErrorMessage } from '../services/errors.js'
-import { relativePathTo } from "../utils/relativepath.js"
 import { locationReplace } from "../dom/dom.js"
 import { getCourse } from '../services/fetchs.js'
+import { translateAllThePage, localizeHTMLTag, t } from '../location/location.js'
 const ERROR_FOLDER = "./views/errors/"
 const PAYMENT_FOLDER = "./views/payment/"
-let t
-let translateAllThePage
-let localizeHTMLTag
-//let getCourse
-
-let locationModPath = relativePathTo("@js/pages", getLocationModule())
-let fetchsModPath = relativePathTo("@js/pages", getFetchsModule())
 
 export async function init() {
     hideBody()
-
-    const locationMod = await import(locationModPath)
-    t = locationMod.t
-    translateAllThePage = locationMod.translateAllThePage
-    localizeHTMLTag = locationMod.localizeHTMLTag
-    //const fetchsMod = await import(fetchsModPath)
-    //getCourse = fetchsMod.getCourse
-
     loadEvents()
     loadBody()
 }
@@ -68,17 +52,21 @@ function loadEvents() {
     isCompany.addEventListener('change', e => {
         showCompanyName()
     })
-    addEventListenerToResetValidations("email")
-    addEventListenerToResetValidations("phoneNumber")
-    addEventListenerToResetValidations("name")
-    addEventListenerToResetValidations("surname")
-    addEventListenerToResetValidations("dnicif")
-    addEventListenerToResetValidations("company")
-    addEventListenerToResetValidations("address")
-    addEventListenerToResetValidations("postalCode")
-    addEventListenerToResetValidations("city")
-    addEventListenerToResetValidations("region")
-    addEventListenerToResetValidations("country")
+
+    const inputFields = ["email",
+        "phoneNumber",
+        "name",
+        "surname",
+        "dnicif",
+        "company",
+        "address",
+        "postalCode",
+        "city",
+        "region",
+        "country"
+    ]
+
+    inputFields.forEach(addEventListenerToResetValidations)
 }
 
 function loadBody() {

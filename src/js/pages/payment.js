@@ -66,6 +66,8 @@ function loadDataFromStorage() {
     document.getElementById("surname").value = surname;
     let dnicif = sessionStorage.getItem('dnicif');
     document.getElementById("dnicif").value = dnicif;
+    let isCompany = sessionStorage.getItem('isCompany');
+    document.getElementById("isCompany").value = isCompany;
     let company = sessionStorage.getItem('company');
     document.getElementById("company").value = company;
     let address = sessionStorage.getItem('address');

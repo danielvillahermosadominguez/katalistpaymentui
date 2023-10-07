@@ -1,5 +1,5 @@
-const urlBase =  "https://katalistpaymentservice.azurewebsites.net";
-const urlBaseLocal =  "http://localhost:8080";
+//const urlBase =  "https://katalistpaymentservice.azurewebsites.net";
+const urlBase =  "http://localhost:8080";
 import { NO_SERVER_CONNECTION } from './errors.js'
 
 

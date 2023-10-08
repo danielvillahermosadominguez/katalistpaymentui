@@ -1,16 +1,53 @@
 import path from 'path'
 import fs from 'fs'
 
+const MOCK_TRANSLATE_ALL_THE_PAGE = jest.fn()
+const MOCK_LOCALIZE_HTML_TAG = jest.fn()
+const MOCK_LOCALIZE_VALUE_TAG = jest.fn()
+const MOCK_T = jest.fn()
+const MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR = jest.fn()
+
+jest.mock("../src/js/location/location.js", () => ({
+  translateAllThePage: MOCK_TRANSLATE_ALL_THE_PAGE,
+  localizeHTMLTag: MOCK_LOCALIZE_HTML_TAG,
+  localizeValueTag: MOCK_LOCALIZE_VALUE_TAG,
+  localizeHTMLTagForAllOptionsInSelector: MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR,
+  t: MOCK_T
+}))
+
 describe("The form with the payment data (Step 2) should", () => {
   let fetchs;
   let dom;  
   const ERROR_GENERIC =  "../errors/error.html"
   
-  beforeEach(async () => {
-    await jest.resetModules()
-    const config = await import('../src/js/config/config.js')
-    config.setLocationModule('@../__tests__/doubles/locationfake.js')
-    await renderOnlyHtml()
+  beforeEach(async () => {    
+    await jest.resetModules()        
+    MOCK_T.mockImplementation(param => `[${param}]`)
+    MOCK_LOCALIZE_HTML_TAG.mockImplementation(tagId => {
+      var tag = document.getElementById(tagId);
+      if (tag !== null) {
+        tag.innerHTML = `[${tagId}]`
+      }
+    })
+
+    MOCK_LOCALIZE_VALUE_TAG.mockImplementation(tagId => {
+      var tag = document.getElementById(tagId);
+      if (tag !== null) {
+        tag.value = `[${tagId}]`
+      }
+    })
+
+    MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR.mockImplementation((selectorId, optionIdPrefix, sortByText) => {
+      const selector = document.getElementById(selectorId)
+      for (let i = 0; i < selector.length; i++) {
+        let option = selector.options[i]
+        let value = option.value
+        option.innerHTML = `[${optionIdPrefix + value.toLowerCase()}]`
+      }
+    })
+    String.locale = "en"
+    
+    await renderOnlyHtml()    
     ip = await import('../src/js/services/ip.js')
     ip.getMyExternalIp = jest.fn(() => {
       return {

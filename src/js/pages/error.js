@@ -1,16 +1,7 @@
-import { getLocationModule } from '../config/config.js'
-import { relativePathTo } from "../utils/relativepath.js"
-
-let translateAllThePage
-let localizeHTMLTag
-
-let locationModPath =  relativePathTo("@js/pages",getLocationModule())
+import {translateAllThePage, localizeHTMLTag } from "../location/location.js"
 
 
 export async function init() {
-    const locationMod = await import(locationModPath)
-    translateAllThePage = locationMod.translateAllThePage
-    localizeHTMLTag = locationMod.localizeHTMLTag
     translateAllThePage();
     localizeHTMLTag("subscription_has_not_be_made");
     localizeHTMLTag("try_to_subscribe_the_course_from");

@@ -1,37 +1,14 @@
-import { getLocationModule, getFetchsModule,  getIpModule } from '../config/config.js'
 import { locationReplace } from "../dom/dom.js"
 import { getErrorMessage , NO_SERVER_CONNECTION} from '../services/errors.js'
-import { relativePathTo } from "../utils/relativepath.js"
+import {t, translateAllThePage, localizeHTMLTag } from "../location/location.js"
+import {getMyExternalIp} from "../services/ip.js"
+import {executeSubscription} from "../services/fetchs.js"
 const ERROR_FOLDER = "../errors/"
 
-let t
-let translateAllThePage
-let localizeHTMLTag
-let getMyExternalIp
-let executeSubscription
-let locationModPath = relativePathTo("@js/pages",getLocationModule())
-let fetchsModPath = relativePathTo("@js/pages",getFetchsModule())
-let ipModPath = relativePathTo("@js/pages",getIpModule()) 
-
-export async function init() {
-    const locationMod = await import(locationModPath)
-    t = locationMod.t
-    translateAllThePage = locationMod.translateAllThePage
-    localizeHTMLTag = locationMod.localizeHTMLTag
-    const fetchsMod = await import(fetchsModPath)
-    executeSubscription = fetchsMod.executeSubscription
-    
-    const ipMod = await import(ipModPath);
-    getMyExternalIp = ipMod.getMyExternalIp
-
-    loadEvents()
+export async function init() {            
     loadBody()
 }
 window.document.querySelector('body').addEventListener('load', init())
-
-function loadEvents() {
-
-}
 
 async function loadBody() {
     loadDataFromStorage()

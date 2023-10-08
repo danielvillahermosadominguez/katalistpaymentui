@@ -2,15 +2,16 @@
 import { getErrorMessage } from '../services/errors.js'
 import { locationReplace } from "../dom/dom.js"
 import { getCourse } from '../services/fetchs.js'
-import { translateAllThePage, localizeHTMLTag, t } from '../location/location.js'
+import { localizeHTMLTagForAllOptionsInSelector, translateAllThePage, localizeHTMLTag, t } from '../location/location.js'
 const ERROR_FOLDER = "./views/errors/"
 const PAYMENT_FOLDER = "./views/payment/"
-
 export async function init() {
     hideBody()
     loadEvents()
     loadBody()
 }
+
+
 window.addEventListener('DOMContentLoaded', init(), false);
 
 function showCompanyName() {
@@ -87,7 +88,8 @@ function loadBody() {
     localizeHTMLTag("option_only_subscription_to_moodle");
     localizeHTMLTag("option_only_invoice_with_holded");
     localizeHTMLTag("option_paycomet");
-    localizeHTMLTag("button_subscribe_now");
+    localizeHTMLTag("button_subscribe_now");    
+    localizeHTMLTagForAllOptionsInSelector("country", "option_country_", true)    
     loadParameters();
     showCompanyName();
 }
@@ -255,8 +257,8 @@ function storeDataInSessionStorage() {
     let city = document.getElementById("city").value;
     sessionStorage.setItem('city', city);
     let region = document.getElementById("region").value;
-    sessionStorage.setItem('region', region);
-    let country = document.getElementById("country").value;
+    sessionStorage.setItem('region', region);    
+    let country = document.getElementById("country").value;    
     sessionStorage.setItem('country', country);
     let isCompany = document.getElementById("isCompany").value;
     sessionStorage.setItem('isCompany', isCompany);

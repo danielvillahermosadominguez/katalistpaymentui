@@ -11,11 +11,13 @@ const MOCK_TRANSLATE_ALL_THE_PAGE = jest.fn()
 const MOCK_LOCALIZE_HTML_TAG = jest.fn()
 const MOCK_LOCALIZE_VALUE_TAG = jest.fn()
 const MOCK_T = jest.fn()
+const MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR = jest.fn()
 
 jest.mock("../src/js/location/location.js", () => ({
   translateAllThePage: MOCK_TRANSLATE_ALL_THE_PAGE,
-  localizeHTMLTag: MOCK_LOCALIZE_HTML_TAG ,
+  localizeHTMLTag: MOCK_LOCALIZE_HTML_TAG,
   localizeValueTag: MOCK_LOCALIZE_VALUE_TAG,
+  localizeHTMLTagForAllOptionsInSelector: MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR,
   t: MOCK_T
 }))
 
@@ -40,11 +42,35 @@ describe("The form with customer data (Step 1) should", () => {
     })
 
     MOCK_T.mockImplementation(param => `[${param}]`)
+    MOCK_LOCALIZE_HTML_TAG.mockImplementation(tagId => {
+      var tag = document.getElementById(tagId);
+      if (tag !== null) {
+        tag.innerHTML = `[${tagId}]`
+      }
+    })
+
+    MOCK_LOCALIZE_VALUE_TAG.mockImplementation(tagId => {
+      var tag = document.getElementById(tagId);
+      if (tag !== null) {
+        tag.value = `[${tagId}]`
+      }
+    })
+
+    MOCK_LOCALIZE_HTML_TAG_FOR_ALL_OPTIONS_IN_SELECTOR.mockImplementation((selectorId, optionIdPrefix, sortByText) => {
+      const selector = document.getElementById(selectorId)
+      for (let i = 0; i < selector.length; i++) {
+        let option = selector.options[i]
+        let value = option.value
+        option.innerHTML = `[${optionIdPrefix + value.toLowerCase()}]`
+      }
+    })
+
     String.locale = "en"
 
 
     await renderOnlyHtml()
   });
+
 
   fillAllFields = () => {
     const email = document.getElementById('email')
@@ -66,7 +92,7 @@ describe("The form with customer data (Step 1) should", () => {
     const region = document.getElementById('region')
     region.value = "Madrid"
     const country = document.getElementById('country')
-    country.value = "Spain"
+    country.selectedIndex = 0
   }
 
   renderOnlyHtml = async () => {
@@ -88,12 +114,6 @@ describe("The form with customer data (Step 1) should", () => {
   }
 
   describe("show button and fields", () => {
-    beforeEach(() => {
-      const rootElm = document.documentElement;
-      const html = fs.readFileSync(path.resolve(__dirname, '../src/index.html'), 'utf8');
-      rootElm.innerHTML = html
-    });
-
     it.each([
       ["email"],
       ["phoneNumber"],
@@ -135,6 +155,288 @@ describe("The form with customer data (Step 1) should", () => {
     })
   })
 
+  describe("allow to choose a country", () => {
+    beforeEach(async () => {
+      setHref('?lang=en&course=10')
+      await loadJs()
+    });
+
+    it("show by default Spain selected", async () => {
+      const country = document.getElementById("country")
+      var selectedOption = country.options[country.selectedIndex]
+      var selectedCountry = selectedOption.innerHTML
+
+      expect(country.value).toBe("ES")
+      expect(selectedCountry).toBe("[option_country_es]")
+    })
+    it.each([
+      ["Åland Islands", "AX"],
+      ["Albania", "AL"],
+      ["Algeria", "DZ"],
+      ["American Samoa", "AS"],
+      ["Andorra", "AD"],
+      ["Angola", "AO"],
+      ["Anguilla", "AI"],
+      ["Antarctica", "AQ"],
+      ["Antigua and Barbuda", "AG"],
+      ["Argentina", "AR"],
+      ["Armenia", "AM"],
+      ["Aruba", "AW"],
+      ["Australia", "AU"],
+      ["Austria", "AT"],
+      ["Azerbaijan", "AZ"],
+      ["Bahamas", "BS"],
+      ["Bahrain", "BH"],
+      ["Bangladesh", "BD"],
+      ["Barbados", "BB"],
+      ["Belarus", "BY"],
+      ["Belgium", "BE"],
+      ["Belize", "BZ"],
+      ["Benin", "BJ"],
+      ["Bermuda", "BM"],
+      ["Bhutan", "BT"],
+      ["Bolivia", "BO"],
+      ["Bosnia and Herzegovina", "BA"],
+      ["Botswana", "BW"],
+      ["Bouvet Island", "BV"],
+      ["Brazil", "BR"],
+      ["British Indian Ocean Territory", "IO"],
+      ["British Virgin Islands", "VG"],
+      ["Brunei", "BN"],
+      ["Bulgaria", "BG"],
+      ["Burkina Faso", "BF"],
+      ["Burundi", "BI"],
+      ["Cambodia", "KH"],
+      ["Cameroon", "CM"],
+      ["Canada", "CA"],
+      ["Cape Verde", "CV"],
+      ["Caribbean Netherlands", "BQ"],
+      ["Cayman Islands", "KY"],
+      ["Central African Republic", "CF"],
+      ["Chad", "TD"],
+      ["Chile", "CL"],
+      ["China", "CN"],
+      ["Christmas Island", "CX"],
+      ["Cocos (Keeling) Islands", "CC"],
+      ["Colombia", "CO"],
+      ["Comoros", "KM"],
+      ["Cook Islands", "CK"],
+      ["Costa Rica", "CR"],
+      ["Croatia", "HR"],
+      ["Cuba", "CU"],
+      ["Curacao", "CW"],
+      ["Cyprus", "CY"],
+      ["Czechia", "CZ"],
+      ["Democratic Republic of the Congo", "CD"],
+      ["Denmark", "DK"],
+      ["Djibouti", "DJ"],
+      ["Dominica", "DM"],
+      ["Dominican Republic", "DO"],
+      ["East Timor", "TL"],
+      ["Ecuador", "EC"],
+      ["Egypt", "EG"],
+      ["El Salvador", "SV"],
+      ["Equatorial Guinea", "GQ"],
+      ["Eritrea", "ER"],
+      ["Estonia", "EE"],
+      ["Eswatini", "SZ"],
+      ["Ethiopia", "ET"],
+      ["Falkland Islands", "FK"],
+      ["Faroe Islands", "FO"],
+      ["Federated States of Micronesia", "FM"],
+      ["Fiji", "FJ"],
+      ["Finland", "FI"],
+      ["France", "FR"],
+      ["French Guiana", "GF"],
+      ["French Polynesia", "PF"],
+      ["French Southern and Antarctic Lands", "TF"],
+      ["Gabon", "GA"],
+      ["Gambia", "GM"],
+      ["Georgia", "GE"],
+      ["Germany", "DE"],
+      ["Ghana", "GH"],
+      ["Gibraltar", "GI"],
+      ["Greece", "GR"],
+      ["Greenland", "GL"],
+      ["Grenada", "GD"],
+      ["Guadeloupe", "GP"],
+      ["Guam", "GU"],
+      ["Guatemala", "GT"],
+      ["Guernsey", "GG"],
+      ["Guinea", "GN"],
+      ["Guinea-Bissau", "GW"],
+      ["Guyana", "GY"],
+      ["Haiti", "HT"],
+      ["Heard Island and McDonald Islands", "HM"],
+      ["Honduras", "HN"],
+      ["Hong Kong", "HK"],
+      ["Hungary", "HU"],
+      ["Iceland", "IS"],
+      ["India", "IN"],
+      ["Indonesia", "ID"],
+      ["Iran", "IR"],
+      ["Iraq", "IQ"],
+      ["Ireland", "IE"],
+      ["Isle of Man", "IM"],
+      ["Israel", "IL"],
+      ["Italy", "IT"],
+      ["Ivory Coast", "CI"],
+      ["Jamaica", "JM"],
+      ["Japan", "JP"],
+      ["Jersey", "JE"],
+      ["Jordan", "JO"],
+      ["Kazakhstan", "KZ"],
+      ["Kenya", "KE"],
+      ["Kiribati", "KI"],      
+      ["Kuwait", "KW"],
+      ["Kyrgyzstan", "KG"],
+      ["Laos", "LA"],
+      ["Latvia", "LV"],
+      ["Lebanon", "LB"],
+      ["Lesotho", "LS"],
+      ["Liberia", "LR"],
+      ["Libya", "LY"],
+      ["Liechtenstein", "LI"],
+      ["Lithuania", "LT"],
+      ["Luxembourg", "LU"],
+      ["Macao", "MO"],
+      ["Madagascar", "MG"],
+      ["Malawi", "MW"],
+      ["Malaysia", "MY"],
+      ["Maldives", "MV"],
+      ["Mali", "ML"],
+      ["Malta", "MT"],
+      ["Marshall Islands", "MH"],
+      ["Martinique", "MQ"],
+      ["Mauritania", "MR"],
+      ["Mauritius", "MU"],
+      ["Mayotte", "YT"],
+      ["Mexico", "MX"],
+      ["Moldova", "MD"],
+      ["Mongolia", "MN"],
+      ["Montenegro", "ME"],
+      ["Montserrat", "MS"],
+      ["Morocco", "MA"],
+      ["Mozambique", "MZ"],
+      ["Myanmar", "MM"],
+      ["Namibia", "NA"],
+      ["Nauru", "NR"],
+      ["Nepal", "NP"],
+      ["Netherlands", "NL"],
+      ["New Caledonia", "NC"],
+      ["New Zealand", "NZ"],
+      ["Nicaragua", "NI"],
+      ["Niger", "NE"],
+      ["Nigeria", "NG"],
+      ["Niue", "NU"],
+      ["Norfolk Island", "NF"],
+      ["North Korea", "KP"],
+      ["North Macedonia", "MK"],
+      ["Northern Mariana Islands", "MP"],
+      ["Norway", "NO"],
+      ["Oman", "OM"],
+      ["Pakistan", "PK"],
+      ["Palau", "PW"],
+      ["Palestine", "PS"],
+      ["Panama", "PA"],
+      ["Papua New Guinea", "PG"],
+      ["Paraguay", "PY"],
+      ["Peru", "PE"],
+      ["Philippines", "PH"],
+      ["Pitcairn Islands", "PN"],
+      ["Poland", "PL"],
+      ["Portugal", "PT"],
+      ["Principality of Monaco", "MC"],
+      ["Puerto Rico", "PR"],
+      ["Qatar", "QA"],
+      ["Republic of the Congo", "CG"],
+      ["Reunion", "RE"],
+      ["Romania", "RO"],
+      ["Russia", "RU"],
+      ["Rwanda", "RW"],
+      ["Saint Barthelemy", "BL"],
+      ["Saint Helena, Ascension and Tristan da Cunha", "SH"],
+      ["Saint Kitts and Nevis", "KN"],
+      ["Saint Lucia", "LC"],
+      ["Saint Martin", "MF"],
+      ["Saint Pierre and Miquelon", "PM"],
+      ["Saint Vincent and the Grenadines", "VC"],
+      ["Samoa", "WS"],
+      ["San Marino", "SM"],
+      ["Sao Tome and Principe", "ST"],
+      ["Saudi Arabia", "SA"],
+      ["Senegal", "SN"],
+      ["Serbia", "RS"],
+      ["Seychelles", "SC"],
+      ["Sierra Leone", "SL"],
+      ["Singapore", "SG"],
+      ["Sint Maarten", "SX"],
+      ["Slovakia", "SK"],
+      ["Slovenia", "SI"],
+      ["Solomon Islands", "SB"],
+      ["Somalia", "SO"],
+      ["South Africa", "ZA"],
+      ["South Georgia and South Sandwich Islands", "GS"],
+      ["South Korea", "KR"],
+      ["South Sudan", "SS"],
+      ["Spain", "ES"],
+      ["Sri Lanka", "LK"],
+      ["Sudan", "SD"],
+      ["Suriname", "SR"],
+      ["Svalbard", "SJ"],
+      ["Sweden", "SE"],
+      ["Switzerland", "CH"],
+      ["Syria", "SY"],
+      ["Taiwan", "TW"],
+      ["Tajikistan", "TJ"],
+      ["Tanzania", "TZ"],
+      ["Thailand", "TH"],
+      ["Togo", "TG"],
+      ["Tokelau", "TK"],
+      ["Tonga", "TO"],
+      ["Trinidad and Tobago", "TT"],
+      ["Tunisia", "TN"],
+      ["Turkey", "TR"],
+      ["Turkmenistan", "TM"],
+      ["Turks and Caicos Islands", "TC"],
+      ["Tuvalu", "TV"],
+      ["Uganda", "UG"],
+      ["Ukraine", "UA"],
+      ["United Arab Emirates", "AE"],
+      ["United Kingdom", "GB"],
+      ["United States Minor Outlying Islands", "UM"],
+      ["United States of America", "US"],
+      ["Uruguay", "UY"],
+      ["Uzbekistan", "UZ"],
+      ["Vanuatu", "VU"],
+      ["Vatican City", "VA"],
+      ["Venezuela", "VE"],
+      ["Vietnam", "VN"],
+      ["Virgin Islands", "VI"],
+      ["Wallis and Futuna", "WF"],
+      ["Western Sahara", "EH"],
+      ["Yemen", "YE"],
+      ["Zambia", "ZM"],
+      ["Zimbabwe", "ZW"]
+    ])
+      ("select and show the country '%s' with the iso code '%s'", async (_, isoCode) => {
+        const isoCodeLC = isoCode.toLowerCase();
+        const country = document.getElementById("country")
+        const option = document.getElementById("option_country_" + isoCodeLC)
+
+        option.selected = true
+        country.dispatchEvent(new Event('change'));
+
+
+        await new Promise(process.nextTick);
+        var selectedOption = country.options[country.selectedIndex]
+        var selectedCountry = selectedOption.innerHTML
+        expect(country.value).toBe(isoCode)
+        expect(selectedCountry).toBe("[option_country_" + isoCodeLC + "]")
+      })
+
+  })
+
   describe("show the course information and the language when the page is loaded", () => {
     beforeEach(async () => {
       setHref('?lang=en&course=10')
@@ -142,7 +444,6 @@ describe("The form with customer data (Step 1) should", () => {
     });
 
     it("have the language according to the url parameter", async () => {
-      //expect(String.locale).toBe("en")
       expect(MOCK_TRANSLATE_ALL_THE_PAGE).toBeCalled()
     })
 
@@ -472,6 +773,7 @@ describe("The form with customer data (Step 1) should", () => {
       expect(sessionStorage.getItem('isCompany')).toBe(isCompany.value)
     })
   })
+
   describe("go to the payment page when the data is valid and the user click the subscription button", () => {
     beforeEach(async () => {
       setHref('?lang=en&course=10')

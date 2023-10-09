@@ -294,5 +294,17 @@
 	"option_country_ye": "Yemen",
 	"option_country_dj": "Yibuti",
 	"option_country_zm": "Zambia",
-	"option_country_zw": "Zimbabue"
+	"option_country_zw": "Zimbabue",
+	"option_month_01": "01 - Enero",
+	"option_month_02": "02 - Febrero",
+	"option_month_03": "03 - Marzo",
+	"option_month_04": "04 - Abril",
+	"option_month_05": "05 - Mayo",
+	"option_month_06": "06 - Junio",
+	"option_month_07": "07 - Julio",
+	"option_month_08": "08 - Agosto",
+	"option_month_09": "09 - Septiember",
+	"option_month_10": "10 - Octubre",
+	"option_month_11": "11 - Noviembre",
+	"option_month_12": "12 - Diciembre"
 }

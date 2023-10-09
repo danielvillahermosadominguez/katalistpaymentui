@@ -62,65 +62,65 @@
             <input type="hidden" name="country" id="country" value="">
             <input id="jetID" type="hidden" data-paycomet="jetID" value="egQ3RpfFDCzYtj0I7Lv8u9GEVknbAJqs">
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group" style="width: 100%;">
                     <label id="label_username" for="username">Full name (on the card)</label>
                     <input id="username" type="text" class="form-control" name="username" data-paycomet="cardHolderName"
                         placeholder="" required="">
                 </div> <!-- form-group.// -->
             </div>
             <div class="form-row">
-                <div class="form-group">
+                <div class="form-group" style="width: 80%;">
                     <label id="label_card_number" for="cardNumber">Card number</label>
-                    <div id="paycomet-pan" style="padding:0px; height:36px;"></div>
+                    <div id="paycomet-pan" style="height: 50px; padding:0px; "></div>
                     <input id="cardnumber"
-                        paycomet-style="width: 45%; height: 35px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);"
+                        paycomet-style="border-width: unset; width: 93%; height: 40px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);border-color:rgb(250,250,251) ;black;border-style:solid;"
                         display: inline-block; paycomet-name="pan" paycomet-placeholder="0000 0000 0000 0000 0000">
                 </div> <!-- form-group.// -->
 
-                <div class="form-group">
+                <div class="form-group" style="width: 20%;">
                     <label>CVV</label>
-                    <div id="paycomet-cvc2" style="height: 36px; padding:0px;"></div>
+                    <div id="paycomet-cvc2" style="height: 50px; padding:0px;"></div>
                     <input id="cvv2" paycomet-name="cvc2"
-                        paycomet-style="width: 45%; height: 35px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);"
+                        paycomet-style="width: 98%; height: 40px; border: none; padding: var(--space-s); border-radius: 3px; font-size: var(--fs--1); padding: var(--space-s);border-color:rgb(250,250,251) ;black;border-style:solid;"
                         paycomet-placeholder="CVV2" required="" type="text">
                 </div> <!-- form-group.// -->
             </div>
 
             <div class="row">
-                <div class="form-group">
+                <div class="form-group" style="width: 100%;">
                     <label id="label_expiration">Expiration</label>
 
-                    <select id="select-month" style="width:52%" data-paycomet="dateMonth">
+                    <select id="select-month" style="width:40%" data-paycomet="dateMonth">
                         <option>MM</option>
-                        <option value="01">01 - January</option>
-                        <option value="02">02 - February</option>
-                        <option value="03">03 - March</option>
-                        <option value="04">04 - April</option>
-                        <option value="05">05 - May</option>
-                        <option value="06">06 - June</option>
-                        <option value="07">07 - July</option>
-                        <option value="08">08 - August</option>
-                        <option value="09">09 - September</option>
-                        <option value="10">10 - October</option>
-                        <option value="11">11 - November</option>
-                        <option value="12">12 - December</option>
+                        <option id="option_month_01" value="01">01 - January</option>
+                        <option id="option_month_02" value="02">02 - February</option>
+                        <option id="option_month_03" value="03">03 - March</option>
+                        <option id="option_month_04" value="04">04 - April</option>
+                        <option id="option_month_05" value="05">05 - May</option>
+                        <option id="option_month_06" value="06">06 - June</option>
+                        <option id="option_month_07" value="07">07 - July</option>
+                        <option id="option_month_08" value="08">08 - August</option>
+                        <option id="option_month_09" value="09">09 - September</option>
+                        <option id="option_month_10" value="10">10 - October</option>
+                        <option id="option_month_11" value="11">11 - November</option>
+                        <option id="option_month_12" value="12">12 - December</option>
                     </select>
-                    <span style="width:10%; text-align: center"> / </span>
-                    <select id="select-year" style="width:45%" data-paycomet="dateYear">
+                    <span style="width:20%; text-align: center">/</span>
+                    <select id="select-year" style="width:40%" data-paycomet="dateYear">
                         <option>YY</option>
-                        <option value="20">2020</option>
-                        <option value="21">2021</option>
-                        <option value="22">2022</option>
-                        <option value="23">2023</option>
-                        <option value="24">2024</option>
-                        <option value="25">2025</option>
-                        <option value="26">2026</option>
-                        <option value="27">2027</option>
-                        <option value="28">2028</option>
-                        <option value="29">2029</option>
-                        <option value="30">2030</option>
+                        <option id="option_year_23" value="23">2023</option>
+                        <option id="option_year_24" value="24">2024</option>
+                        <option id="option_year_25" value="25">2025</option>
+                        <option id="option_year_26" value="26">2026</option>
+                        <option id="option_year_27" value="27">2027</option>
+                        <option id="option_year_28" value="28">2028</option>
+                        <option id="option_year_29" value="29">2029</option>
+                        <option id="option_year_30" value="30">2030</option>
+                        <option id="option_year_31" value="31">2031</option>
+                        <option id="option_year_32" value="32">2032</option>
                     </select>
                 </div>
+                <div id="paymentErrorMsg" class="errorMsg"></div>
                 <div class="center">
                     <button id="button_confirm_purchase" class="subscribe btn btn-primary btn-block" type="submit">
                         Confirm purchase</button>
@@ -131,8 +131,7 @@
                 payment = await import("../../js/pages/payment.js")
                 payment.submitForm()
             }
-        </script>
-        <div id="paymentErrorMsg">
+        </script>        
 
         </div> <!-- card-body.// -->
     </div>
@@ -146,6 +145,7 @@
         display: inline-block;
         margin-bottom: 5px;
     }
+
 
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -176,7 +176,13 @@
     .form-group input {
         width: 100%;
     }
-</style>
-<script src="https://api.paycomet.com/gateway/paycomet.jetiframe.js?lang=es"></script>
 
+    .errorMsg {
+        border: none;       
+        font-size: var(--fs--1);
+        color: red; 
+        align-items: center;       
+    }
+</style>
+<script src="https://api.paycomet.com/gateway/paycomet.jetiframe.js?lang=en"></script>
 </html>

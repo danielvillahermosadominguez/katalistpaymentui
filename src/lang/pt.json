@@ -176,7 +176,7 @@
 	"option_country_jp": "Japão",
 	"option_country_je": "Jersey",
 	"option_country_jo": "Jordânia",
-	"option_country_ki": "Kiribati",	
+	"option_country_ki": "Kiribati",
 	"option_country_kw": "Kuwait",
 	"option_country_la": "Laos",
 	"option_country_ls": "Lesotho",
@@ -295,5 +295,17 @@
 	"option_country_vn": "Vietnã",
 	"option_country_wf": "Wallis e Futuna",
 	"option_country_zm": "Zâmbia",
-	"option_country_zw": "Zimbábue"
+	"option_country_zw": "Zimbábue",
+	"option_month_01": "01 - Janeiro",
+	"option_month_02": "02 - Fevereiro",
+	"option_month_03": "03 - Março",
+	"option_month_04": "04 - Abril",
+	"option_month_05": "05 - Maio",
+	"option_month_06": "06 - Junho",
+	"option_month_07": "07 - Julho",
+	"option_month_08": "08 - Agosto",
+	"option_month_09": "09 - Setembro",
+	"option_month_10": "10 - Outubro",
+	"option_month_11": "11 - Novembro",
+	"option_month_12": "12 - Dezembro"
 }

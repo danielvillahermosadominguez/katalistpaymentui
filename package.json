@@ -17,7 +17,7 @@
     "url": "https://github.com/danielvillahermosadominguez/katalistpaymentui/issues"
   },
   "homepage": "https://github.com/danielvillahermosadominguez/katalistpaymentui#readme",
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.22.20",
     "@testing-library/dom": "^9.3.3",

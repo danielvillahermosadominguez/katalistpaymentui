@@ -27,6 +27,7 @@
 	"backend_error_code_2": "The user has a subscription for this course",
 	"backend_error_code_3": "We have had a problem with the creation of the contact and the invoicing",
 	"backend_error_code_4": "This course has not an assigned price. It is not possible to start a subscription",
+	"backend_error_code_5": "The payment platform cannot to process this credit card.",
 	"label_phone": "Phone number:",
 	"label_iscompany": "VAT type:",
 	"label_address": "Address:",

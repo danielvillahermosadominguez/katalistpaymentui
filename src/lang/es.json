@@ -27,6 +27,7 @@
 	"backend_error_code_2": "El usuario ya tiene una suscripción al curso",
 	"backend_error_code_3": "Hemos tenido un problema con la creación de contacto y facturación",
 	"backend_error_code_4": "El curso no dispone de precio asignado. No es posible realizar la suscripción",
+	"backend_error_code_5": "La plataforma de pago no puede procesar esta tarjeta de crédito",
 	"label_phone": "Teléfono:",
 	"label_iscompany": "Tipo de VAT:",
 	"label_address": "Dirección:",

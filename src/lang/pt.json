@@ -28,6 +28,7 @@
 	"backend_error_code_2": "O usuário já possui uma assinatura do curso",
 	"backend_error_code_3": "Tivemos um problema com a criação e cobrança de contatos",
 	"backend_error_code_4": "Este curso não tem preço atribuído. Não é possível iniciar uma assinatura",
+	"backend_error_code_5": "O gateway de pagamento não pode processar este cartão de crédito",
 	"label_phone": "Telefone:",
 	"label_iscompany": "Tipo de VAT:",
 	"label_address": "Endereço:",

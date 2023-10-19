@@ -1,7 +1,6 @@
 import { locationReplace } from "../dom/dom.js"
 import { getErrorMessage , NO_SERVER_CONNECTION} from '../services/errors.js'
 import {t, translateAllThePage, localizeHTMLTag,localizeHTMLTagForAllOptionsInSelector } from "../location/location.js"
-import {getMyExternalIp} from "../services/ip.js"
 import {executeSubscription} from "../services/fetchs.js"
 const ERROR_FOLDER = "../errors/"
 
@@ -21,9 +20,6 @@ async function loadBody() {
     localizeHTMLTag("label_expiration");
     localizeHTMLTag("button_confirm_purchase");
     localizeHTMLTagForAllOptionsInSelector("select-month", "option_month_", false)    
-    const ipfield = document.getElementById("ip")
-    const data = await getMyExternalIp()
-    ipfield.value = data.ip
 }
 
 function loadDataFromStorage() {

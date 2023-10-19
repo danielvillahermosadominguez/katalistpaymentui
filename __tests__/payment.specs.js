@@ -47,13 +47,7 @@ describe("The form with the payment data (Step 2) should", () => {
     })
     String.locale = "en"
 
-    await renderOnlyHtml()
-    ip = await import('../src/js/services/ip.js')
-    ip.getMyExternalIp = jest.fn(() => {
-      return {
-        ip: "88.99.22.22",
-      }
-    })
+    await renderOnlyHtml()    
   });
 
   fillAllFields = () => {
@@ -79,8 +73,7 @@ describe("The form with the payment data (Step 2) should", () => {
 
   describe("show several fields and buttons in the form", () => {
 
-    it.each([
-      ["ip"],
+    it.each([      
       ["input_courseId"],
       ["input_coursePrice"],
       ["email"],

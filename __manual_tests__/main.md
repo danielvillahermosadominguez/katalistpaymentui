@@ -55,3 +55,42 @@ The system should recover the data and finish the payment process in spite to ha
 
 You can access to the guide [here](./paymentretry/testsdescription.md).
 
+# Requirements to be included in the tests
+
+There are some business rules you need to have into account. They are mostly related to certain business rules with the contacts and holded
+
+The business rules that are not implemented **are not checked**.
+
+## 1. Fields for the form
+- [x] Rule 1: The user will select whether it is NIF or CIF. Depending on this selection, the user can fill in the name field and the last name field, or directly the company name. Fields that you do not have to fill in, if applicable, will not be displayed. For example: if it is a company, you will only need to view and fill in the company.
+- [x] Rule 2: Other necessary text fields are: Telephone, address, postal code, City, Province. These fields will initially be free text
+- [x] The country field will be necessary and must also match the countries that are selected in holded. That's why it will be a fixed selector with the same thing that appears in held.
+
+## 2. Fields and rules to create a holded contact.
+- [x] The contact type will always be "Customer".
+- [ ] The VAT number
+  - [ ] When is Spain we need to fill the NIF and the VAT number
+  - [ ] Outside of Spain, we need to fill the VAT number. The VAT number usually has the contry code as a prefix. for example for Spain NIF could be "B64401482" and the VAT is "ESB64401482"
+
+```
+NOTE: The VAT number in holded not always is showed to the user, that depends on some countries. For example, in case of Afganistan you can include the VAT number with de API and it will be stored, however you won't see anything in the User Interface.
+Surelly is good to fill both VAT numbers and fields in all the countries.
+```
+- [ ] The sales account will always be 70500000. We will enter this data as data that can be modified at the configuration level. It's something that will practically never change. (field found in Preferences -> sales accounts)
+- [ ] Payment method: cash ("al contado") (field found in Preferences -> sales accounts)
+- [ ] Overdue (Vencido): due on the same day (field found in Preferences -> Sales Accounts)
+- [ ] In the "Accounting" section -> Sales tax
+  - [ ] If the country is "Spain" it must be entered in VAT21%
+  - [ ] If it is not Spain but it is a country of the European Union it would be "Intra-community VAT Service"
+  - [ ] otherwise => it would be the value "not subject"
+- [ ] In the Client/debtor account section
+  - [ ]add the type 430000XX where we add a new one and the XX increments. Entering the full name of the person or the name of the company if applicable
+  - [ ] 430000XX is the type of clients
+  - [x] In general, all fields must be filled in capital letters except for the email.
+- [x] Invoice
+  - [x] Data is filled by default
+  - [x] The units will be 1 by default
+  - [x] The price will be the one indicated for the course. In euros.
+  - [x] The name will be the name of the course that will appear in Moodle
+  - [x] We will not include any description for now. The name of the course is enough.
+

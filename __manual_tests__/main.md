@@ -71,11 +71,8 @@ The business rules that are not implemented **are not checked**.
 - [ ] The VAT number
   - [ ] When is Spain we need to fill the NIF and the VAT number
   - [ ] Outside of Spain, we need to fill the VAT number. The VAT number usually has the contry code as a prefix. for example for Spain NIF could be "B64401482" and the VAT is "ESB64401482"
+  - [ ] When a company is from the European Union, the VAT number is needed and it must be filled with the country code as a prefix. For the rest of countries we must fill the id number because each country could have their own code. for example, EEUU is the EIN, Peru is the RUC and Colombia is NIT, etc.
 
-```
-NOTE: The VAT number in holded not always is showed to the user, that depends on some countries. For example, in case of Afganistan you can include the VAT number with de API and it will be stored, however you won't see anything in the User Interface.
-Surelly is good to fill both VAT numbers and fields in all the countries.
-```
 - [ ] The sales account will always be 70500000. We will enter this data as data that can be modified at the configuration level. It's something that will practically never change. (field found in Preferences -> sales accounts)
 - [ ] Payment method: cash ("al contado") (field found in Preferences -> sales accounts)
 - [ ] Overdue (Vencido): due on the same day (field found in Preferences -> Sales Accounts)
@@ -84,7 +81,7 @@ Surelly is good to fill both VAT numbers and fields in all the countries.
   - [ ] If it is not Spain but it is a country of the European Union it would be "Intra-community VAT Service"
   - [ ] otherwise => it would be the value "not subject"
 - [ ] In the Client/debtor account section
-  - [ ]add the type 430000XX where we add a new one and the XX increments. Entering the full name of the person or the name of the company if applicable
+  - [ ] add the type 430000XX where we add a new one and the XX increments. Entering the full name of the person or the name of the company if applicable
   - [ ] 430000XX is the type of clients
   - [x] In general, all fields must be filled in capital letters except for the email.
 - [x] Invoice

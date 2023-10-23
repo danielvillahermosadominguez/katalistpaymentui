@@ -61,6 +61,8 @@ nvm install --lts
 nvm install stable
 ```
 
+NOTE: for windows you have available a script "nvm_use.cmd" which has the same effect than "nvm use" command in Linux.
+
 ## Install dependencies
 
 Install the dependencies with:

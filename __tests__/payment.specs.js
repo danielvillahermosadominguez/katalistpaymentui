@@ -276,7 +276,7 @@ describe("The form with the payment data (Step 2) should", () => {
 
       expect(htmlElement).not.toBeNull();
       expect(htmlElement.type).toBe("hidden");
-      expect(htmlElement.value).toBe("egQ3RpfFDCzYtj0I7Lv8u9GEVknbAJqs");
+      expect(htmlElement.value).toBe("an2ojMS1Q60H7UNdsBYcIXufh5TGp3vi");
     });
 
     it("the cardHolderName must be present for the integration and it is empty", () => {
